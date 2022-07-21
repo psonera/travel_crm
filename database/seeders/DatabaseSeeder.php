@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,29 +19,27 @@ class DatabaseSeeder extends Seeder
             ->count(1)
             ->create([
                 'email' => 'admin@admin.com',
-                'password' => \Hash::make('admin'),
+                'password' => FacadesHash::make('admin'),
             ]);
-        $this->call(PermissionsSeeder::class);
-
-        $this->call(AccomodationSeeder::class);
-        $this->call(ActivitySeeder::class);
-        $this->call(ActivityParticipantSeeder::class);
-        $this->call(EmailTemplateSeeder::class);
-        $this->call(GroupSeeder::class);
-        $this->call(LeadSeeder::class);
-        $this->call(LeadManagerSeeder::class);
-        $this->call(LeadPipelineSeeder::class);
-        $this->call(LeadPipelineStageSeeder::class);
-        $this->call(LeadProductSeeder::class);
-        $this->call(LeadSourceSeeder::class);
-        $this->call(LeadStageSeeder::class);
-        $this->call(LeadTypeSeeder::class);
-        $this->call(ProductSeeder::class);
-        $this->call(QuotationSeeder::class);
-        $this->call(QuotationItemSeeder::class);
-        $this->call(TransportSeeder::class);
-        $this->call(TripSeeder::class);
-        $this->call(TripTypeSeeder::class);
-        $this->call(UserSeeder::class);
+            $this->call(PermissionsSeeder::class);
+            $this->call(ActivitySeeder::class);
+            $this->call(ActivityParticipantSeeder::class);
+            $this->call(EmailTemplateSeeder::class);
+            $this->call(GroupSeeder::class);
+            $this->call(LeadSourceSeeder::class);
+            $this->call(LeadManagerSeeder::class);
+            $this->call(LeadPipelineSeeder::class);
+            $this->call(LeadPipelineStageSeeder::class);
+            $this->call(LeadStageSeeder::class);
+            $this->call(LeadTypeSeeder::class);
+            $this->call(TripTypeSeeder::class);
+            $this->call(ProductSeeder::class);
+            $this->call(LeadSeeder::class);
+            $this->call(LeadProductSeeder::class);
+            $this->call(QuotationSeeder::class);
+            $this->call(QuotationItemSeeder::class);
+            $this->call(TransportSeeder::class);
+            $this->call(TripSeeder::class);
+            $this->call(UserSeeder::class);
     }
 }

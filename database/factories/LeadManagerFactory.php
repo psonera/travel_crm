@@ -26,7 +26,7 @@ class LeadManagerFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->text,
             'contact_number' => $this->faker->text,
-            'lead_source_id' => \App\Models\LeadSource::factory(),
+            'lead_source_id' => rand(1,4),
         ];
     }
 }

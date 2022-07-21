@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -13,13 +15,7 @@ class PermissionsSeeder extends Seeder
     {
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
-
-        // Create default permissions
-        Permission::create(['name' => 'list accomodations']);
-        Permission::create(['name' => 'view accomodations']);
-        Permission::create(['name' => 'create accomodations']);
-        Permission::create(['name' => 'update accomodations']);
-        Permission::create(['name' => 'delete accomodations']);
+    #region Permission
 
         Permission::create(['name' => 'list activities']);
         Permission::create(['name' => 'view activities']);
@@ -63,11 +59,11 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update leadpipelines']);
         Permission::create(['name' => 'delete leadpipelines']);
 
-        Permission::create(['name' => 'list leadpipelinestages']);
-        Permission::create(['name' => 'view leadpipelinestages']);
-        Permission::create(['name' => 'create leadpipelinestages']);
-        Permission::create(['name' => 'update leadpipelinestages']);
-        Permission::create(['name' => 'delete leadpipelinestages']);
+        Permission::create(['name' => 'list leadpiplelinestages']);
+        Permission::create(['name' => 'view leadpiplelinestages']);
+        Permission::create(['name' => 'create leadpiplelinestages']);
+        Permission::create(['name' => 'update leadpiplelinestages']);
+        Permission::create(['name' => 'delete leadpiplelinestages']);
 
         Permission::create(['name' => 'list leadproducts']);
         Permission::create(['name' => 'view leadproducts']);
@@ -93,7 +89,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update leadtypes']);
         Permission::create(['name' => 'delete leadtypes']);
 
-        Permission::create(['name' => 'list products']);
+        Permission::create(['name' => 'list products']);  //product
         Permission::create(['name' => 'view products']);
         Permission::create(['name' => 'create products']);
         Permission::create(['name' => 'update products']);
@@ -111,30 +107,13 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update quotationitems']);
         Permission::create(['name' => 'delete quotationitems']);
 
-        Permission::create(['name' => 'list transports']);
-        Permission::create(['name' => 'view transports']);
-        Permission::create(['name' => 'create transports']);
-        Permission::create(['name' => 'update transports']);
-        Permission::create(['name' => 'delete transports']);
+        Permission::create(['name' => 'list treks']);
+        Permission::create(['name' => 'view treks']);
+        Permission::create(['name' => 'create treks']);
+        Permission::create(['name' => 'update treks']);
+        Permission::create(['name' => 'delete treks']);
 
-        Permission::create(['name' => 'list trips']);
-        Permission::create(['name' => 'view trips']);
-        Permission::create(['name' => 'create trips']);
-        Permission::create(['name' => 'update trips']);
-        Permission::create(['name' => 'delete trips']);
 
-        Permission::create(['name' => 'list triptypes']);
-        Permission::create(['name' => 'view triptypes']);
-        Permission::create(['name' => 'create triptypes']);
-        Permission::create(['name' => 'update triptypes']);
-        Permission::create(['name' => 'delete triptypes']);
-
-        // Create user role and assign existing permissions
-        $currentPermissions = Permission::all();
-        $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo($currentPermissions);
-
-        // Create admin exclusive permissions
         Permission::create(['name' => 'list roles']);
         Permission::create(['name' => 'view roles']);
         Permission::create(['name' => 'create roles']);
@@ -153,15 +132,115 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update users']);
         Permission::create(['name' => 'delete users']);
 
-        // Create admin role and assign all permissions
-        $allPermissions = Permission::all();
-        $adminRole = Role::create(['name' => 'super-admin']);
-        $adminRole->givePermissionTo($allPermissions);
+        #endregion Permission
+    #region assignrolesandpermission
+        #region superadmin
+        $superadminpermission = Permission::all();
+        $adminRole = Role::create(['name' => 'Super Admin']);
+        $adminRole->givePermissionTo($superadminpermission);
 
-        $user = \App\Models\User::whereEmail('admin@admin.com')->first();
+        $user = User::create(
+            [
+                'name' => "Superadmin",
+                'email'=>'superadmin@example.com',
+                'email_verified_at'=>now(),
+                'password'=>'password',
+                'status'=>'1',
+                'remember_token'=>Str::random(10)
+            ]
+        );
+         $user->assignRole($adminRole);
+         #endregion superadmin
+        #region LeadManager
+            //Lead Manger Rights
 
-        if ($user) {
+                $pemission = Permission::whereIn(
+
+                        'name',['view leads','update leads','list leads
+                        ','view leads','list quotations','view quotations','create quotations','update quotations','delete quotations','list quotationitems','view quotationitems','create quotationitems','update quotationitems','delete quotationitems','list activities','view activities','create activities','update activities','delete activities','list activityparticipants','view activityparticipants','create activityparticipants','update activityparticipants','delete activityparticipants','list treks','view treks','create treks']
+
+                )->get();
+            //end Lead Manager Rights
+            $adminRole = Role::create(['name' => 'Lead Manager']);
+            $adminRole->givePermissionTo($pemission);
+
+            $user = User::create(
+                [
+                    'name' => "Lead Manager",
+                    'email'=>'leadmanager@example.com',
+                    'email_verified_at'=>now(),
+                    'password'=>'password',
+                    'status'=>'1',
+                    'remember_token'=>Str::random(10)
+                ]
+            );
             $user->assignRole($adminRole);
-        }
+        #endregion LeadManager
+        #region Manager(admin)
+            $permisson = Permission::whereNotIn(
+                'name',[
+                    'list quotations','
+                    view quotations',
+                    'create quotations',
+                    'update quotations',
+                    'delete quotations',
+                    'list quotationitems',
+                    'view quotationitems',
+                    'create quotationitems',
+                    'update quotationitems',
+                    'delete quotationitems',
+                    'list activities',
+                    'view activities',
+                    'create activities',
+                    'update activities',
+                    'delete activities',
+                    'list activityparticipants',
+                    'view activityparticipants',
+                    'create activityparticipants',
+                    'update activityparticipants',
+                    'delete activityparticipants',
+                    'list groups',
+                    'view groups',
+                    'create groups',
+                    'update groups',
+                    'delete groups',
+                    'list leadproducts',
+                    'view leadproducts',
+                    'create leadproducts',
+                    'update leadproducts',
+                    'delete leadproducts',
+                    'list leadstages',
+                    'view leadstages',
+                    'create leadstages',
+                    'update leadstages',
+                    'delete leadstages',
+                    'list roles',
+                    'view roles',
+                    'create roles',
+                    'update roles',
+                    'delete roles',
+                    'list permissions',
+                    'view permissions',
+                    'create permissions',
+                    'update permissions',
+                    'delete permissions',
+                ]
+            )->get();
+
+            $adminRole = Role::create(['name' => 'Manager']);
+            $adminRole->givePermissionTo($permisson);
+            $user = User::create(
+                [
+                    'name' => "Manager",
+                    'email'=>'manager@example.com',
+                    'email_verified_at'=>now(),
+                    'password'=>'password',
+                    'status'=>'1',
+                    'remember_token'=>Str::random(10)
+                ]
+            );
+            $user->assignRole($adminRole);
+         #endregion LeadManager
+    #endregion assignrolesandpermission
     }
 }

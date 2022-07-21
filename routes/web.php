@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -33,4 +34,14 @@ Route::prefix('/')
     ->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
-    });
+});
+
+Route::get('/permission',function(){
+    $out = "";
+    $total = Role::where('name','Super Admin')->first()->permissions->count();
+    $out .= "Total = ".$total.'<br>';
+    foreach(Role::where('name','Super Admin')->first()->permissions as $permission){
+        $out .= $permission->name.'<br>';
+    }
+    return $out;
+});

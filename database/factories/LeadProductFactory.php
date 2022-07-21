@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Lead;
 use App\Models\LeadProduct;
+use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,8 +28,8 @@ class LeadProductFactory extends Factory
             'quantity' => $this->faker->randomNumber,
             'price' => $this->faker->randomNumber(0),
             'amount' => $this->faker->randomNumber(2),
-            'product_id' => \App\Models\Product::factory(),
-            'lead_id' => \App\Models\Lead::factory(),
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'lead_id' => Lead::inRandomorder()->first()->id,
         ];
     }
 }
