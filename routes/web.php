@@ -4,6 +4,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 
@@ -23,7 +24,21 @@ Route::get('/', function () {
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->name('dashboard');
+
+// Leads Route
+Route::name('leads.')
+    ->prefix('leads')
+    ->group(function(){
+        Route::get('/', [LeadController::class, 'index'])->name('index');
+        Route::get('view/{id}', [LeadController::class, 'show'])->name('view');
+        Route::get('create', [LeadController::class, 'create'])->name('create');
+        Route::post('create/store', [LeadController::class, 'store'])->name('store');
+        Route::get('edit/{id}', [LeadController::class, 'edit'])->name('edit');
+        Route::post('delete/{id}', [LeadController::class, 'destroy'])->name('delete');
+        Route::post('update/{id}', [LeadController::class, 'update'])->name('update');
+    });
+
 
 Auth::routes();
 
