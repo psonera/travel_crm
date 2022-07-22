@@ -25,6 +25,6 @@ class LeadPipelineStage extends Model
 
     public function leads()
     {
-        return $this->hasMany(Lead::class, 'lead_pipleline_stage_id');
+        return $this->hasMany(Lead::class, 'lead_pipeline_stage_id');
     }
 }

@@ -20,7 +20,6 @@ class LeadSourceSeeder extends Seeder
             ['name' =>'Instagram'],
             ['name' =>'FaceBook'],
         ])->each(function($leadsource){
-
             $leadsource = LeadSource::create([
                 'name' => $leadsource['name'],
             ]);

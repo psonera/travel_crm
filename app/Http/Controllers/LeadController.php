@@ -49,4 +49,17 @@ class LeadController extends Controller
 
         return back()->with('success', 'Your Lead Deleted Successfully!');
     }
+
+    public function add_product(Request $request)
+    {
+        $input = $request->only(['i']);
+
+        if(!empty($input)){
+            $html = view('forms.add_product', ['i' => $input['i']])->render();
+
+            return response()->json([
+                'html' => $html
+            ]);
+        }
+    }
 }

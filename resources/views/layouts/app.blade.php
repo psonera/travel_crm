@@ -16,9 +16,10 @@
     <link href="/css/nucleo-icons.css" rel="stylesheet" />
     <link href="/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Popper -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    {{-- <script src="https://unpkg.com/@popperjs/core@2"></script> --}}
     <!-- Main Styling -->
     <link href="/css/styles.css?v=1.0.2" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' />
@@ -38,6 +39,7 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
     <script type="module">
         import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
@@ -64,9 +66,7 @@
                         <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
                             <div class="leading-normal text-center text-size-sm text-slate-500 lg:text-left">
                                 ©
-                                <script>
-                                    document.write(new Date().getFullYear() + ",");
-                                </script>
+                                2022,
                                 made with <i class="fa fa-heart"></i> by
                                 <a href="#" class="font-semibold text-slate-700" target="_blank">Sonera Parth</a>
                                 for a better web.
@@ -98,13 +98,14 @@
         </script>
     @endif
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            let editor = new FroalaEditor('#lead_body', {
-                saveParam: 'lead_body',
+            let editor = new FroalaEditor('#description', {
+                saveParam: 'description',
                 saveURL: '/leads/create/store',
                 saveMethod: 'POST',
+                heightMin: 200,
+                heightMax: 200
             });
 
             $('#saveButton').on("click", function() {

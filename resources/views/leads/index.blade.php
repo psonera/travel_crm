@@ -76,10 +76,12 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $leads->links() }}
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="align-middle p-4">
+                    {{ $leads->links() }}
                 </div>
             </div>
         </div>

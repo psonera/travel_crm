@@ -8,6 +8,10 @@
     @include('components.inputs.partials.label')
 @endif
 
+@if($attributes->get('required') ?? false)
+    <span class="text-red-500">*</span>
+@endif
+
 <select
     id="{{ $name }}"
     name="{{ $name }}"

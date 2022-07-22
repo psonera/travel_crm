@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\LeadPipelineStage;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,25 +14,20 @@ class Lead extends Model
 
     protected $fillable = [
         'title',
-        'description',
         'lead_value',
         'status',
-        'lost_reason',
         'traveler_count',
         'selected_trip_date',
-        'closed_at',
         'user_id',
         'lead_manager_id',
         'lead_source_id',
         'lead_type_id',
         'lead_pipeline_id',
         'lead_pipeline_stage_id',
-        'lead_pipleline_stage_id',
         'trip_id',
         'trip_type_id',
         'accomodation_id',
         'transport_id',
-        'expected_closed_date',
     ];
 
     protected $searchableFields = ['*'];
@@ -67,11 +63,11 @@ class Lead extends Model
         return $this->belongsTo(LeadPipeline::class);
     }
 
-    public function leadPiplelineStage()
+    public function leadPipelineStage()
     {
         return $this->belongsTo(
             LeadPipelineStage::class,
-            'lead_pipleline_stage_id'
+            'lead_pipeline_stage_id'
         );
     }
 
