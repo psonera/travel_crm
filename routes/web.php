@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -49,4 +50,21 @@ Route::prefix('/')
     ->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
+    });
+
+
+    
+// Route::resource('product',ProductController::class);
+
+Route::name('products.')
+    ->prefix('products')
+    ->group(function(){
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('view/{id}', [ProductController::class, 'show'])->name('view');
+        Route::get('create', [ProductController::class, 'create'])->name('create');
+        Route::post('create/store', [ProductController::class, 'store'])->name('store');
+        Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('destroy');
+        Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
+
     });
