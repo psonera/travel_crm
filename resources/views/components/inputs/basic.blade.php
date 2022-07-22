@@ -12,6 +12,10 @@
     @include('components.inputs.partials.label')
 @endif
 
+@if($attributes->get('required') ?? false)
+    <span class="text-red-500">*</span>
+@endif
+
 <input
     type="{{ $type }}"
     id="{{ $name }}"

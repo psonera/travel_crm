@@ -99,7 +99,6 @@ return new class extends Migration {
             $table->dropForeign(['lead_type_id']);
             $table->dropForeign(['lead_pipeline_id']);
             $table->dropForeign(['lead_pipeline_stage_id']);
-            $table->dropForeign(['lead_pipleline_stage_id']);
             $table->dropForeign(['trip_id']);
             $table->dropForeign(['trip_type_id']);
             $table->dropForeign(['accomodation_id']);

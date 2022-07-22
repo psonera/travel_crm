@@ -36,6 +36,7 @@ Route::name('leads.')
         Route::get('edit/{id}', [LeadController::class, 'edit'])->name('edit');
         Route::post('delete/{id}', [LeadController::class, 'destroy'])->name('delete');
         Route::post('update/{id}', [LeadController::class, 'update'])->name('update');
+        Route::post('create/add_product', [LeadController::class, 'add_product'])->name('add_product');
     });
 
 

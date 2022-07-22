@@ -14,8 +14,15 @@ class LeadTypeSeeder extends Seeder
      */
     public function run()
     {
-        LeadType::factory()
-            ->count(5)
-            ->create();
+        collect([
+            ['name' =>'New Customer'],
+            ['name' =>'Existing Customer'],
+            
+        ])->each(function($leadtype){
+            
+            $leadtype = LeadType::create([
+                'name' => $leadtype['name'],
+            ]);
+        });
     }
 }

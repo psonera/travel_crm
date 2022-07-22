@@ -14,8 +14,16 @@ class LeadSourceSeeder extends Seeder
      */
     public function run()
     {
-        LeadSource::factory()
-            ->count(5)
-            ->create();
+        collect([
+            ['name' =>'Direct'],
+            ['name' =>'Email'],
+            ['name' =>'Instagram'],
+            ['name' =>'FaceBook'],
+        ])->each(function($leadsource){
+            
+            $leadsource = LeadSource::create([
+                'name' => $leadsource['name'],
+            ]);
+        });
     }
 }
