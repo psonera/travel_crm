@@ -40,6 +40,15 @@ Route::name('leads.')
         Route::post('update/{id}', [LeadController::class, 'update'])->name('update');
         Route::post('create/add_product', [LeadController::class, 'add_product'])->name('add_product');
     });
+    Route::name('quotation.')->prefix('quotation')->group(function(){
+        Route::get('/index',[Quotationcontroller::class,'index'])->name('index');
+        Route::get('/create',[Quotationcontroller::class,'create'])->name('create');
+        Route::post('/store',[Quotationcontroller::class,'store'])->name('store');
+        Route::get('/edit/{id}',[Quotationcontroller::class,'edit'])->name('edit');
+        Route::post('/update.{id}',[Quotationcontroller::class,'update'])->name('update');
+        Route::get('/delete/{id}',[Quotationcontroller::class,'destroy'])->name('delete');
+    });
+
 
 
 Auth::routes();
