@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('leads.index',[
             'leads' => Lead::latest()->paginate(10)
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('leads.create');
     }
 
-    public function show(Lead $lead)
+    public function show(Lead $lead): View
     {   
         return view('leads.view',[
             'lead' => Lead::find($lead)
@@ -31,7 +32,7 @@ class LeadController extends Controller
         //
     }
 
-    public function edit(Lead $lead)
+    public function edit(Lead $lead): View
     {
         return view('leads.edit',[
             'lead' => Lead::find($lead)

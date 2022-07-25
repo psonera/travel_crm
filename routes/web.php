@@ -3,8 +3,8 @@
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\LeadManagerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PermissionController;
@@ -20,32 +20,28 @@ use App\Http\Controllers\PermissionController;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 // Leads Route
 Route::name('leads.')
     ->prefix('leads')
+    ->controller(LeadController::class)
     ->group(function(){
-        Route::get('/', [LeadController::class, 'index'])->name('index');
-        Route::get('view/{id}', [LeadController::class, 'show'])->name('view');
-        Route::get('create', [LeadController::class, 'create'])->name('create');
-        Route::post('create/store', [LeadController::class, 'store'])->name('store');
-        Route::get('edit/{id}', [LeadController::class, 'edit'])->name('edit');
-        Route::post('delete/{id}', [LeadController::class, 'destroy'])->name('delete');
-        Route::post('update/{id}', [LeadController::class, 'update'])->name('update');
-        Route::post('create/add_product', [LeadController::class, 'add_product'])->name('add_product');
+        Route::get('/', 'index')->name('index');
+        Route::get('view/{id}', 'show')->name('view');
+        Route::get('create', 'create')->name('create');
+        Route::post('create/store', 'store')->name('store');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::post('delete/{id}', 'destroy')->name('delete');
+        Route::post('update/{id}', 'update')->name('update');
+        Route::post('create/add_product', 'add_product')->name('add_product');
     });
 
-
-Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+// Roles & Permission Routes
 Route::prefix('/')
     ->middleware('auth')
     ->group(function () {
@@ -53,24 +49,41 @@ Route::prefix('/')
         Route::resource('permissions', PermissionController::class);
 });
 
-Route::get('/permission',function(){
-    $out = "";
-    $total = Role::where('name','Super Admin')->first()->permissions->count();
-    $out .= "Total = ".$total.'<br>';
-    foreach(Role::where('name','Super Admin')->first()->permissions as $permission){
-        $out .= $permission->name.'<br>';
-    }
-    return $out;
-});
+// Testing purpose
+// Route::get('/permission',function(){
+//     $out = "";
+//     $total = Role::where('name','Super Admin')->first()->permissions->count();
+//     $out .= "Total = ".$total.'<br>';
+//     foreach(Role::where('name','Super Admin')->first()->permissions as $permission){
+//         $out .= $permission->name.'<br>';
+//     }
+//     return $out;
+// });
 
+// Product Routes
 Route::name('products.')
     ->prefix('products')
+    ->controller(ProductController::class)
     ->group(function(){
-        Route::get('/', [ProductController::class, 'index'])->name('index');
-        Route::get('view/{id}', [ProductController::class, 'show'])->name('view');
-        Route::get('create', [ProductController::class, 'create'])->name('create');
-        Route::post('create/store', [ProductController::class, 'store'])->name('store');
-        Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
-        Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('destroy');
-        Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
+        Route::get('/', 'index')->name('index');
+        Route::get('view/{id}', 'show')->name('view');
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::delete('delete/{id}', 'destroy')->name('destroy');
+        Route::post('update/{id}', 'update')->name('update');
+    });
+
+// Lead Manager Routes
+Route::name('lead_manager.')
+    ->prefix('lead_manager')
+    ->controller(LeadManagerController::class)
+    ->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('view/{id}', 'show')->name('view');
+        Route::get('create', 'create')->name('create');
+        Route::post('create/store', 'store')->name('store');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::delete('delete/{id}', 'destroy')->name('destroy');
+        Route::post('update/{id}', 'update')->name('update');
     });

@@ -68,7 +68,7 @@
                                 ©
                                 2022,
                                 made with <i class="fa fa-heart"></i> by
-                                <a href="#" class="font-semibold text-slate-700" target="_blank">Developers</a>
+                                <a class="font-semibold text-slate-700">Developers</a>
                                 for a better web.
                             </div>
                         </div>

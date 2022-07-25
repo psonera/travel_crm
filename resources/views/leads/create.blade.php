@@ -5,7 +5,7 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-xl font-bold">Create Lead</h2>
+                    <h2 class="text-3xl font-bold">Create Lead</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST">
@@ -121,7 +121,7 @@
 
                         <div class="text-center">
                             <button type="submit"
-                                class="bg-black mb-6 mt-8 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save
+                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">Save
                                 as Lead</button>
                         </div>
                     </form>
