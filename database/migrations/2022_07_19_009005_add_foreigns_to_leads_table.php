@@ -51,16 +51,9 @@ return new class extends Migration {
             $table
                 ->foreign('lead_pipeline_stage_id')
                 ->references('id')
-                ->on('lead_stages')
+                ->on('lead_pipeline_stages')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-
-            // $table
-            //     ->foreign('lead_pipleline_stage_id')
-            //     ->references('id')
-            //     ->on('lead_pipeline_stages')
-            //     ->onUpdate('CASCADE')
-            //     ->onDelete('CASCADE');
 
             $table
                 ->foreign('trip_id')

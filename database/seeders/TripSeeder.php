@@ -28,8 +28,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'7/7/2022',
                 'batch_size'=>'35',
-                'price'=>'7699'
-
+                'price'=>'7699',
+                'trip_type_id' => '13'
             ],
             [
                 'title'=> 'MANALI - KASOL THRILL BLAZERS WAY',
@@ -38,7 +38,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'10/7/2022',
                 'batch_size'=>'35',
-                'price'=>'13299'
+                'price'=>'13299',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -48,7 +49,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'7/7/2022',
                 'batch_size'=>'35',
-                'price'=>'9999'
+                'price'=>'9999',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -58,7 +60,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'7/7/2022',
                 'batch_size'=>'24',
-                'price'=>'17999'
+                'price'=>'17999',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -68,7 +71,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'9/7/2022',
                 'batch_size'=>'35',
-                'price'=>'15499'
+                'price'=>'15499',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -78,7 +82,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'6/7/2022',
                 'batch_size'=>'35',
-                'price'=>'10999'
+                'price'=>'10999',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -88,7 +93,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'2/7/2022',
                 'batch_size'=>'30',
-                'price'=>'1499'
+                'price'=>'1499',
+                'trip_type_id' => '13'
 
             ],
             [
@@ -98,7 +104,8 @@ class TripSeeder extends Seeder
                 'start_date'=>'1/7/2022',
                 'end_date'=>'1/7/2022',
                 'batch_size'=>'30',
-                'price'=>'899'
+                'price'=>'899',
+                'trip_type_id' => '13'
 
             ],
           
@@ -113,6 +120,7 @@ class TripSeeder extends Seeder
                 'end_date' => $trip['end_date'],
                 'batch_size' => $trip['batch_size'],
                 'price' => $trip['price'],
+                'trip_type_id' => $trip['trip_type_id'],
             ]);
         });
     }

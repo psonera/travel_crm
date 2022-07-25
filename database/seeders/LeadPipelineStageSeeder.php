@@ -58,14 +58,14 @@ class LeadPipelineStageSeeder extends Seeder
                 'lead_pipeline_id'=>'1'
             ],
 
-            ])->each(function($leadpiplelinestage){
+            ])->each(function($leadpipelinestage){
 
-                $leadpiplelinestage = LeadPipelineStage::create([
-                    'code' => $leadpiplelinestage['code'],
-                    'name' => $leadpiplelinestage['name'],
-                    'probability' => $leadpiplelinestage['probability'],
-                    'sort_order' => $leadpiplelinestage['sort_order'],
-                    'lead_pipeline_id' => $leadpiplelinestage['lead_pipeline_id'],
+                $leadpipelinestage = LeadPipelineStage::create([
+                    'code' => $leadpipelinestage['code'],
+                    'name' => $leadpipelinestage['name'],
+                    'probability' => $leadpipelinestage['probability'],
+                    'sort_order' => $leadpipelinestage['sort_order'],
+                    'lead_pipeline_id' => $leadpipelinestage['lead_pipeline_id'],
                 ]);
             });
 

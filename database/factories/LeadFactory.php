@@ -37,7 +37,7 @@ class LeadFactory extends Factory
             'lead_type_id' => rand(1,2),
             'lead_source_id' => rand(1,4),
             'lead_pipeline_id' => \App\Models\LeadPipeline::factory(),
-            'lead_pipeline_stage_id' => rand(1,6),
+            'lead_pipeline_stage_id' => \App\Models\LeadPipelineStage::factory(),
             'trip_id' => \App\Models\Trip::factory(),
             'trip_type_id' => \App\Models\TripType::factory(),
             'accomodation_id' => \App\Models\Accomodation::factory(),
