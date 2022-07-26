@@ -20,8 +20,6 @@ use App\Http\Controllers\PermissionController;
 |
 */
 
-Auth::routes();
-
 Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -42,12 +40,14 @@ Route::name('leads.')
     });
 
 // Roles & Permission Routes
-Route::prefix('/')
-    ->middleware('auth')
-    ->group(function () {
-        Route::resource('roles', RoleController::class);
-        Route::resource('permissions', PermissionController::class);
-});
+// Route::prefix('/')
+//     ->middleware('auth')
+//     ->group(function () {
+//         Route::resource('roles', RoleController::class);
+//         Route::resource('permissions', PermissionController::class);
+// });
+
+Auth::routes();
 
 // Testing purpose
 // Route::get('/permission',function(){

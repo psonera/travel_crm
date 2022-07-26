@@ -16,6 +16,13 @@
     <span class="text-red-500">*</span>
 @endif
 
+@if($attributes->get('currencySymbol') ?? false)
+    <div class="flex">
+    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-lg border border-r-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+        <i class="fas fa-rupee-sign"></i>
+    </span>
+@endif
+
 <input
     type="{{ $type }}"
     id="{{ $name }}"
@@ -29,6 +36,9 @@
     autocomplete="off"
 >
 
+@if($attributes->get('currencySymbol') ?? false)
+    </div>
+@endif    
 @error($name)
     @include('components.inputs.partials.error')
 @enderror

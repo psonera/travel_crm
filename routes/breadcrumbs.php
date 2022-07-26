@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Lead;
+use App\Models\LeadManager;
 use App\Models\Product;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
@@ -56,4 +57,22 @@ Breadcrumbs::for('products.edit', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('products.view', function (BreadcrumbTrail $trail, Product $product) {
     $trail->parent('products.index');
     $trail->push($product->name, route('products.view'), $product->id);
+});
+
+// Dashboard / Lead Manager
+Breadcrumbs::for('lead_managers.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Lead Manager', route('lead_managers.index'));
+});
+
+// Dashboard / Lead Manager / Create Lead Manager
+Breadcrumbs::for('lead_managers.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('lead_managers.index');
+    $trail->push('Create Lead Manager', route('lead_managers.create'));
+});
+
+// Dashboard / Lead Manager / Edit Lead Manager
+Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('lead_managers.index');
+    $trail->push('Edit Lead Manager', route('lead_managers.edit'));
 });

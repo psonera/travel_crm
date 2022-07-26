@@ -30,7 +30,7 @@
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.text name="lead_value" label="{{ __('Lead Value') }}"
+                                <x-inputs.text name="lead_value" currencySymbol="true" label="{{ __('Lead Value') }}"
                                     value="{{ old('lead_value') }}" required autocomplete="lead_value" autofocus />
                             </div>
                             @error('lead_value')

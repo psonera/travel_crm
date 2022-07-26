@@ -74,10 +74,10 @@
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                             <a href="{{ route('leads.edit', ['id' => $lead->id]) }}"
-                                                class="font-semibold leading-tight text-slate-400"> Edit
+                                                class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
                                             </a>
                                             <a onclick="toggleModal()"
-                                                class="pl-4 font-semibold leading-tight text-slate-400"> Delete
+                                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-full focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer"> Delete
                                             </a>
                                         </td>
                                     </tr>

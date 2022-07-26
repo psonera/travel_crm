@@ -11,17 +11,18 @@
                         @csrf
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
-                            <div class="mb-4">
-                                <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ old('sku') }}" required autocomplete="sku" autofocus />
-                            </div>
-                            @error('sku')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
+                            
                             <div class="mb-4">
                                 <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}" required autocomplete="name" autofocus />
                             </div>
                             @error('name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            
+                            <div class="mb-4">
+                                <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ old('sku') }}" required autocomplete="sku" autofocus />
+                            </div>
+                            @error('sku')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
