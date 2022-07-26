@@ -8,7 +8,7 @@
                     <h2 class="text-3xl font-bold">Edit Lead Manager</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('lead_manager.update',$lead_manager) }}">
+                    <form role="form" method="POST" action="{{ route('lead_managers.update',$lead_manager) }}">
                         {{-- <input type="hidden" name="_method" value="PUT"> --}}
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf   

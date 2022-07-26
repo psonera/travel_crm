@@ -49,7 +49,7 @@ class LeadManagerController extends Controller
         
         $lead_manager->assignRole('Lead Manager');
         
-        return redirect()->route('lead_manager.index')->with('success','Lead Manager has been created successfully.');
+        return redirect()->route('lead_managers.index')->with('success','Lead Manager has been created successfully.');
     }
 
     /**
@@ -98,7 +98,7 @@ class LeadManagerController extends Controller
         $lead_manager ->save();
         }
 
-        return redirect()->route('lead_manager.index')->with('success','Lead Manager Has Been updated successfully');
+        return redirect()->route('lead_managers.index')->with('success','Lead Manager Has Been updated successfully');
     }
 
     /**
@@ -112,6 +112,6 @@ class LeadManagerController extends Controller
         $lead_manager = LeadManager::find($id);
         $lead_manager->delete();
     
-        return redirect()->route('lead_manager.index')->with('success','Lead Manager has been deleted successfully');
+        return redirect()->route('lead_managers.index')->with('success','Lead Manager has been deleted successfully');
     }
 }

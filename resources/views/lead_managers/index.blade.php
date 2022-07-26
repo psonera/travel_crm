@@ -5,7 +5,7 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
                     <h2 class="text-3xl font-bold">All Lead Manager</h2>
-                    <a href="{{ route('lead_manager.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Manager</a>
+                    <a href="{{ route('lead_managers.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Manager</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -65,7 +65,7 @@
                                             <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_manager->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                        <a href="{{ route('lead_manager.edit', ['id' => $lead_manager->id]) }}"
+                                        <a href="{{ route('lead_managers.edit', ['id' => $lead_manager->id]) }}"
                                             class="font-semibold leading-tight text-slate-400"> Edit
                                         </a>
                                       

@@ -24,7 +24,7 @@ class LeadManagerFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->email,
+            'email' => $this->faker->email(),
             'contact_number' => $this->faker->phoneNumber(),
             'lead_source_id' => rand(1,4),
         ];

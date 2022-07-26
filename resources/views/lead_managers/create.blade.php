@@ -7,7 +7,7 @@
                     
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('lead_manager.store') }}">
+                    <form role="form" method="POST" action="{{ route('lead_managers.store') }}">
                         @csrf
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>

@@ -74,9 +74,11 @@ Route::name('products.')
         Route::post('update/{id}', 'update')->name('update');
     });
 
+
+
 // Lead Manager Routes
-Route::name('lead_manager.')
-    ->prefix('lead_manager')
+Route::name('lead_managers.')
+    ->prefix('lead_managers')
     ->controller(LeadManagerController::class)
     ->group(function(){
         Route::get('/', 'index')->name('index');
