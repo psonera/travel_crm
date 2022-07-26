@@ -54,7 +54,7 @@ Breadcrumbs::for('products.edit', function (BreadcrumbTrail $trail) {
 });
 
 // Dashboard / Products / [Product Title]
-Breadcrumbs::for('products.view', function (BreadcrumbTrail $trail, Product $product) {
+Breadcrumbs::for('products.view', function (BreadcrumbTrail $trail, $product) {
     $trail->parent('products.index');
     $trail->push($product->name, route('products.view'), $product->id);
 });
@@ -72,7 +72,7 @@ Breadcrumbs::for('lead_managers.create', function (BreadcrumbTrail $trail) {
 });
 
 // Dashboard / Lead Manager / Edit Lead Manager
-Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail, $lead_managers) {
     $trail->parent('lead_managers.index');
-    $trail->push('Edit Lead Manager', route('lead_managers.edit'));
+    $trail->push('Edit Lead Manager', route('lead_managers.edit', ['id' => $lead_managers]));
 });

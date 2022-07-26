@@ -65,7 +65,7 @@
                                             <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_manager->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                        <a href="{{ route('lead_managers.edit', ['id' => $lead_manager->id]) }}"
+                                        <a href="{{ route('lead_managers.edit',  $lead_manager->id) }}"
                                             class="font-semibold leading-tight text-slate-400"> Edit
                                         </a>
                                       

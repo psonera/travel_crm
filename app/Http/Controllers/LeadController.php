@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\LeadPipelineStage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,16 @@ class LeadController extends Controller
 {
     public function index(): View
     {
-        return view('leads.index',[
-            'leads' => Lead::latest()->paginate(10)
-        ]);
+        if(request('view_type')){
+            return view('leads.index.table',[
+                'leads' => Lead::latest()->paginate(10),
+            ]);
+        }else{
+            return view('leads.index.kanban',[
+                'leads' => Lead::all(),
+                'stages' => LeadPipelineStage::all()
+            ]);
+        }
     }
 
     public function create(): View

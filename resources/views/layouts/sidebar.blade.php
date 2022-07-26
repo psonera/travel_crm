@@ -104,8 +104,8 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="{{ (request()->is('lead_manager/*') || request()->is('lead_manager')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg  px-4 text-slate-700 transition-colors" href="{{ route('lead_managers.index') }}">
-                    <div class="{{ (request()->is('lead_manager/*') || request()->is('lead_manager')) ? 'bg-gradient-fuchsia' : ''}} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <a class="{{ (request()->is('lead_managers/*') || request()->is('lead_managers')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg  px-4 text-slate-700 transition-colors" href="{{ route('lead_managers.index') }}">
+                    <div class="{{ (request()->is('lead_managers/*') || request()->is('lead_managers')) ? 'bg-gradient-fuchsia' : ''}} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>settings</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
