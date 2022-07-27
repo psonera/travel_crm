@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 
@@ -84,5 +85,19 @@ class Quotationcontroller extends Controller
     public function destroy($id)
     {
         dd('delete');
+    }
+
+    public function searchproduct(Request $request){
+
+      $value = $request->value;
+
+      $products = Product::where('name','like',"%$value%")->get();
+      $response = array();
+      foreach($products as $product){
+        $total = (float)$product->price * 1;
+         $response[] = array("value"=>$product->id,"label"=>$product->name,'quntity'=>1,'price'=>$product->price,'total'=>$total);
+      }
+      echo json_encode($response);
+      exit;
     }
 }

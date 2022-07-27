@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Quotationcontroller;
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -47,6 +48,7 @@ Route::name('leads.')
         Route::get('/edit/{id}',[Quotationcontroller::class,'edit'])->name('edit');
         Route::post('/update.{id}',[Quotationcontroller::class,'update'])->name('update');
         Route::get('/delete/{id}',[Quotationcontroller::class,'destroy'])->name('delete');
+        Route::get('/search',[Quotationcontroller::class,'searchproduct']);
     });
 
 
@@ -82,4 +84,8 @@ Route::name('products.')
         Route::get('edit/{id}', [ProductController::class, 'edit'])->name('edit');
         Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('destroy');
         Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
+    });
+
+    Route::get('serachview',function(){
+        return view('serachview');
     });

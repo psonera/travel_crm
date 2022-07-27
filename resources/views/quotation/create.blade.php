@@ -13,12 +13,7 @@
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Quotation Information</legend>
                             <div class="mb-4">
-                                <x-Quotation.inputs.select name="owner" label="{{ __('Sales owner') }}" value="{{}}" required>
-                                    <option selected value="">Owner 1</option>
-                                    <option value="">Owner 2</option>
-                                    <option value="">Owner 3</option>
-                                    <option value="">Owner 4</option>
-                                </x-inputs.select>
+                                <livewire:selectmanager  />
                             </div>
                             @error('owner')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -39,14 +34,14 @@
 
 
                             <div class="mb-4">
-                                <x-Quotation.inputs.text name="person" label="{{__('Person')}}" value="{{old('')}}" required autofocus/>
+                                <livewire:serachleadmanager />
                             </div>
                             @error('lead_type_id')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-Quotation.inputs.text name="Lead" label="{{__('Lead')}}" value="{{old('')}}" required autofocus/>
+                                <livewire:serachlead  />
                             </div>
                             @error('lead_manager_id')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -117,49 +112,37 @@
                                                 <th>Name</th>
                                                 <th>Quntity</th>
                                                 <th>Price</th>
-                                                <th>Amount</th>
-                                                <th>Discount</th>
-                                                <th>Tax</th>
+
                                                 <th>Total</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><x-Quotation.inputs.text name="name" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="quontity" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="price" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="Amount" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="discount" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="tax" label="" value="{{old('')}}" required autofocus/></td>
-                                                <td><x-Quotation.inputs.number name="total" label="" value="{{old('')}}" required autofocus/></td>
-                                            </tr>
-                                           <tr>
+
+                                            <tr class="itemrow"><td><input type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td></tr>
+
                                         </tbody>
                                     </table>
-                                    <button class="button mt-1">ADD</button>
+                                    <span class="button" id="addmore">ADD</span>
 
                                     <div class="flex flex-row-reverse">
                                         <div class="cotainer w-34">
                                             <div class="columns-2 mt-3">
                                                  sub Total -
-                                                <x-Quotation.inputs.number name="subtotal" label="" value="{{old('')}}" required/>
+                                                <x-Quotation.inputs.text id="subtotal" name="subtotal" label="" value="{{old('')}}" required/>
                                             </div>
                                             <div class="columns-2 mt-3">
                                                 <div> Discount -</div>
-                                                <div><x-Quotation.inputs.number name="discount" label="" value="{{old('')}}" required/></div>
+                                                <div><x-Quotation.inputs.text   id="discount" name="discount" label="" value="{{old('')}}" required/></div>
                                             </div>
                                             <div class="columns-2 mt-3">
                                                 <div>Tax-</div>
-                                                <div> <x-Quotation.inputs.number name="tax" label="" value="{{old('')}}" required/></div>
+                                                <div> <x-Quotation.inputs.text id="tax" name="tax" label="" value="{{old('')}}" required/></div>
                                             </div>
-                                            <div class="columns-2 mt-3">
-                                                <div>Adjustment -</div>
-                                                <div> <x-Quotation.inputs.number name="adjustment" label="" value="{{old('')}}" required/></div>
-                                            </div>
+
                                             <div class="columns-2 mt-3">
                                                 <div>GrandTotal -</div>
-                                                <div>   <x-Quotation.inputs.number name="grandtotal" label="" value="{{old('')}}" required/></div>
+                                                <div>   <x-Quotation.inputs.text   id="grandtotal" name="grandtotal" label="" value="{{old('')}}" required/></div>
                                             </div>
                                         </div>
                                     </div>
@@ -179,4 +162,112 @@
             </div>
         </div>
     </div>
+
+    @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <script>
+        $(document).ready(function(){
+
+
+                function final(d=0,t=0){
+                    console.log('in final');
+                    var alltotal = document.getElementsByName('total[]')
+                    var subtotal = 0;
+                    var discount = d;
+                    var tax = t;
+                    var grandtotal = Number(0);
+                    $("#discount").val(discount);
+                    $("#tax").val(tax);
+                    $("#grandtotal").val(Number(grandtotal));
+                    if(alltotal!="NaN"){
+                        for(var i=0;i<alltotal.length;i++){
+                            subtotal = Number(subtotal) + Number(alltotal[i].value);
+                        }
+                    }
+                    subtotal = parseFloat(subtotal);
+                    $("#subtotal").val(subtotal);
+                    discount = $("#discount").val();
+                    tax = $("#tax").val();
+                    console.log("dis--->"+discount);
+
+
+
+                    if(discount!=0){
+                        console.log(subtotal);
+                        var dam = parseFloat(discount);
+                        console.log(dam);
+                        subtotal = Number(subtotal) - (parseFloat(discount/100)*Number(subtotal))
+                        console.log(subtotal);
+                        $("#grandtotal").val(Number(subtotal));
+                        subtotal = parseFloat(subtotal);
+                    }
+
+                    if(isNaN(subtotal)){
+                        console.log('yes');
+                    }
+
+                    if(tax!=0){
+                        subtotal = Number(subtotal) + (parseFloat(subtotal)*parseFloat(tax/100))
+                        $("#grandtotal").val(Number(subtotal));
+                    }
+                    $("#grandtotal").val(Number(subtotal));
+                }
+                final();
+
+                $('#addmore').click(function(event){
+                    event.preventDefault();
+                    $('tbody').append('<tr class="itemrow"><td><input type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input name="total[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td><span class="button  bg-red-600 deleteitem">delete</span></td></tr>');
+                });
+
+                $(document).on('click','.deleteitem',function(e){
+                    e.preventDefault();
+                    $(this).parents('tr').remove();
+                });
+
+                $(document).on("click",".itemname",function(){
+                    var x = this;
+                    $(x).autocomplete({
+                        source : function(request,response){
+                            var value = request.term;
+                            // console.log(value); // console.log(value);
+                            // $.ajaxSetup({
+                            //     headers:
+                            //     { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+                            // });
+
+                            $.ajax({
+                                url:"/quotation/search",
+                                method:"get",
+                                data:{value:value},
+                                dataType: "json",
+                                success:function(data){
+
+                                    response(data);
+
+                                }
+
+                                })
+                        },
+
+                        select: function (event, ui) {
+                            $(x).val(ui.item.label);
+                            console.log(ui.item.quntity)
+                            console.log(ui.item.price)
+                            console.log(ui.item.total)
+                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item.quntity)
+                            $(x).parents('tr').find('.itemprice').find('input').val(ui.item.price)
+                            $(x).parents('tr').find('.itemtotal').find('input').val(ui.item.total)
+                            discount = $('#discount').val();
+                            tax = $("#tax").val();
+                            final(discount,tax);
+                            return false;
+                        }
+
+                });
+            })
+        });
+     </script>
+
+    @endsection
 </x-app-layout>

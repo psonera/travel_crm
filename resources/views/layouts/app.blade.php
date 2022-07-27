@@ -23,7 +23,7 @@
 
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' />
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -46,6 +46,8 @@
     </script>
 
     @livewireStyles
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 </head>
 
 <body class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
@@ -140,6 +142,9 @@
             })
         })
     </script>
+    @section('scripts')
+
+    @show
 </body>
 
 </html>

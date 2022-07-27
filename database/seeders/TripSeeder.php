@@ -17,12 +17,12 @@ class TripSeeder extends Seeder
         collect([
             [
                 'title'=> 'KEDARKANTHA THRILL',
-                'description'=>'Kedarkantha is a mountain peak of the Himalayas in Uttarakhand, India. 
-                Its elevation is 12,500 ft. The trip commences from Dehradun, from where you drive to the small, but pretty village of Sankri. 
-                The climb to the peak of Kedarkantha starts from a small village called as Sankri. 
-                There is a lake called Juda-ka-talab, the locals say that once upon a time Lord Shiva meditated at Kedarkantha. 
-                Its name implies so from the droplet fallen from Shiva’s hair to form this lake named as Juda-ka-talab. 
-                There are a total of 13 peaks of the Himalayan range visible from the Kedarkantha peak. 
+                'description'=>'Kedarkantha is a mountain peak of the Himalayas in Uttarakhand, India.
+                Its elevation is 12,500 ft. The trip commences from Dehradun, from where you drive to the small, but pretty village of Sankri.
+                The climb to the peak of Kedarkantha starts from a small village called as Sankri.
+                There is a lake called Juda-ka-talab, the locals say that once upon a time Lord Shiva meditated at Kedarkantha.
+                Its name implies so from the droplet fallen from Shiva’s hair to form this lake named as Juda-ka-talab.
+                There are a total of 13 peaks of the Himalayan range visible from the Kedarkantha peak.
                 The experience of the summit climb is very special and stays with you for a long time.',
                 'location'=>'Kedarkantha Base Camp, Singtur Range, Uttarakhand, India',
                 'start_date'=>'1/7/2022',
@@ -101,10 +101,10 @@ class TripSeeder extends Seeder
                 'price'=>'899'
 
             ],
-          
-            
+
+
         ])->each(function($trip){
-            
+                
             $trip = Trip::create([
                 'title' => $trip['title'],
                 'description' => $trip['description'],
