@@ -76,3 +76,10 @@ Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail, $lead_m
     $trail->parent('lead_managers.index');
     $trail->push('Edit Lead Manager', route('lead_managers.edit', ['id' => $lead_managers]));
 });
+
+
+// Dashboard / Settings
+Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Settings', route('settings.index'));
+});

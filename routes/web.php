@@ -89,3 +89,7 @@ Route::name('lead_managers.')
         Route::delete('delete/{id}', 'destroy')->name('destroy');
         Route::post('update/{id}', 'update')->name('update');
     });
+
+Route::get('/settings', function(){
+    return view('settings.index');
+})->name('settings.index');
