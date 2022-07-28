@@ -57,7 +57,7 @@
             <!--Card-->
             <div class="p-8 mt-6 lg:mt-0 leading-normal rounded shadow bg-white flex flex-row">
                 {{-- Pipelines Card --}}
-                <a href="{{ route('settings.index') }}">
+                <a href="{{ route('settings.lead_pipelines.index') }}">
                     <div
                         class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
                         <div class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
@@ -72,7 +72,7 @@
                 </a>
 
                 {{-- Sources Card --}}
-                <a href="{{ route('settings.index') }}">
+                <a href="{{ route('settings.lead_sources.index') }}">
                     <div
                         class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
                         <div class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
@@ -87,7 +87,7 @@
                 </a>
 
                 {{-- Types Card --}}
-                <a href="{{ route('settings.index') }}">
+                <a href="{{ route('settings.lead_types.index') }}">
                     <div
                         class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
                         <div class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
@@ -117,7 +117,7 @@
             <!--Card-->
             <div class="p-8 mt-6 lg:mt-0 leading-normal rounded shadow bg-white flex flex-row">
                 {{-- Email Template Card --}}
-                <a href="{{ route('settings.index') }}">
+                <a href="{{ route('settings.email_templates.index') }}">
                     <div
                         class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
                         <div class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">

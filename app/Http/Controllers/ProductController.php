@@ -60,19 +60,17 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
-        return view('products.show', compact('product'));
+        // 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::find($id);
         return view('products.edit', compact('product'));      
     }
 
@@ -80,12 +78,11 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request,Product $product)
     {
-        $product = Product::find($id);
         if($product)
         {
         $product->update([
@@ -100,7 +97,7 @@ class ProductController extends Controller
         }
 
         return redirect()->route ('products.index')->with('success','Product Has Been updated successfully');
-        ;
+
     }
 
     /**
@@ -109,9 +106,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
         $product->delete();
     
         return redirect()->route('products.index')->with('success','Product has been deleted successfully');

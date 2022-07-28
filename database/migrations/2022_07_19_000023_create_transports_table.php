@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create('transports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->timestamps();
+
         });
     }
 

@@ -1,10 +1,11 @@
 <x-app-layout>
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none w-full max-w-full px-3">
-            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            <div
+                class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">All Lead Manager</h2>
-                    <a href="{{ route('lead_managers.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Manager</a>
+                    <h2 class="text-3xl font-bold">All Trips </h2>
+                    <a href="{{ route('trips.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Trip</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -16,26 +17,35 @@
                                         ID</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Name</th>
+                                        Title</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Email Address</th>
+                                        Description</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Contact Number</th>
+                                        Location</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Lead Source</th>
+                                        Start Date</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Created At</th>
+                                        End Date</th>
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        Batch Size</th>  
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        Price</th>
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        Trip Type</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($lead_managers as $index => $lead_manager)
+                                @foreach ($trips as $index => $trip)
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -44,27 +54,38 @@
                                             </div>
                                         </td>
                                         <td
+                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ $trip->title }}</a>
+                                        </td>
+                                        <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->name }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ substr($trip->description,0,10) }}</p>
                                         </td>
                                         <td
                                             class="p-2 text-left align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ $lead_manager->email }}</a>
+                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ $trip->location }}</a>
                                         </td>
                                         <td
-                                            class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->contact_number }}</p>
+                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ Carbon\Carbon::parse($trip->start_date)->format('Y-m-d') }}</p>
                                         </td>
                                         <td
-                                            class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->leadSource->name }}</p>
+                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ Carbon\Carbon::parse($trip->end_date)->format('Y-m-d') }}</p>
                                         </td>
                                         <td
-                                            class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_manager->created_at)); }}</p>
+                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $trip->batch_size }}</p>
                                         </td>
-                                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="{{ route('lead_managers.edit', $lead_manager) }}"
+                                        <td
+                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $trip->price }}</p>
+                                        </td>
+                                        <td
+                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $trip->trip_type_id }}</p>
+                                        </td>                                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            <a href="{{ route('trips.edit', $trip) }}"
                                             class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
                                         </a>
                                             <a onclick="toggleModal()"
@@ -78,7 +99,7 @@
                         </div>
                     </div>
                     <div class="align-middle p-4">
-                        {{ $lead_managers->links() }}
+                        {{ $trips->links() }}
                     </div>
                     <div class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" id="modal">
                         <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -108,14 +129,14 @@
                                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you
-                                                sure you want to delete this Lead Manager?</h3>
+                                                sure you want to delete this Trip?</h3>
                                             
                                                 
-                                             <form id="delete-frm" class="DELETE" action="{{ route('lead_managers.destroy',  $lead_manager) }}" method="POST">
+                                             <form id="delete-frm" class="DELETE" action="{{ route('trips.destroy',  $trip) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf                                             
-                                            <button id="delete-frm" class="deletebtn" data-modal-toggle="popup-modal" type="submit" href="{{ route('lead_managers.destroy',  $lead_manager) }}"
-                                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                            <button id="delete-frm" data-modal-toggle="popup-modal" type="submit" href="{{ route('trips.destroy',  $trip) }}"
+                                                class="deletebtn text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                 Yes, I'm sure
                                             </button>
                                             <button  class="cancelbtn" data-modal-toggle="popup-modal" onclick="toggleModal()" type="button"
@@ -140,4 +161,3 @@
     </x-app-layout>
     
                            
-                       

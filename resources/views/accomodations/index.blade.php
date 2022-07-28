@@ -1,11 +1,10 @@
 <x-app-layout>
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none w-full max-w-full px-3">
-            <div
-                class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">All Products </h2>
-                    <a href="{{ route('products.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Product</a>
+                    <h2 class="text-3xl font-bold">All Accomodations</h2>
+                    <a href="{{ route('accomodations.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Accomodation</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -17,19 +16,7 @@
                                         ID</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        SKU</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Name</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Description</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Quantity</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Price</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Created At</th>
@@ -39,7 +26,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $index => $product)
+                                @foreach ($accomodations as $index => $accomodation)
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -48,37 +35,21 @@
                                             </div>
                                         </td>
                                         <td
-                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ $product->sku }}</a>
+                                            class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $accomodation->name }}</p>
                                         </td>
+                               
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $product->name }}</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-left align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ substr($product->description,0,50) }}</a>
-                                        </td>
-                                        <td
-                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $product->quantity }}</p>
-                                        </td>
-                                        <td
-                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $product->price }}</p>
-                                        </td>
-                                        <td
-                                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($product->created_at)); }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($accomodation->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                        <a href="{{ route('products.edit', $product) }}"
-                                        class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
-                                    </a>
-                                        <a onclick="toggleModal()"
-                                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-full focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer"> Delete
+                                        <a href="{{ route('accomodations.edit',$accomodation) }}"
+                                            class="font-semibold leading-tight text-slate-400"> Edit
                                         </a>
+                                      
                                     </td>
+                                    
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -86,7 +57,7 @@
                     </div>
                 </div>
                 <div class="align-middle p-4">
-                    {{ $products->links() }}
+                    {{ $accomodations->links() }}
                 </div>
                 <div class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" id="modal">
                     <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -117,20 +88,13 @@
                                         </svg>
                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you
                                             sure you want to delete this product?</h3>
-                                        
-                                            
-                                         <form id="delete-frm" class="DELETE" action="{{ route('products.destroy',  $product) }}" method="POST">
-                                            @method('DELETE')
-                                            @csrf                                             
-                                        <button id="delete-frm" class="deletebtn" data-modal-toggle="popup-modal" type="submit" href="{{ route('products.destroy',  $product) }}"
+                                        <button data-modal-toggle="popup-modal" type="button"
                                             class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                             Yes, I'm sure
                                         </button>
-                                        <button  class="cancelbtn" data-modal-toggle="popup-modal" onclick="toggleModal()" type="button"
+                                        <button data-modal-toggle="popup-modal" onclick="toggleModal()" type="button"
                                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                             cancel</button>
-                                        </form>
-
                                     </div>
                                 </div>
                             </div>
@@ -140,11 +104,12 @@
             </div>
         </div>
     </div>
-<script>
-    function toggleModal() {
-        document.getElementById('modal').classList.toggle('hidden')
-    }
-</script>
+
+    <script>
+        function toggleModal() {
+            document.getElementById('modal').classList.toggle('hidden')
+        }
+    </script>
 </x-app-layout>
 
                        

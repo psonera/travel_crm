@@ -5,57 +5,41 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">Edit Product</h2>
+                    <h2 class="text-3xl font-bold">Edit Email Template</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('products.update',$product) }}">
+                    <form role="form" method="POST" action="{{ route('settings.email_templates.update',$email_template) }}">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf   
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
                             <div class="mb-4">
-                                <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ $product->sku }}"  autocomplete="sku" autofocus />
-                            </div>
-                            @error('sku')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $product->name }}"  />
+                                <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $email_template->name }}" autocomplete="name" autofocus />
                             </div>
                             @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.textarea name="description" label="{{ __('Description') }}" autocomplete="description" autofocus >{!! $product->description !!}</x-inputs.textarea>
+                                <x-inputs.text name="subject`" label="{{ __('Subject`') }}" value="{{ $email_template->subject }}" autocomplete="subject`" autofocus />
                             </div>
-                            @error('description')
+                            @error('subject`')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.text name="quantity" label="{{ __('Quantity') }}" value="{{ $product->quantity }}"  autocomplete="quantity" autofocus />
+                                <x-inputs.text name="content" label="{{ __('Content') }}" value="{{ $email_template->content }}" autocomplete="content" autofocus />
                             </div>
-                            @error('quantity')
+                            @error('content')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.text name="price" label="{{ __('Price') }}" value="{{ $product->price }}"  autocomplete="price" autofocus />
-                            </div>
-                            @error('price')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            
                         </fieldset>
                         
                         <div class="text-center">
                             <button type="submit"
                                 class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
-                                Edit Product</button>
+                                Edit email_template</button>
                         </div>
                     </form>
                 </div>

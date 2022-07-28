@@ -17,7 +17,6 @@ class LeadManagerController extends Controller
         return view('lead_managers.index',[
             'lead_managers' => LeadManager::latest()->paginate(10)
         ]);
-
     }
 
     /**
@@ -49,13 +48,13 @@ class LeadManagerController extends Controller
         
         $lead_manager->assignRole('Lead Manager');
         
-        return redirect()->route('lead_managers.index')->with('success','Lead Manager has been created successfully.');
+        return redirect()->route('lead_managers.index')->with('success','Lead Manager has been created successfully.');;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadManager  $lead_manager
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,12 +65,11 @@ class LeadManagerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadManager  $lead_manager
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(LeadManager $lead_manager)
     {
-        $lead_manager = LeadManager::find($id);
         return view('lead_managers.edit', compact('lead_manager'));      
     }
 
@@ -79,13 +77,11 @@ class LeadManagerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  LeadManager  $lead_manager
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $lead_manager = LeadManager::find($id);
-        
+    public function update(Request $request, LeadManager $lead_manager)
+    {        
         if($lead_manager)
         {
         $lead_manager->update([
@@ -98,7 +94,7 @@ class LeadManagerController extends Controller
         $lead_manager ->save();
         }
 
-        return redirect()->route('lead_managers.index')->with('success','Lead Manager Has Been updated successfully');
+        return redirect()->route ('lead_managers.index')->with('success','Lead Manager has been updated successfully.');;
     }
 
     /**
@@ -112,6 +108,6 @@ class LeadManagerController extends Controller
         $lead_manager = LeadManager::find($id);
         $lead_manager->delete();
     
-        return redirect()->route('lead_managers.index')->with('success','Lead Manager has been deleted successfully');
+        return redirect()->route('lead_managers.index');
     }
 }

@@ -3,8 +3,8 @@
         <div class="flex-none w-full max-w-full px-3">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">All Lead Manager</h2>
-                    <a href="{{ route('lead_managers.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Manager</a>
+                    <h2 class="text-3xl font-bold">All Email Template</h2>
+                    <a href="{{ route('settings.email_templates.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Email Template</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -19,13 +19,10 @@
                                         Name</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Email Address</th>
+                                        Subject</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Contact Number</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Lead Source</th>
+                                        Content</th>    
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Created At</th>
@@ -35,7 +32,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($lead_managers as $index => $lead_manager)
+                                @foreach ($email_templates as $index => $email_template)
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -45,26 +42,22 @@
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->name }}</p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-left align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="#" class="mb-0 leading-tight text-slate-400">{{ $lead_manager->email }}</a>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $email_template->name }}</p>
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->contact_number }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ substr($email_template->subject,0,20) }}</p>
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_manager->leadSource->name }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ substr($email_template->content,0,35) }}</p>
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_manager->created_at)); }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($email_template->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="{{ route('lead_managers.edit', $lead_manager) }}"
+                                            <a href="{{ route('settings.email_templates.edit', $email_template) }}"
                                             class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
                                         </a>
                                             <a onclick="toggleModal()"
@@ -78,7 +71,7 @@
                         </div>
                     </div>
                     <div class="align-middle p-4">
-                        {{ $lead_managers->links() }}
+                        {{ $email_templates->links() }}
                     </div>
                     <div class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" id="modal">
                         <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -108,13 +101,13 @@
                                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you
-                                                sure you want to delete this Lead Manager?</h3>
+                                                sure you want to delete this Email Template?</h3>
                                             
                                                 
-                                             <form id="delete-frm" class="DELETE" action="{{ route('lead_managers.destroy',  $lead_manager) }}" method="POST">
+                                             <form id="delete-frm" class="DELETE" action="{{ route('settings.email_templates.destroy',  $email_template) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf                                             
-                                            <button id="delete-frm" class="deletebtn" data-modal-toggle="popup-modal" type="submit" href="{{ route('lead_managers.destroy',  $lead_manager) }}"
+                                            <button id="delete-frm" class="deletebtn" data-modal-toggle="popup-modal" type="submit" href="{{ route('settings.email_templates.destroy',  $email_template) }}"
                                                 class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                 Yes, I'm sure
                                             </button>
@@ -140,4 +133,3 @@
     </x-app-layout>
     
                            
-                       

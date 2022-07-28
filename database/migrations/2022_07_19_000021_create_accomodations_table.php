@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create('accomodations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->timestamps();
+
         });
     }
 
