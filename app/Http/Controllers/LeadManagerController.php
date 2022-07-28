@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LeadManagerFormRequest;
 use App\Models\LeadManager;
 use Illuminate\Http\Request;
 
@@ -32,19 +33,14 @@ class LeadManagerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadManagerFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeadManagerFormRequest $request)
     {
-        $request->validate([
-            'name'=> 'required', 
-            'email'=> 'required|email', 
-            'contact_number'=> 'required|max:10', 
-            'lead_source_id'=> 'required', 
-        ]);
+        $validated = $request->validated();
         
-        $lead_manager = LeadManager::create($request->all());
+        $lead_manager = LeadManager::create($validated);
         
         $lead_manager->assignRole('Lead Manager');
         
@@ -76,38 +72,30 @@ class LeadManagerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadManagerFormRequest  $request
      * @param  LeadManager  $lead_manager
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeadManager $lead_manager)
+    public function update(LeadManagerFormRequest $request, LeadManager $lead_manager)
     {        
-        if($lead_manager)
-        {
-        $lead_manager->update([
-            'name' => $request->name ? $request->name : $lead_manager->name,
-            'email' => $request->email ? $request->email : $lead_manager->email,
-            'contact_number' => $request->contact_number ? $request->contact_number : $lead_manager->contact_number,
-            'lead_source_id' => $request->lead_source_id ? $request->lead_source_id : $lead_manager->lead_source_id,
-        ]);
+        $validated = $request->validated();
         
-        $lead_manager ->save();
+        if($lead_manager){
+            $lead_manager->update($validated);
+            $lead_manager->save();
         }
-
         return redirect()->route ('lead_managers.index')->with('success','Lead Manager has been updated successfully.');;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  LeadManager  $lead_manager
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LeadManager  $lead_manager)
     {
-        $lead_manager = LeadManager::find($id);
-        $lead_manager->delete();
-    
+        $lead_manager->delete();    
         return redirect()->route('lead_managers.index');
     }
 }

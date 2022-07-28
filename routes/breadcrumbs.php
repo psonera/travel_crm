@@ -69,74 +69,14 @@ Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail, $lead_m
     $trail->push('Edit Lead Manager', route('lead_managers.edit',$lead_manager));
 });
 
-// Dashboard / Trip
-Breadcrumbs::for('trips.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('dashboard');
-    $trail->push('Trip', route('trips.index'));
-});
 
-// Dashboard / Trips / Create Trip
-Breadcrumbs::for('trips.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('trips.index');
-    $trail->push('Create Trip', route('trips.create'));
-});
-
-// Dashboard / Trips / Edit Trip
-Breadcrumbs::for('trips.edit', function (BreadcrumbTrail $trail, $trips) {
-    $trail->parent('trips.index');
-    $trail->push('Edit Trip', route('trips.edit',$trips));
-});
-
-
-
-
-
-// Dashboard / Trip Type
-Breadcrumbs::for('trip_types.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('dashboard');
-    $trail->push('Trip Type', route('trip_types.index'));
-});
-
-// Dashboard / Trip type / Create Trip type
-Breadcrumbs::for('trip_types.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('trip_types.index');
-    $trail->push('Create Trip Type', route('trip_types.create'));
-});
-
-// Dashboard / Trip type / Edit trip Type
-Breadcrumbs::for('trip_types.edit', function (BreadcrumbTrail $trail, $trip_type) {
-    $trail->parent('trip_types.index');
-    $trail->push('Edit Trip Type', route('trip_types.edit',$trip_type));
-});
-
-
-
-// Dashboard / Accomodations
-Breadcrumbs::for('accomodations.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('dashboard');
-    $trail->push('Accomodations', route('accomodations.index'));
-});
-
-// Dashboard / Accomodations / Create Accomodation
-Breadcrumbs::for('accomodations.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('accomodations.index');
-    $trail->push('Create Accomodation', route('accomodations.create'));
-});
-
-// Dashboard / Accomodations / Edit Accomodation
-Breadcrumbs::for('accomodations.edit', function (BreadcrumbTrail $trail, $accomodation) {
-    $trail->parent('accomodations.index');
-    $trail->push('Edit Accomodation', route('accomodations.edit',$accomodation));
-});
-
-
-
-
+// All the breadcrumbs in settings section 
 // Dashboard / Settings
 Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
     $trail->push('Settings', route('settings.index'));
 });
+
 
 
 // Settings / Lead Source
@@ -158,6 +98,7 @@ Breadcrumbs::for('settings.lead_sources.edit', function (BreadcrumbTrail $trail,
 });
 
 
+
 // Settings / Lead Pipeline
 Breadcrumbs::for('settings.lead_pipelines.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
@@ -176,7 +117,8 @@ Breadcrumbs::for('settings.lead_pipelines.edit', function (BreadcrumbTrail $trai
     $trail->push('Edit Lead Pipeline', route('settings.lead_pipelines.edit',$lead_pipeline));
 });
 
-// -------------------------------
+
+
 // Settings / Lead type
 Breadcrumbs::for('settings.lead_types.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
@@ -196,6 +138,7 @@ Breadcrumbs::for('settings.lead_types.edit', function (BreadcrumbTrail $trail, $
 });
 
 
+
 // Settings / Email Templates
 Breadcrumbs::for('settings.email_templates.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
@@ -213,3 +156,65 @@ Breadcrumbs::for('settings.email_templates.edit', function (BreadcrumbTrail $tra
     $trail->parent('settings.email_templates.index');
     $trail->push('Edit Email Templates', route('settings.email_templates.edit',$email_template));
 });
+
+
+
+// Settings / Trip
+Breadcrumbs::for('settings.trips.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Trip', route('settings.trips.index'));
+});
+
+// Settings / Trips / Create Trip
+Breadcrumbs::for('settings.trips.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.trips.index');
+    $trail->push('Create Trip', route('settings.trips.create'));
+});
+
+// Settings / Trips / Edit Trip
+Breadcrumbs::for('settings.trips.edit', function (BreadcrumbTrail $trail, $trips) {
+    $trail->parent('settings.trips.index');
+    $trail->push('Edit Trip', route('settings.trips.edit',$trips));
+});
+
+
+
+// Settings / Trip Type
+Breadcrumbs::for('settings.trip_types.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Trip Type', route('settings.trip_types.index'));
+});
+
+// Settings / Trip type / Create Trip type
+Breadcrumbs::for('settings.trip_types.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.trip_types.index');
+    $trail->push('Create Trip Type', route('settings.trip_types.create'));
+});
+
+// Settings / Trip type / Edit trip Type
+Breadcrumbs::for('settings.trip_types.edit', function (BreadcrumbTrail $trail, $trip_type) {
+    $trail->parent('settings.trip_types.index');
+    $trail->push('Edit Trip Type', route('settings.trip_types.edit',$trip_type));
+});
+
+
+
+// Settings / Accomodations
+Breadcrumbs::for('settings.accomodations.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Accomodations', route('settings.accomodations.index'));
+});
+
+// Settings / Accomodations / Create Accomodation
+Breadcrumbs::for('settings.accomodations.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.accomodations.index');
+    $trail->push('Create Accomodation', route('settings.accomodations.create'));
+});
+
+// Settings / Accomodations / Edit Accomodation
+Breadcrumbs::for('settings.accomodations.edit', function (BreadcrumbTrail $trail, $accomodation) {
+    $trail->parent('settings.accomodations.index');
+    $trail->push('Edit Accomodation', route('settings.accomodations.edit',$accomodation));
+});
+
+

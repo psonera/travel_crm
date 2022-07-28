@@ -74,20 +74,12 @@ Route::resource('products',ProductController::class);
 Route::resource('lead_managers',LeadManagerController::class);
 
 
-// Trip Routes
-Route::resource('trips',TripController::class);
-
-// Trip Type Routes
-Route::resource('trip_types',TripTypeController::class);
-
-// Accomodation Routes
-Route::resource('accomodations',AccomodationController::class);
-
 
 // Settings Route
 Route::get('/settings', function(){
     return view('settings.index');
 })->name('settings.index');
+
 
 Route::prefix('settings')->name('settings.')->group(function () {
 
@@ -103,6 +95,13 @@ Route::resource('lead_types',LeadTypeController::class);
 // Email Routes
 Route::resource('email_templates',EmailTemplateController::class);
 
+// Trip Routes
+Route::resource('trips',TripController::class);
+
+// Trip Type Routes
+Route::resource('trip_types',TripTypeController::class);
+
+// Accomodation Routes
+Route::resource('accomodations',AccomodationController::class);
 
 });
-    

@@ -7,7 +7,7 @@
                     
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('trips.store') }}">
+                    <form role="form" method="POST" action="{{ route('settings.trips.store') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf 
                         <fieldset class="border border-solid border-gray-300 p-6">
@@ -72,9 +72,7 @@
                             </div>
                             @error('trip_type_id')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            
+                            @enderror 
                         </fieldset>
                         
                         <div class="text-center">

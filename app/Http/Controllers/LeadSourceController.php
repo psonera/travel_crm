@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LeadSource;
 use Illuminate\Http\Request;
+use App\Http\Requests\LeadSourceFormRequest;
 
 class LeadSourceController extends Controller
 {
@@ -32,25 +33,21 @@ class LeadSourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadSourceFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'=> 'required', 
-        ]);
-
-        LeadSource::create($request->all());
+    public function store(LeadSourceFormRequest $request)
+    { 
+         $validated = $request->validated();
+        LeadSource::create($validated);
 
         return redirect()->route('settings.lead_sources.index')->with('success','Lead Sources has been created successfully.');
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadSource $lead_source
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,7 +58,7 @@ class LeadSourceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadSource $lead_source
      * @return \Illuminate\Http\Response
      */
     public function edit(LeadSource $lead_source)
@@ -72,34 +69,30 @@ class LeadSourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  LeadSourceFormRequest $request
+     * @param  LeadSource $lead_source
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeadSource $lead_source)
+    public function update(LeadSourceFormRequest $request, LeadSource $lead_source)
     {
-        if($lead_source)
-        {
-        $lead_source->update([
-            'name' => $request->name ? $request->name : $lead_source->name,
-        ]);
+        $validated = $request->validated();
         
-        $lead_source ->save();
+        if($lead_source){
+            $lead_source->update($validated);
+            $lead_source->save();
         }
-
         return redirect()->route ('settings.lead_sources.index')->with('success','Lead Source Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  LeadSource $lead_source
      * @return \Illuminate\Http\Response
      */
     public function destroy(LeadSource $lead_source)
     {
         $lead_source->delete();
-    
         return redirect()->route('settings.lead_sources.index')->with('success','Lead Source has been deleted successfully');
     }
 }

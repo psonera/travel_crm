@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LeadPipeline;
 use Illuminate\Http\Request;
+use App\Http\Requests\LeadPipelineFormRequest;
 
 class LeadPipelineController extends Controller
 {
@@ -32,26 +33,22 @@ class LeadPipelineController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadPipelineFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeadPipelineFormRequest $request)
     {
-        // dd($request->is_default);
-        LeadPipeline::create([
-            'name' => $request->name,
-            'is_default' => $request->is_default,
-            'rotten_days' => $request->rotten_days,
-        ]);
-        
-        return redirect()->route('settings.lead_pipelines.index')->with('success','Lead Pipeline has been created successfully.');
+        $validated = $request->validated();
+      
+        LeadPipeline::create($validated);
 
+        return redirect()->route('settings.lead_pipelines.index')->with('success','Lead Pipeline has been created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadPipeline $lead_pipeline
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,7 +59,7 @@ class LeadPipelineController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  LeadPipeline $lead_pipeline
      * @return \Illuminate\Http\Response
      */
     public function edit(LeadPipeline $lead_pipeline)
@@ -73,37 +70,30 @@ class LeadPipelineController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  LeadPipelineFormRequest  $request
+     * @param  LeadPipeline $lead_pipeline
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeadPipeline $lead_pipeline)
+    public function update(LeadPipelineFormRequest $request, LeadPipeline $lead_pipeline)
     {
-        if($lead_pipeline)
-        {
-        $lead_pipeline->update([
-            'name' => $request->name ? $request->name : $lead_pipeline->name,
-            'is_default' => $request->is_default ? $request->is_default : $lead_pipeline->is_default,
-            'rotten_days' => $request->rotten_days ? $request->rotten_days : $lead_pipeline->rotten_days,
-            
-        ]);
+        $validated = $request->validated();
         
-        $lead_pipeline ->save();
+        if($lead_pipeline){
+            $lead_pipeline->update($validated);
+            $lead_pipeline->save();
         }
-
         return redirect()->route ('settings.lead_pipelines.index')->with('success','Lead Pipeline Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  LeadPipeline $lead_pipeline
      * @return \Illuminate\Http\Response
      */
     public function destroy(LeadPipeline $lead_pipeline)
     {
-        $lead_pipeline->delete();
-    
+        $lead_pipeline->delete();    
         return redirect()->route('settings.lead_pipelines.index')->with('success','Lead Pipeline has been deleted successfully');
     }
 }

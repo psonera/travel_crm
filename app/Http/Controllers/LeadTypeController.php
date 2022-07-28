@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LeadType;
 use Illuminate\Http\Request;
+use App\Http\Requests\LeadTypeFormRequest;
 
 class LeadTypeController extends Controller
 {
@@ -32,16 +33,13 @@ class LeadTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadTypeFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeadTypeFormRequest $request)
     {
-        $request->validate([
-            'name'=> 'required', 
-        ]);
-
-        LeadType::create($request->all());
+        $validated = $request->validated();
+        LeadType::create($validated);
 
         return redirect()->route('settings.lead_types.index')->with('success','Lead Type has been created successfully.');
     }
@@ -49,7 +47,7 @@ class LeadTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  LeadType $leadtype
+     * @param LeadType $leadtype
      * @return \Illuminate\Http\Response
      */
     public function show(LeadType $lead_type)
@@ -71,23 +69,19 @@ class LeadTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  LeadTypeFormRequest  $request
      * @param  int  LeadType $lead_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeadType $lead_type)
+    public function update(LeadTypeFormRequest $request, LeadType $lead_type)
     {
-        if($lead_type)
-        {
-        $lead_type->update([
-            'name' => $request->name ? $request->name : $lead_type->name,
-        ]);
+        $validated = $request->validated();
         
-        $lead_type ->save();
+        if($lead_type){
+            $lead_type->update($validated);
+            $lead_type->save();
         }
-
         return redirect()->route ('settings.lead_types.index')->with('success','Lead Type Has Been updated successfully');
-  
     }
 
     /**
@@ -98,8 +92,7 @@ class LeadTypeController extends Controller
      */
     public function destroy(LeadType $lead_type)
     {
-        $lead_type->delete();
-    
+        $lead_type->delete();    
         return redirect()->route('lead_type.index')->with('success','Lead Type has been deleted successfully');
     }
 }

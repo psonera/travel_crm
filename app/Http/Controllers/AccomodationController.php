@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccomodationFormRequest;
 use App\Models\Accomodation;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,9 @@ class AccomodationController extends Controller
      */
     public function index()
     {
-        return view('accomodations.index',[
+        return view('settings.accomodations.index', [
             'accomodations' => Accomodation::latest()->paginate(10)
-        ]);     
+        ]);
     }
 
     /**
@@ -26,24 +27,22 @@ class AccomodationController extends Controller
      */
     public function create()
     {
-        return view('accomodations.create');    
+        return view('settings.accomodations.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AccomodationFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AccomodationFormRequest $request)
     {
-        $request->validate([
-            'name'=> 'required', 
-        ]);
+        $validated = $request->validated();
 
-        Accomodation::create($request->all());
+        Accomodation::create($validated);
 
-        return redirect()->route('accomodations.index')->with('success','Accomodation has been created successfully.');
+        return redirect()->route('settings.accomodations.index')->with('success', 'Accomodation has been created successfully.');
     }
 
     /**
@@ -60,45 +59,41 @@ class AccomodationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Accomodation $accomodation
      * @return \Illuminate\Http\Response
      */
     public function edit(Accomodation $accomodation)
     {
-        return view('accomodations.edit', compact('accomodation'));
+        return view('settings.accomodations.edit', compact('accomodation'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  AccomodationFormRequest  $request
+     * @param  Accomodation $accomodation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Accomodation $accomodation)
+    public function update(AccomodationFormRequest $request, Accomodation $accomodation)
     {
-        if($accomodation)
-        {
-        $accomodation->update([
-            'name' => $request->name ? $request->name : $accomodation->name,
-        ]);
+        $validated = $request->validated();
         
-        $accomodation ->save();
+        if($accomodation){
+            $accomodation->update($validated);
+            $accomodation->save();
         }
-
-        return redirect()->route ('accomodations.index')->with('success','Accomodation Has Been updated successfully');
-      }
+        return redirect()->route('settings.accomodations.index')->with('success', 'Accomodation Has Been updated successfully');
+    }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Accomodation $accomodation
      * @return \Illuminate\Http\Response
      */
     public function destroy(Accomodation $accomodation)
     {
         $accomodation->delete();
-    
-        return redirect()->route('accomodations.index')->with('success','Accomodation has been deleted successfully');
+        return redirect()->route('settings.accomodations.index')->with('success', 'Accomodation has been deleted successfully');
     }
 }

@@ -50,12 +50,15 @@ class RoleController extends Controller {
 
         $this->authorize('create', Role::class);
 
-        $data = $this->validate($request, [
-            'name' => 'required|unique:roles|max:32',
-            'permissions' => 'array',
-        ]);
+        // $data = $this->validate($request, [
+        //     'name' => 'required|unique:roles|max:32',
+        //     'permissions' => 'array',
+        // ]);
+        // $role = Role::create($data);
 
-        $role = Role::create($data);
+        $validated = $request->validated();
+        $role = Role::create($validated);
+
 
         $permissions = Permission::find($request->permissions);
         $role->syncPermissions($permissions);
@@ -106,13 +109,17 @@ class RoleController extends Controller {
     {
         $this->authorize('update', $role);
 
-        $data = $this->validate($request, [
-            'name' => 'required|max:32|unique:roles,name,'.$role->id,
-            'permissions' => 'array',
-        ]);
+        // $data = $this->validate($request, [
+        //     'name' => 'required|max:32|unique:roles,name,'.$role->id,
+        //     'permissions' => 'array',
+        // ]);
         
-        $role->update($data);
-
+        // $role->update($data);
+        
+        $validated = $request->validated();
+        
+        $role->update($validated);
+        
         $permissions = Permission::find($request->permissions);
         $role->syncPermissions($permissions);
 

@@ -135,4 +135,70 @@
         </div>
         <!--divider-->
         <hr class="bg-gray-300 my-4">
+
+        {{-- Trip Section --}}
+        <div class="p-4">
+            <!--Title-->
+            <div>
+                <h2 class="font-sans font-bold break-normal text-gray-700 px-2 text-2xl">Trips</h2>
+                <p class="text-xl px-2 pb-2">Manage all your trips, their types & accomodations in the CRM.
+                </p>
+            </div>
+            <!--Card-->
+            <div class="p-8 mt-6 lg:mt-0 leading-normal rounded shadow bg-white flex flex-row">
+                {{-- Trips Card --}}
+                <a href="{{ route('settings.trips.index') }}">
+                    <div
+                        class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
+                        <div
+                            class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
+                            <i class="fa fa-plane" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex flex-col justify-between leading-normal mr-auto p-4">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Trips</h5>
+                            <div class="group-hover:block hidden md:w-2/3 text-sm">Add, Edit or Delete Trips from Thrill
+                                Blazers
+                                LMS</div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Trip Types Card --}}
+                <a href="{{ route('settings.trip_types.index') }}">
+                    <div
+                        class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
+                        <div
+                            class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
+                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex flex-col justify-between leading-normal mr-auto p-4">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Trip Types</h5>
+                            <div class="group-hover:block hidden md:w-2/3 text-sm">Add, Edit or Delete Trip Types from Thrill
+                                Blazers
+                                LMS</div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Trip Accomodation Card --}}
+                <a href="{{ route('settings.accomodations.index') }}">
+                    <div
+                        class="flex-grow bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex flex-col group hover:bg-gray-100 items-center md:flex-row md:p-4 md:w-4/5 rounded-lg">
+                        <div
+                            class="fa-3x h-96 md:h-auto md:rounded-l-lg md:rounded-none md:w-18.5 ml-auto rounded-t-lg">
+                            <i class="fa fa-bed" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex flex-col justify-between leading-normal mr-auto p-4">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Accomodations</h5>
+                            <div class="group-hover:block hidden md:w-2/3 text-sm">Add, Edit or Delete Accomodations from Thrill
+                                Blazers
+                                LMS</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--/Card-->
+        </div>
+        <!--divider-->
+        <hr class="bg-gray-300 my-4">
 </x-app-layout>

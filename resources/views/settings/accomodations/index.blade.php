@@ -3,8 +3,8 @@
         <div class="flex-none w-full max-w-full px-3">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">All Lead Type</h2>
-                    <a href="{{ route('settings.lead_types.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Type</a>
+                    <h2 class="text-3xl font-bold">All Accomodations</h2>
+                    <a href="{{ route('settings.accomodations.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Accomodation</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -26,7 +26,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($lead_types as $index => $lead_type)
+                                @foreach ($accomodations as $index => $accomodation)
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -36,36 +36,34 @@
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_type->name }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $accomodation->name }}</p>
                                         </td>
                                
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_type->created_at)); }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($accomodation->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="{{ route('settings.lead_types.edit', $lead_type) }}"
+                                            <a href="{{ route('settings.accomodations.edit', $accomodation) }}"
                                             class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
                                         </a>
                                             <a onclick="toggleModal()"
                                                     class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-full focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer"> Delete
                                             </a>
                                         </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="align-middle p-4">
-                        {{ $lead_types->links() }}
-                    </div>
-                    <div class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" id="modal">
-                        <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                            <div class="fixed inset-0 transition-opacity">
-                                <div class="absolute inset-0 bg-gray-900 opacity-75">
-                                </div>
-                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                </div>
+                <div class="align-middle p-4">
+                    {{ $accomodations->links() }}
+                </div>
+                <div class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full" id="modal">
+                    <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div class="fixed inset-0 transition-opacity">
+                            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
                                 <div class="inline-block align-center bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-1/4">
                                     <div class="relative bg-white align-center justify-center rounded-lg shadow dark:bg-gray-700">
                                         <button onclick="toggleModal()" type="button"
@@ -88,10 +86,10 @@
                                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you
-                                                sure you want to delete this Lead Type?</h3>
+                                                sure you want to delete this Lead Manager?</h3>
                                             
                                                 
-                                             <form id="delete-frm" class="DELETE" action="{{ route('settings.lead_types.destroy',  $lead_type) }}" method="POST">
+                                             <form id="delete-frm" class="DELETE" action="{{ route('settings.accomodations.destroy',  $accomodation) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf                                             
                                             <button id="delete-frm" data-modal-toggle="popup-modal" type="submit" 
@@ -109,14 +107,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-    <script>
-        function toggleModal() {
-            document.getElementById('modal').classList.toggle('hidden')
-        }
-    </script>
-    </x-app-layout>
+    </div>
+<script>
+function toggleModal() 
+{
+    document.getElementById('modal').classList.toggle('hidden')
+}
+</script>
+</x-app-layout>
     
-                           

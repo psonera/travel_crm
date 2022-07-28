@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TripTypeFormRequest;
 use App\Models\TripType;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class TripTypeController extends Controller
      */
     public function index()
     {
-        return view('trip_types.index',[
+        return view('settings.trip_types.index',[
             'trip_types' => TripType::latest()->paginate(10)
         ]); 
     }
@@ -26,31 +27,27 @@ class TripTypeController extends Controller
      */
     public function create()
     {
-        return view('trip_types.create');
+        return view('settings.trip_types.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  TripTypeFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TripTypeFormRequest $request)
     {
-        $request->validate([
-            'name'=> 'required', 
-        ]);
+        $validated = $request->validated();
+        TripType::create($validated);
 
-        TripType::create($request->all());
-
-        return redirect()->route('trip_types.index')->with('success','Trip Type has been created successfully.');
-
+        return redirect()->route('settings.trip_types.index')->with('success','Trip Type has been created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  TripType $trip_type
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,34 +58,30 @@ class TripTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  TripType $trip_type
      * @return \Illuminate\Http\Response
      */
     public function edit(TripType $trip_type)
     {
-        return view('trip_types.edit', compact('trip_type'));
+        return view('settings.trip_types.edit', compact('trip_type'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  TripTypeFormRequest  $request
      * @param  TripType $trip_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TripType $trip_type)
+    public function update(TripTypeFormRequest $request, TripType $trip_type)
     {
-        if($trip_type)
-        {
-        $trip_type->update([
-            'name' => $request->name ? $request->name : $trip_type->name,
-        ]);
+        $validated = $request->validated();
         
-        $trip_type ->save();
+        if($trip_type){
+            $trip_type->update($validated);
+            $trip_type->save();
         }
-
-        return redirect()->route ('trip_types.index')->with('success','Trip Type Has Been updated successfully');
-  
+        return redirect()->route ('settings.trip_types.index')->with('success','Trip Type Has Been updated successfully');
     }
 
     /**
@@ -100,8 +93,6 @@ class TripTypeController extends Controller
     public function destroy(TripType $trip_type)
     {
         $trip_type->delete();
-    
-        return redirect()->route('trip_types.index')->with('success','Trip Type has been deleted successfully');
-
+        return redirect()->route('settings.trip_types.index')->with('success','Trip Type has been deleted successfully');
     }
 }

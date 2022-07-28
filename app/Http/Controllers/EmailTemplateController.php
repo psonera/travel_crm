@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Http\Requests\EmailTemplateFormRequest;
 
 class EmailTemplateController extends Controller
 {
@@ -32,16 +33,14 @@ class EmailTemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EmailTemplateFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmailTemplateFormRequest $request)
     {
-        $request->validate([
-            'name'=> 'required', 
-        ]);
-
-        EmailTemplate::create($request->all());
+        $validated = $request->validated();
+      
+        EmailTemplate::create($validated);
 
         return redirect()->route('settings.email_templates.index')->with('success','Email Template has been created successfully.');
     }
@@ -49,7 +48,7 @@ class EmailTemplateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,7 +59,7 @@ class EmailTemplateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
     public function edit(EmailTemplate $email_template)
@@ -71,36 +70,30 @@ class EmailTemplateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  EmailTemplateFormRequest  $request
+     * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,EmailTemplate $email_template)
+    public function update(EmailTemplateFormRequest $request,EmailTemplate $email_template)
     {
-        if($email_template)
-        {
-        $email_template->update([
-            'name' => $request->name ? $request->name : $email_template->name,
-            'subject' => $request->subject ? $request->subject : $email_template->subject,
-            'content' => $request->content ? $request->content : $email_template->content,
-        ]);
+        $validated = $request->validated();
         
-        $email_template ->save();
+        if($email_template){
+            $email_template->update($validated);
+            $email_template->save();
         }
-
         return redirect()->route ('settings.email_templates.index')->with('success','Email Template Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
     public function destroy(EmailTemplate $email_template)
     {
         $email_template->delete();
-    
         return redirect()->route('settings.email_templates.index')->with('success','Email Template has been deleted successfully');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductFormRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Validation\Validator;
 
 class ProductController extends Controller
 {
@@ -33,29 +33,21 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ProductFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductFormRequest $request)
     {
-        $request->validate([
-            'sku'=> 'required|max:10|alpha_num', 
-            'name'=> 'required', 
-            'description'=> 'required', 
-            'quantity'=> 'required', 
-            'price'=> 'required', 
-        ]);
-
-        Product::create($request->all());
+        $validated = $request->validated();
+        Product::create($validated);
 
         return redirect()->route('products.index')->with('success','Product has been created successfully.');
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -77,33 +69,25 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ProductFormRequest  $request
      * @param  Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Product $product)
+    public function update(ProductFormRequest $request,Product $product)
     {
-        if($product)
-        {
-        $product->update([
-            'sku' => $request->sku ? $request->sku : $product->sku,
-            'name' => $request->name ? $request->name : $product->name,
-            'description' => $request->description ? $request->description : $product->description,
-            'price' => $request->price ? $request->price : $product->price,
-            'quantity' => $request->quantity ? $request->quantity : $product->quantity,
-        ]);
+        $validated = $request->validated();
         
-        $product ->save();
+        if($product){
+            $product->update($validated);
+            $product->save();
         }
-
         return redirect()->route ('products.index')->with('success','Product Has Been updated successfully');
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)

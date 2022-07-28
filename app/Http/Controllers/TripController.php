@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use Illuminate\Http\Request;
+use App\Http\Requests\TripFormRequest;
 
 class TripController extends Controller
 {
@@ -14,7 +15,7 @@ class TripController extends Controller
      */
     public function index()
     {
-        return view('trips.index',[
+        return view('settings.trips.index',[
             'trips' => Trip::latest()->paginate(10)
         ]);
     }
@@ -26,38 +27,27 @@ class TripController extends Controller
      */
     public function create()
     {
-        return view('trips.create');
+        return view('settings.trips.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  TripFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TripFormRequest $request)
     {
-        $request->validate([
-            'title'=> 'required', 
-            'description'=> 'required', 
-            'location'=> 'required', 
-            'start_date'=> 'required', 
-            'end_date'=> 'required', 
-            'batch_size'=> 'required',
-            'price'=> 'required',
-            'trip_type_id'=> 'required',
-        ]);
-        
-        $trip = Trip::create($request->all());
+        $validated = $request->validated();
+        Trip::create($validated);
 
-        return redirect()->route('trips.index')->with('Trip created successfully');
-        
+        return redirect()->route('settings.trips.index')->with('Trip created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Trip $trip
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -73,50 +63,36 @@ class TripController extends Controller
      */
     public function edit(Trip $trip)
     { 
-        return view('trips.edit', compact('trip'));
+        return view('settings.trips.edit', compact('trip'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  TripFormRequest  $request
      * @param  Trip $trip
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Trip $trip)
+    public function update(TripFormRequest $request, Trip $trip)
     {   
-        if($trip)
-        {
-        $trip->update([
-            'name' => $request->name ? $request->name : $trip->name,
-            'title'=> $request->title ? $request->title : $trip->title, 
-            'description'=> $request->description ? $request->description : $trip->description, 
-            'location'=> $request->location ? $request->location : $trip->location, 
-            'start_date'=> $request->start_date ? $request->start_date : $trip->start_date, 
-            'end_date'=> $request->end_date ? $request->end_date : $trip->end_date, 
-            'batch_size'=> $request->batch_size ? $request->batch_size : $trip->batch_size,
-            'price'=> $request->price ? $request->price : $trip->price,
-            'trip_type_id'=> $request->trip_type_id ? $request->trip_type_id : $trip->trip_type_id,
-        ]);
-        
+        $validated = $request->validated();
+        if($trip){
+            $trip->update($validated);
             $trip->save();
         }
-
-        return redirect()->route ('trips.index')->with('success','Trip has been updated successfully.');;
-    
+        return redirect()->route ('settings.trips.index')->with('success','Trip has been updated successfully.');;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Trip $trip
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Trip $trip)
     {
-        $trip = Trip::find($id);
         $trip->delete();
     
-        return redirect()->route('trips.index');
+        return redirect()->route('settings.trips.index');
     }
 }
