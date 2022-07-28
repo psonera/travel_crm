@@ -21,8 +21,8 @@
     <link href="/css/styles.css?v=1.0.2" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
-        type='text/css' />
+    {{-- <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
+        type='text/css' /> --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
@@ -37,13 +37,13 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
-    </script>
+    {{-- <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
+    </script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-    <script type="module">
-        import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
-    </script>
+    {{-- <script type="module">
+        // import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
+    </script> --}}
 
     @livewireStyles
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
@@ -84,8 +84,8 @@
 
     @livewireScripts
 
-    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-        data-turbolinks-eval="false" data-turbo-eval="false"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
+        data-turbolinks-eval="false" data-turbo-eval="false"></script> --}}
 
     @stack('scripts')
 
@@ -101,19 +101,19 @@
     @endif
 
     <script>
-        $(document).ready(function() {
-            let editor = new FroalaEditor('#description', {
-                saveParam: 'description',
-                saveURL: '/leads/create/store',
-                saveMethod: 'POST',
-                heightMin: 200,
-                heightMax: 200
-            });
+        // $(document).ready(function() {
+        //     let editor = new FroalaEditor('#description', {
+        //         saveParam: 'description',
+        //         saveURL: '/leads/create/store',
+        //         saveMethod: 'POST',
+        //         heightMin: 200,
+        //         heightMax: 200
+        //     });
 
-            $('#saveButton').on("click", function() {
-                editor.save.save();
-            })
-        });
+        //     $('#saveButton').on("click", function() {
+        //         editor.save.save();
+        //     })
+        // });
 
         /* Simple Alpine Image Viewer */
         document.addEventListener('alpine:init', () => {

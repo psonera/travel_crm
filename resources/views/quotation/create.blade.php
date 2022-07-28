@@ -109,17 +109,18 @@
                                     <table class="table-auto">
                                         <thead>
                                             <tr>
+
                                                 <th>Name</th>
                                                 <th>Quntity</th>
                                                 <th>Price</th>
-
                                                 <th>Total</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            <tr class="itemrow"><td><input type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td></tr>
+
+                                            <tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td></tr>
 
                                         </tbody>
                                     </table>
@@ -176,6 +177,7 @@
                     var subtotal = 0;
                     var discount = d;
                     var tax = t;
+                    console.log(d+"---------"+t);
                     var grandtotal = Number(0);
                     $("#discount").val(discount);
                     $("#tax").val(tax);
@@ -189,12 +191,12 @@
                     $("#subtotal").val(subtotal);
                     discount = $("#discount").val();
                     tax = $("#tax").val();
-                    console.log("dis--->"+discount);
+
 
 
 
                     if(discount!=0){
-                        console.log(subtotal);
+
                         var dam = parseFloat(discount);
                         console.log(dam);
                         subtotal = Number(subtotal) - (parseFloat(discount/100)*Number(subtotal))
@@ -203,27 +205,49 @@
                         subtotal = parseFloat(subtotal);
                     }
 
-                    if(isNaN(subtotal)){
-                        console.log('yes');
-                    }
-
                     if(tax!=0){
                         subtotal = Number(subtotal) + (parseFloat(subtotal)*parseFloat(tax/100))
                         $("#grandtotal").val(Number(subtotal));
                     }
-                    $("#grandtotal").val(Number(subtotal));
+                    $("#grandtotal").val(Number(subtotal.toFixed(2)));
                 }
                 final();
 
                 $('#addmore').click(function(event){
                     event.preventDefault();
-                    $('tbody').append('<tr class="itemrow"><td><input type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input name="total[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td><span class="button  bg-red-600 deleteitem">delete</span></td></tr>');
+                    $('tbody').append('<tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name="total[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td><span class="button  bg-red-600 deleteitem">delete</span></td></tr>');
                 });
 
                 $(document).on('click','.deleteitem',function(e){
                     e.preventDefault();
                     $(this).parents('tr').remove();
+                    discount = $('#discount').val();
+                    tax = $("#tax").val();
+                    console.log("d-->"+discount+" tax-->"+tax);
+                    final(discount,tax);
+
                 });
+
+
+                $('#discount').keyup(function(){
+                    di = $(this).val();
+                    tax = $("#tax").val();
+                    final(di,tax);
+                });
+                $('#tax').keyup(function(){
+                    tax = $(this).val();
+                    di = $("#discount").val();
+                    final(di,tax);
+                });
+
+                $(document).on('keyup','.itemquntity input',function(){
+                    var q = $(this).val();
+                    var p = $(this).parents('tr').find('.itemprice').find('input').val();
+                    $(this).parents('tr').find('.itemtotal').find('input').val(parseFloat(p)*parseFloat(q));
+                    tax = $("#tax").val();
+                    di = $("#discount").val();
+                    final(di,tax);
+                })
 
                 $(document).on("click",".itemname",function(){
                     var x = this;
@@ -255,9 +279,11 @@
                             console.log(ui.item.quntity)
                             console.log(ui.item.price)
                             console.log(ui.item.total)
+                            console.log(ui.item.value)
                             $(x).parents('tr').find('.itemquntity').find('input').val(ui.item.quntity)
                             $(x).parents('tr').find('.itemprice').find('input').val(ui.item.price)
                             $(x).parents('tr').find('.itemtotal').find('input').val(ui.item.total)
+                            $(x).parents('tr').find('.itemsid').find('input').val(ui.item.value)
                             discount = $('#discount').val();
                             tax = $("#tax").val();
                             final(discount,tax);
