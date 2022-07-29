@@ -40,7 +40,7 @@
                             <div class="mb-4">
                                 <x-inputs.select name="lead_source_id" label="{{ __('Source') }}" required>
                                     <option value="">-- Select Lead Source --</option>
-                                    @foreach (App\Models\LeadSource::all() as $source)
+                                    @foreach ($sources as $source)
                                         <option value="{{ $source->id }}">{{ $source->name }}</option>
                                     @endforeach
                                 </x-inputs.select>
@@ -52,7 +52,7 @@
                             <div class="mb-4">
                                 <x-inputs.select name="lead_type_id" label="{{ __('Type') }}" required>
                                     <option value="">-- Select Lead Type --</option>
-                                    @foreach (App\Models\LeadType::all() as $type)
+                                    @foreach ($types as $type)
                                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                                     @endforeach
                                 </x-inputs.select>
@@ -64,7 +64,7 @@
                             <div class="mb-4">
                                 <x-inputs.select name="lead_manager_id" label="{{ __('Lead Manager') }}" required>
                                     <option value="">-- Select Lead Manager --</option>
-                                    @foreach (App\Models\LeadManager::all() as $manager)
+                                    @foreach ($managers as $manager)
                                         <option value="{{ $manager->id }}">{{ $manager->name }}</option>
                                     @endforeach
                                 </x-inputs.select>
@@ -113,10 +113,7 @@
 
                         <fieldset class="border border-solid border-gray-300 p-6 mt-12">
                             <legend class="text-xl pl-4 pr-4">Products</legend>
-                            <div id="add_product_form"></div>
-                            <button class="font-bold text-center text-blue-500" type="button" id="add_product">+ Add
-                                Product</button>
-
+                            @livewire('search-product')
                         </fieldset>
 
                         <div class="text-center">

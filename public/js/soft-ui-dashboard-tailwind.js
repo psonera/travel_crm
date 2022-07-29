@@ -17,53 +17,33 @@
 */
 var page = window.location.pathname.split("/").pop().split(".")[0];
 var aux = window.location.pathname.split("/");
-var to_build = (aux.includes('pages')?'/':'/');
+var to_build = (aux.includes('pages') ? '/' : '/');
 var root = window.location.pathname.split("/")
 if (!aux.includes("pages")) {
-  page = "dashboard";
-}
-
-loadStylesheet(to_build + "admin_css/perfect-scrollbar.css");
-loadJS(to_build + "admin_js/perfect-scrollbar.js", true);
-
-if (page != "sign-in" && page != "sign-up") {
-  loadJS(to_build + "admin_js/fixed-plugin.js", true);
-  loadJS(to_build + "admin_js/sidenav-burger.js", true);
-  loadJS(to_build + "admin_js/dropdown.js", true);
-  if (page != "profile") {
-    loadJS(to_build + "admin_js/navbar-sticky.js", true);
-  } else {
-    loadJS(to_build + "admin_js/nav-pills.js", true);
-  }
-  if (page != "tables") {
-    loadJS(to_build + "admin_js/tooltips.js", true);
-    loadStylesheet(to_build + "admin_css/tooltips.css");
-  }
-} else {
-  loadJS(to_build + "admin_js/navbar-collapse.js", true);
+    page = "dashboard";
 }
 
 if (document.querySelector("canvas")) {
-  loadJS(to_build + "admin_js/chart-1.js", true);
-  loadJS(to_build + "admin_js/chart-2.js", true);
+    loadJS(to_build + "js/chart-1.js", true);
+    loadJS(to_build + "js/chart-2.js", true);
 }
 
 function loadJS(FILE_URL, async) {
-  let dynamicScript = document.createElement("script");
+    let dynamicScript = document.createElement("script");
 
-  dynamicScript.setAttribute("src", FILE_URL);
-  dynamicScript.setAttribute("type", "text/javascript");
-  dynamicScript.setAttribute("async", async);
+    dynamicScript.setAttribute("src", FILE_URL);
+    dynamicScript.setAttribute("type", "text/javascript");
+    dynamicScript.setAttribute("async", async);
 
-  document.head.appendChild(dynamicScript);
+    document.head.appendChild(dynamicScript);
 }
 
 function loadStylesheet(FILE_URL) {
-  let dynamicStylesheet = document.createElement("link");
+    let dynamicStylesheet = document.createElement("link");
 
-  dynamicStylesheet.setAttribute("href", FILE_URL);
-  dynamicStylesheet.setAttribute("type", "text/css");
-  dynamicStylesheet.setAttribute("rel", "stylesheet");
+    dynamicStylesheet.setAttribute("href", FILE_URL);
+    dynamicStylesheet.setAttribute("type", "text/css");
+    dynamicStylesheet.setAttribute("rel", "stylesheet");
 
-  document.head.appendChild(dynamicStylesheet);
+    document.head.appendChild(dynamicStylesheet);
 }

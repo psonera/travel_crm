@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\LeadManager;
 use App\Models\LeadPipelineStage;
+use App\Models\LeadSource;
+use App\Models\LeadType;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -25,7 +28,11 @@ class LeadController extends Controller
 
     public function create(): View
     {
-        return view('leads.create');
+        return view('leads.create',[
+            'sources' => LeadSource::all(),
+            'types' => LeadType::all(),
+            'managers' => LeadManager::all()
+        ]);
     }
 
     public function show(Lead $lead): View

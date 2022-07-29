@@ -24,7 +24,7 @@
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' />
 
-        <link rel="icon" type="image/png" href="./img/favicon.png">
+    <link rel="icon" type="image/png" href="./img/favicon.png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -89,7 +89,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-
+    @yield('page_scripts')
     @if (session()->has('success'))
         <script>
             const notyf = new Notyf({
@@ -100,20 +100,6 @@
     @endif
 
     <script>
-        $(document).ready(function() {
-            let editor = new FroalaEditor('#description', {
-                saveParam: 'description',
-                saveURL: '/leads/create/store',
-                saveMethod: 'POST',
-                heightMin: 200,
-                heightMax: 200
-            });
-
-            $('#saveButton').on("click", function() {
-                editor.save.save();
-            })
-        });
-
         /* Simple Alpine Image Viewer */
         document.addEventListener('alpine:init', () => {
             Alpine.data('imageViewer', (src = '') => {

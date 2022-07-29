@@ -33,16 +33,16 @@
                     <span
                         class="bg-opacity-30 text-green-500 bg-green-100 flex font-semibold h-5 items-center justify-center ml-2 p-4 ml-auto rounded text-lg w-5">{{ count($stage->leads) }}</span>
                 </div>
-                <div class="flex flex-col pb-2 overflow-auto">
+                <div class="flex flex-col pb-2 overflow-auto dropzone">
                     @forelse ($stage->leads as $lead)
-                        <div class="border-2 relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100"
-                            draggable="true">
+                        <div class="lead border-2 relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100"
+                            >
                             <span
                                 class="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full">{{ $stage->name }}</span>
                             <h4 class="mt-3 text-sm font-medium">{{ $lead->title }}</h4>
                         </div>
                     @empty
-                        <div class="mb-4 ml-auto mr-auto mt-4 text-black-500 text-center">
+                        <div class="mb-4 ml-auto mr-auto mt-4 text-black-500 text-center empty-block">
                             <img src="./img/no_data.svg" class="text-center h-50 w-50 ml-auto mr-auto mb-8"
                                 height="150" width="150" alt="No Data" />
                             <p class="text-2xl">No lead found!</p>
@@ -53,4 +53,58 @@
         @endforeach
         <div class="flex-shrink-0 w-6"></div>
     </div>
+    <script>
+        let task
+
+        const dragStart = (event) => {
+            event.target.className += ' hold';
+            task = event.target;
+            setTimeout(() => (event.target.className = 'invisible'), 0);
+        }
+
+        const dragEnd = (event) => {
+            event.target.className = 'lead fill';
+        }
+        const dropzones = document.querySelectorAll('.dropzone');
+
+        const dragEnter = (event) => {
+            event.preventDefault();
+            if (event.target.className === "dropzone") {
+                event.target.className += ' hovered';
+            }
+        }
+
+        const dragOver = (event) => {
+            event.preventDefault();
+
+        }
+
+        const dragLeave = (event) => {
+            if (event.target.className === "dropzone hovered") {
+                event.target.className = "dropzone"
+            }
+        }
+
+        const dragDrop = (event) => {
+            if (event.target.className === "dropzone hovered") {
+                event.target.className = "dropzone"
+            }
+            event.target.append(task);
+        }
+
+        for (const dropzone of dropzones) {
+            dropzone.addEventListener('dragenter', dragEnter);
+            dropzone.addEventListener('dragover', dragOver);
+            dropzone.addEventListener('dragleave', dragLeave);
+            dropzone.addEventListener('drop', dragDrop);
+        }
+
+        var leads = document.querySelectorAll('.lead');
+        leads.forEach(function(lead) {
+            lead.classList.add('fill');
+            lead.setAttribute("draggable", "true");
+            lead.addEventListener('dragstart', dragStart);
+            lead.addEventListener('dragend', dragEnd);
+        })
+    </script>
 </x-app-layout>

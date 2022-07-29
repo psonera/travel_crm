@@ -146,13 +146,13 @@
                 </a>
             </li>
 
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">Account pages</h6>
+            <li class="w-full mt-4 mb-2">
+                <h6 class="pl-6 ml-2 font-bold leading-tight uppercase text-size-lg text-black opacity-60">Account pages</h6>
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/profile">
-                    <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <a class="{{ (request()->is('profile/*') || request()->is('profile')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap" href="{{ route('leads.index') }}">
+                    <div class="{{ (request()->is('profile/*') || request()->is('profile')) ? 'bg-gradient-orange' : ''}} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>customer-support</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -168,11 +168,11 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Profile</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">My Profile</span>
                 </a>
             </li>
 
-            <li class="mt-0.5 w-full">
+            {{-- <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/sign-in">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -191,11 +191,11 @@
                     </div>
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign In</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/admin/logout">
-                    <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <a class="{{ (request()->is('logout')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap" href="{{ route('logout') }}">
+                    <div class="{{ (request()->is('logout')) ? 'bg-gradient-orange' : ''}} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>spaceship</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
