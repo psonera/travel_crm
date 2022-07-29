@@ -151,7 +151,7 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="{{ (request()->is('profile/*') || request()->is('profile')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap" href="{{ route('leads.index') }}">
+                <a class="{{ (request()->is('profile/*') || request()->is('profile')) ? 'shadow-soft-xl bg-white font-semibold' : ''}} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap" href="{{ route('settings.users.edit',Auth::user()) }}">
                     <div class="{{ (request()->is('profile/*') || request()->is('profile')) ? 'bg-gradient-orange' : ''}} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>customer-support</title>

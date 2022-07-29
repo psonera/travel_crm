@@ -218,3 +218,42 @@ Breadcrumbs::for('settings.accomodations.edit', function (BreadcrumbTrail $trail
 });
 
 
+// ----------------------------------------------------------------
+
+// Settings / Roles
+Breadcrumbs::for('settings.roles.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Roles', route('settings.roles.index'));
+});
+
+// Settings / Roles / Create role
+Breadcrumbs::for('settings.roles.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.roles.index');
+    $trail->push('Create Role', route('settings.roles.create'));
+});
+
+// Settings / Roles / Edit Role
+Breadcrumbs::for('settings.roles.edit', function (BreadcrumbTrail $trail, $role) {
+    $trail->parent('settings.roles.index');
+    $trail->push('Edit Role', route('settings.roles.edit',$role));
+});
+
+
+
+// Settings / Users
+Breadcrumbs::for('settings.users.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Users', route('settings.users.index'));
+});
+
+// Settings / Users / Create User
+Breadcrumbs::for('settings.users.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.users.index');
+    $trail->push('Create user', route('settings.users.create'));
+});
+
+// Settings / Users / Edit User
+Breadcrumbs::for('settings.users.edit', function (BreadcrumbTrail $trail, $user) {
+    $trail->parent('settings.users.index');
+    $trail->push('Edit User', route('settings.users.edit',$user));
+});

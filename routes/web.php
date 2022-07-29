@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LeadTypeController;
 use App\Http\Controllers\TripTypeController;
@@ -122,6 +123,11 @@ Route::group(['middleware' => ['auth']], function(){
         // Accomodation Routes
         Route::resource('accomodations',AccomodationController::class);
 
+        // Role Routes
+        Route::resource('roles',RoleController::class);
+
+        // User Routes
+        Route::resource('users',UserController::class);
     });
 
     Route::get('/test_session', function(){ return view('test.test_session'); });

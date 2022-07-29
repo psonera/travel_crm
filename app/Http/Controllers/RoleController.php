@@ -20,7 +20,7 @@ class RoleController extends Controller {
         $search = $request->get('search', '');
         $roles = Role::where('name', 'like', "%{$search}%")->paginate(10);
 
-        return view('app.roles.index')
+        return view('app.settings.roles.index')
             ->with('roles', $roles)
             ->with('search', $search);
     }
@@ -36,7 +36,7 @@ class RoleController extends Controller {
 
         $permissions = Permission::all();
 
-        return view('app.roles.create')->with('permissions', $permissions);
+        return view('app.settings.roles.create')->with('permissions', $permissions);
     }
 
     /**
@@ -64,7 +64,7 @@ class RoleController extends Controller {
         $role->syncPermissions($permissions);
 
         return redirect()
-            ->route('roles.edit', $role->id)
+            ->route('settings.roles.edit', $role->id)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -78,7 +78,7 @@ class RoleController extends Controller {
     {
         $this->authorize('view', Role::class);
 
-        return view('app.roles.show')->with('role', $role);
+        return view('app.settings.roles.show')->with('role', $role);
     }
 
     /**
@@ -93,7 +93,7 @@ class RoleController extends Controller {
 
         $permissions = Permission::all();
 
-        return view('app.roles.edit')
+        return view('app.settings.roles.edit')
             ->with('role', $role)
             ->with('permissions', $permissions);
     }
@@ -124,7 +124,7 @@ class RoleController extends Controller {
         $role->syncPermissions($permissions);
 
         return redirect()
-            ->route('roles.edit', $role->id)
+            ->route('settings.roles.edit', $role->id)
             ->withSuccess(__('crud.common.saved'));
     }
 
@@ -141,7 +141,7 @@ class RoleController extends Controller {
         $role->delete();
 
         return redirect()
-            ->route('roles.index')
+            ->route('settings.roles.index')
             ->withSuccess(__('crud.common.removed'));
     }
 }

@@ -3,8 +3,8 @@
         <div class="flex-none w-full max-w-full px-3">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">All Lead Type</h2>
-                    <a href="{{ route('settings.lead_types.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Lead Type</a>
+                    <h2 class="text-3xl font-bold">All Role</h2>
+                    <a href="{{ route('settings.roles.create') }}" class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white">+ Add New Role</a>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="p-0 overflow-x-auto">
@@ -19,6 +19,9 @@
                                         Name</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        Guard Name</th>
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Created At</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
@@ -26,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($lead_types as $index => $lead_type)
+                                @foreach ($roles as $index => $role)
                                     <tr>
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -36,15 +39,19 @@
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $lead_type->name }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $role->name }}</p>
+                                        </td>
+                                        <td
+                                            class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
+                                            <p class="mb-0 leading-tight text-slate-400">{{ $role->guard_name }}</p>
                                         </td>
                                
                                         <td
                                             class="p-2 leading-normal text-left align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($lead_type->created_at)); }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($role->created_at)); }}</p>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="{{ route('settings.lead_types.edit', $lead_type) }}"
+                                            <a href="{{ route('settings.roles.edit', $role) }}"
                                             class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit
                                         </a>
                                             <a onclick="toggleModal()"
@@ -91,7 +98,7 @@
                                                 sure you want to delete this Lead Type?</h3>
                                             
                                                 
-                                             <form id="delete-frm" class="DELETE" action="{{ route('settings.lead_types.destroy',  $lead_type) }}" method="POST">
+                                             <form id="delete-frm" class="DELETE" action="{{ route('settings.roles.destroy',  $role) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf                                             
                                             <button id="delete-frm" data-modal-toggle="popup-modal" type="submit" 
