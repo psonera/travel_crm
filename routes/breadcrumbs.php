@@ -257,3 +257,55 @@ Breadcrumbs::for('settings.users.edit', function (BreadcrumbTrail $trail, $user)
     $trail->parent('settings.users.index');
     $trail->push('Edit User', route('settings.users.edit',$user));
 });
+
+
+
+// Dashboard / Mails
+Breadcrumbs::for('mails.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Mail', route('mails.index'));
+});
+
+// Dashboard / Mails  / Inbox
+Breadcrumbs::for('mails.inbox', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Inbox', route('mails.inbox'));
+});
+
+// Dashboard / Mails /Compose
+Breadcrumbs::for('mails.compose', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Compose Mail', route('mails.compose'));
+});
+
+// Dashboard / Mails  / Sent
+Breadcrumbs::for('mails.sent', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Sent', route('mails.sent'));
+});
+
+// Dashboard / Mails  / Draft
+Breadcrumbs::for('mails.draft', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Draft', route('mails.draft'));
+});
+
+// Dashboard / Mails  / Outbox
+Breadcrumbs::for('mails.outbox', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Outbox', route('mails.outbox'));
+});
+
+// Dashboard / Mails  / Trash
+Breadcrumbs::for('mails.trash', function (BreadcrumbTrail $trail) {
+    $trail->parent('mails.index');
+    $trail->push('Trash', route('mails.trash'));
+});
+
+
+// Dashboard / Profile / Edit Profile
+Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail,$user) {
+    $trail->parent('dashboard');
+    $trail->push('Edit Profile', route('profile.edit',$user));
+});
+

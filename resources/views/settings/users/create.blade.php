@@ -7,11 +7,17 @@
                     
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('settings.users.store') }}">  
+                    <form role="form" method="POST" action="{{ route('settings.users.store') }}"
+                     {{-- enctype="multipart/form-data" --}}
+                     >  
                         @csrf
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
-                            
+                          
+                            {{-- <div class="mb-4">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="profile_image">Upload Profile Photo</label>
+                                <input type="file" name="profile_image" id="profile_image" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">    
+                            </div> --}}
                             <div class="mb-4">
                                 <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}" required autocomplete="name" autofocus />
                             </div>
@@ -61,7 +67,7 @@
                         
                         <div class="text-center">
                             <button type="submit"
-                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">Add Product</button>
+                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">Add User</button>
                         </div>
                     </form>
                 </div>

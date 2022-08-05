@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
-use Laravel\Sanctum\HasApiTokens;
 use App\Models\Scopes\Searchable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasRoles;
     use Notifiable;
     use HasFactory;
     use Searchable;
     use HasApiTokens;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'email', 'password', 'status'];
 

@@ -92,7 +92,6 @@ class TripController extends Controller
     public function destroy(Trip $trip)
     {
         $trip->delete();
-    
-        return redirect()->route('settings.trips.index');
+        return redirect()->route('settings.trips.index')->with('success','Trip has been deleted successfully');;
     }
 }

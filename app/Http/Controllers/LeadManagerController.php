@@ -41,9 +41,15 @@ class LeadManagerController extends Controller
         $validated = $request->validated();
         
         $lead_manager = LeadManager::create($validated);
-        
+      
+        if($request->manager_image == true){
+            $lead_manager->addMedia($request->manager_image)
+                ->preservingOriginal()
+                ->toMediaCollection('manager_image');
+        }
+
         $lead_manager->assignRole('Lead Manager');
-        
+
         return redirect()->route('lead_managers.index')->with('success','Lead Manager has been created successfully.');;
     }
 
@@ -82,6 +88,13 @@ class LeadManagerController extends Controller
         
         if($lead_manager){
             $lead_manager->update($validated);
+
+            if($request->manager_image == true){
+                $lead_manager->addMedia($request->manager_image)
+                    ->preservingOriginal()
+                    ->toMediaCollection('manager_image');
+            }
+    
             $lead_manager->save();
         }
         return redirect()->route ('lead_managers.index')->with('success','Lead Manager has been updated successfully.');;
@@ -90,12 +103,16 @@ class LeadManagerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  LeadManager  $lead_manager
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LeadManager  $lead_manager)
+    public function destroy($id)
     {
-        $lead_manager->delete();    
-        return redirect()->route('lead_managers.index');
+        $lead_manager = LeadManager::findOrFail($id);
+        $lead_manager->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
+
     }
 }

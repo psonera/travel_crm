@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash as FacadesHash;
+use Database\Seeders\AccomodationSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 'password' => FacadesHash::make('admin'),
             ]);
             $this->call(PermissionsSeeder::class);
+            $this->call(AccomodationSeeder::class);
             $this->call(ActivitySeeder::class);
             $this->call(ActivityParticipantSeeder::class);
             $this->call(EmailTemplateSeeder::class);

@@ -27,8 +27,8 @@ class TripFormRequest extends FormRequest
             'title'=> 'required|string|max:25', 
             'description'=> 'required|string|max:255', 
             'location'=> 'required|string|max:100', 
-            'start_date'=> 'required|date_format', 
-            'end_date'=> 'required|date_format', 
+            'start_date'=> 'required|date', 
+            'end_date'=> 'required|date', 
             'batch_size'=> 'required|numeric',
             'price'=> 'required|numeric',
             'trip_type_id'=> 'required'

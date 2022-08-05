@@ -5,15 +5,20 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">Edit Role</h2>
+                    <h2 class="text-3xl font-bold">Edit User</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('settings.users.update',$user) }}">
+                    <form role="form" method="POST" action="{{ route('settings.users.update',$user) }}" enctype="multipart/form-data">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf   
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
+                            <div class="mb-4">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="profile_image">Upload Profile Photo</label>
+                                <input type="file" name="profile_image" id="profile_image" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">    
+                            </div>
+
                             <div class="mb-4">
                                 <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $user->name }}" autocomplete="name" autofocus />
                             </div>

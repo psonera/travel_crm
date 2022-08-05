@@ -53,7 +53,10 @@ class EmailTemplateController extends Controller
      */
     public function show($id)
     {
-        //
+        $email_template = EmailTemplate::findOrFail($id);
+        return response()->json([
+            'email' => $email_template
+        ]);
     }
 
     /**
@@ -88,12 +91,15 @@ class EmailTemplateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  EmailTemplate $email_template
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EmailTemplate $email_template)
+    public function destroy($id)
     {
-        $email_template->delete();
-        return redirect()->route('settings.email_templates.index')->with('success','Email Template has been deleted successfully');
+        $email_template = EmailTemplate::findOrFail($id);
+        $email_template->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

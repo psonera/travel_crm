@@ -102,6 +102,19 @@
             </li>
 
             <li class="mt-0.5 w-full">
+                <a class="{{ request()->is('mails/*') || request()->is('mails') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"
+                    href="{{ route('mails.index') }}">
+                    <div
+                        class="{{ request()->is('mails/*') || request()->is('mails') ? 'bg-gradient-orange' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                        <div class="text-slate-800">
+                            <i class="fa fa-envelope fa-xs" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Mails</span>
+                </a>
+            </li>    
+
+            <li class="mt-0.5 w-full">
                 <a class="{{ request()->is('products/*') || request()->is('products') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"
                     href="{{ route('products.index') }}">
                     <div

@@ -48,12 +48,17 @@ class UserController extends Controller
             'status'=> ['required'],
         ]);
 
-        User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'status' => $request['status'],
+            $user = User::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+                'status' => $request['status'],
         ]);
+        if($request->profile_image == true){
+            $user->addMedia($request->profile_image)
+                ->preservingOriginal()
+                ->toMediaCollection('profile_image');
+        }
 
         return redirect()->route('settings.users.index')->with('success','User has been created successfully.');
 
@@ -105,8 +110,12 @@ class UserController extends Controller
                 'password' => $request->password ? Hash::make($request->password) : $user->password ,
                 'status' => $request->status ? $request->status : $user->status
             ]);
+            if($request->profile_image == true){
+                $user->addMedia($request->profile_image)
+                    ->preservingOriginal()
+                    ->toMediaCollection('profile_image');
+            }
         }
-
         return redirect()->route('settings.users.index')->with('success','User has been updated successfully.'); 
     }
 

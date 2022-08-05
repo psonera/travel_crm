@@ -27,7 +27,8 @@ class LeadManagerFormRequest extends FormRequest
             'name'=> 'required|max:30|string', 
             'email'=> 'required|email', 
             'contact_number'=> 'required|numeric', 
-            'lead_source_id'=> 'required', 
+            'lead_source_id'=> 'required',
+            'manager_image' => 'image', 
         ];
     }
 

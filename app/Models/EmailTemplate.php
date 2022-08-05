@@ -16,4 +16,9 @@ class EmailTemplate extends Model
     protected $searchableFields = ['*'];
 
     protected $table = 'email_templates';
+
+    public function email()
+    {
+        return $this->belongsToMany(Email::class);
+    }
 }

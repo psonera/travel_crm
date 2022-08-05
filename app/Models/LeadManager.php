@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Models\Scopes\Searchable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class LeadManager extends Model 
+class LeadManager extends Model implements HasMedia
 {
-    use HasFactory,Searchable,HasRoles;
+    use HasFactory,Searchable,HasRoles,InteractsWithMedia;
 
     protected $fillable = ['name', 'email', 'contact_number', 'lead_source_id'];
 

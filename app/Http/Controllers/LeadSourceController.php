@@ -87,10 +87,10 @@ class LeadSourceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  LeadSource $lead_source
+     * @param  
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LeadSource $lead_source)
+    public function destroy($id)
     {
         $lead_source->delete();
         return redirect()->route('settings.lead_sources.index')->with('success','Lead Source has been deleted successfully');

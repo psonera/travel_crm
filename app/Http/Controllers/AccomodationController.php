@@ -88,12 +88,16 @@ class AccomodationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Accomodation $accomodation
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Accomodation $accomodation)
+    public function destroy($id)
     {
-        $accomodation->delete();
-        return redirect()->route('settings.accomodations.index')->with('success', 'Accomodation has been deleted successfully');
+        $accomodation = Accomodation::findOrFail($id);
+        $accomodation->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
+
     }
 }

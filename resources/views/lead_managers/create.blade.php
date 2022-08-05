@@ -7,7 +7,7 @@
                     
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('lead_managers.store') }}">
+                    <form role="form" method="POST" action="{{ route('lead_managers.store') }}" enctype="multipart/form-data">
                         @csrf
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
@@ -33,10 +33,11 @@
                             @enderror
 
                             <div class="mb-4">
+                               
                                 <x-inputs.select name="lead_source_id" label="{{ __('Source') }}" required>
                                     <option value="">-- Select Lead Source --</option>
                                     @foreach (App\Models\LeadSource::all() as $source)
-                                        <option value="{{ $source->id }}">{{ $source->name }}</option>
+                                    <option value="{{ $source->id }}">{{ $source->name }}</option>
                                     @endforeach
                                 </x-inputs.select>
                             </div>
@@ -44,6 +45,10 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
+                            <div class="mb-4">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="manager_image">Upload Profile Photo</label>
+                                <input type="file" name="manager_image" id="manager_image" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">    
+                            </div>
                         </fieldset>
                         
                         <div class="text-center">

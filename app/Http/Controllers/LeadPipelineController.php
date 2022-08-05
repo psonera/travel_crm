@@ -16,7 +16,7 @@ class LeadPipelineController extends Controller
     public function index()
     {
         return view('settings.lead_pipelines.index',[
-            'lead_pipelines' => LeadPipeline::latest()->paginate(10)
+            'lead_pipelines' => LeadPipeline::latest()->paginate(50)
         ]);
     }
 
@@ -88,12 +88,15 @@ class LeadPipelineController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  LeadPipeline $lead_pipeline
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LeadPipeline $lead_pipeline)
+    public function destroy($id)
     {
-        $lead_pipeline->delete();    
-        return redirect()->route('settings.lead_pipelines.index')->with('success','Lead Pipeline has been deleted successfully');
+        $lead_pipeline = LeadPipeline::findOrFail($id);
+        $lead_pipeline->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
