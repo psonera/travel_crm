@@ -17,7 +17,6 @@ class Lead extends Model
         'lead_value',
         'status',
         'traveler_count',
-        'selected_trip_date',
         'user_id',
         'lead_manager_id',
         'lead_source_id',
@@ -76,10 +75,10 @@ class Lead extends Model
         return $this->hasMany(LeadProduct::class);
     }
 
-    public function leadStage()
-    {
-        return $this->belongsTo(LeadStage::class, 'lead_pipeline_stage_id');
-    }
+    // public function leadStage()
+    // {
+    //     return $this->belongsTo(LeadStage::class, 'lead_pipeline_stage_id');
+    // }
 
     public function trip()
     {

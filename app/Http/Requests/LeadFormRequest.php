@@ -13,23 +13,31 @@ class LeadFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
             'title' => 'required',
-            'description' => 'nullable|sometimes',
+            'description' => 'string',
             'lead_value' => 'required',
+            'traveler_count' => 'required',
+            'selected_trip_date' => 'date|nullable|sometimes',
+            'user_id' => 'required',
+            'lead_manager_id' => 'required',
             'lead_source_id' => 'required',
             'lead_type_id' => 'required',
-            'lead_manager_id' => 'required',
+            'lead_pipeline_stage_id' => 'required',
+            'trip_id' => 'required',
+            'trip_type_id' => 'required',
+            'accomodation_id' => 'required',
+            'transport_id' => 'required',
             'expected_closed_date' => 'date|nullable|sometimes',
         ];
     }

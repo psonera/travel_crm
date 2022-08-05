@@ -14,8 +14,14 @@ class TransportSeeder extends Seeder
      */
     public function run()
     {
-        Transport::factory()
-            ->count(5)
-            ->create();
+        collect([
+            ['name' =>'By Road'],
+            ['name' =>'By Railway'],
+            ['name' =>'By Air'],
+        ])->each(function($transport){
+            $transport = Transport::create([
+                'name' => $transport['name'],
+            ]);
+        });
     }
 }

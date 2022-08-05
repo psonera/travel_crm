@@ -60,11 +60,15 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/', 'index')->name('index');
             Route::get('view/{id}', 'show')->name('view');
             Route::get('create', 'create')->name('create');
-            Route::post('create/store', 'store')->name('store');
+            Route::post('store', 'store')->name('store');
             Route::get('edit/{id}', 'edit')->name('edit');
             Route::post('delete/{id}', 'destroy')->name('delete');
             Route::post('update/{id}', 'update')->name('update');
             Route::post('create/add_product', 'add_product')->name('add_product');
+            Route::post('create/find_lm', 'find_lm')->name('find_lm');
+            Route::post('create/find_prd', 'find_prd')->name('find_prd');
+            Route::post('create/find_trip', 'find_trip')->name('find_trip');
+            Route::post('change_status', 'change_status')->name('change_status');
         });
 
     // Roles & Permission Routes

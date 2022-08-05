@@ -14,8 +14,14 @@ class TripTypeSeeder extends Seeder
      */
     public function run()
     {
-        TripType::factory()
-            ->count(5)
-            ->create();
+        collect([
+            ['name' =>'Trekking'],
+            ['name' =>'Leisure'],
+            ['name' =>'Honeymoon'],
+        ])->each(function($trip_type){
+            $trip_type = TripType::create([
+                'name' => $trip_type['name'],
+            ]);
+        });
     }
 }

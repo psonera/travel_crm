@@ -24,7 +24,7 @@
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' />
 
-    <link rel="icon" type="image/png" href="./img/favicon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -40,6 +40,10 @@
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/14.0.0/jqwidgets/jqx-all.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
     <script type="module">
         import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
@@ -98,7 +102,7 @@
             notyf.success('{{ session('success') }}')
         </script>
     @endif
-
+{{-- 
     <script>
         /* Simple Alpine Image Viewer */
         document.addEventListener('alpine:init', () => {
@@ -126,7 +130,7 @@
                 }
             })
         })
-    </script>
+    </script> --}}
 </body>
 
 </html>

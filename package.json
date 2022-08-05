@@ -16,6 +16,7 @@
         "vite": "^2.9.11"
     },
     "dependencies": {
-        "handlebars": "^4.7.7"
+        "handlebars": "^4.7.7",
+        "jqwidgets-scripts": "^14.0.0"
     }
 }

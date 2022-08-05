@@ -14,8 +14,17 @@ class AccomodationSeeder extends Seeder
      */
     public function run()
     {
-        Accomodation::factory()
-            ->count(5)
-            ->create();
+        collect([
+            ['name' =>'Tent'],
+            ['name' =>'Swiss Tents'],
+            ['name' =>'Home Space'],
+            ['name' =>'Villa'],
+            ['name' =>'3 Star Hotel'],
+            ['name' =>'5 Star Hotel'],
+        ])->each(function($accomodation){
+            $accomodation = Accomodation::create([
+                'name' => $accomodation['name'],
+            ]);
+        });
     }
 }
