@@ -49,7 +49,11 @@
 
                             <div class="mb-4">
                                <div class="container border border-black ">
+<<<<<<< Updated upstream
                                 <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping Address</h2>
+=======
+                                <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Billing Address</h2>
+>>>>>>> Stashed changes
                                <div class="columns-2">
                                 <div >
                                     <x-Quotation.inputs.textarea   name="billing_address"  autofocus/>
@@ -57,6 +61,7 @@
                                 <div>
 
                                    <div>
+<<<<<<< Updated upstream
                                     <x-Quotation.inputs.select name="contry"  required  class="m-2">
                                         <option value=1>india</option>
                                      </x-Quotation.inputs.select>
@@ -67,6 +72,16 @@
                                         <option value=1>dakor</option>
                                      </x-Quotation.inputs.select>
                                      <x-Quotation.inputs.select name="postcode"  required class="m-2">
+=======
+                                    <x-Quotation.inputs.select name="b_contry"  required  class="m-2">
+                                        <option value=1>india</option>
+                                     </x-Quotation.inputs.select>
+                                       <livewire:addstate />
+                                     <x-Quotation.inputs.select name="b_city"  required class="m-2">
+                                        <option value=1>dakor</option>
+                                     </x-Quotation.inputs.select>
+                                     <x-Quotation.inputs.select name="b_postcode"  required class="m-2">
+>>>>>>> Stashed changes
                                         <option value=1>388225</option>
                                      </x-Quotation.inputs.select>
                                    </div>
@@ -84,6 +99,7 @@
                                  <div>
 
                                     <div>
+<<<<<<< Updated upstream
                                      <x-Quotation.inputs.select name="contry"  required  class="m-2">
                                         <option value=1>india</option>
                                      </x-Quotation.inputs.select>
@@ -94,6 +110,16 @@
                                         <option value=1>dakor</option>
                                      </x-Quotation.inputs.select>
                                      <x-Quotation.inputs.select name="postcode"  required class="m-2">
+=======
+                                     <x-Quotation.inputs.select name="s_contry"  required  class="m-2">
+                                        <option value=1>india</option>
+                                     </x-Quotation.inputs.select>
+                                     <livewire:s-addstate  />
+                                     <x-Quotation.inputs.select name="s_city"  required class="m-2">
+                                        <option value=1>dakor</option>
+                                     </x-Quotation.inputs.select>
+                                     <x-Quotation.inputs.select name="s_postcode"  required class="m-2">
+>>>>>>> Stashed changes
                                         <option value=1>388225</option>
                                      </x-Quotation.inputs.select>
                                     </div>

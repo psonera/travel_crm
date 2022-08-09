@@ -6,7 +6,11 @@
 @if($label ?? null)
 @include('components.Quotation.inputs.partials.label')
 @endif
+<<<<<<< Updated upstream
 <select
+=======
+<select size="1"
+>>>>>>> Stashed changes
     id="{{$name}}"
     name="{{$name}}"
     :label="$label"

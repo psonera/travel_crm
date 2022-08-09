@@ -25,7 +25,11 @@ class Editsearchleadmanager extends Component
 
     public function select($name){
         $this->query = $name;
+<<<<<<< Updated upstream
 
+=======
+        $this->leadmanagers = [];
+>>>>>>> Stashed changes
     }
     public function render()
     {

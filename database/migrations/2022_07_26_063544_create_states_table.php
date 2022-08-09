@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('states', function (Blueprint $table) {
             $table->id();
+<<<<<<< Updated upstream
+=======
+            $table->string('name');
+            $table->foreignId('contrie_id')->constrained();
+>>>>>>> Stashed changes
             $table->timestamps();
         });
     }

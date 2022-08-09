@@ -4,5 +4,9 @@
             @foreach ($managers as $manager )
                 <option value="{{$manager->name}}">{{ucwords($manager->name)}}</option>
             @endforeach
+<<<<<<< Updated upstream
     </x-inputs.select>
+=======
+    </x-Quotation.inputs.select>
+>>>>>>> Stashed changes
 </div>

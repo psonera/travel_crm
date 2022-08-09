@@ -45,7 +45,11 @@ class Quotationcontroller extends Controller
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;
         $quotation->billing_address = $request->billing_address;
+<<<<<<< Updated upstream
         $quotation->shipping_address = $request->billing_address;
+=======
+        $quotation->shipping_address = $request->shipping_address;
+>>>>>>> Stashed changes
         $quotation->discount_percent = $request->discount;
         $quotation->discount_amount = $request->discount;
         $quotation->tax_amount = $request->tax;
@@ -75,7 +79,11 @@ class Quotationcontroller extends Controller
             $quotationitem->save();
         }
 
+<<<<<<< Updated upstream
 
+=======
+        return redirect(route('quotation.index'));
+>>>>>>> Stashed changes
     }
 
     /**
@@ -153,6 +161,10 @@ class Quotationcontroller extends Controller
             $quotationitem->quotation()->associate($quotation);
             $quotationitem->save();
         }
+<<<<<<< Updated upstream
+=======
+        return redirect(route('quotation.index'));
+>>>>>>> Stashed changes
     }
 
     /**

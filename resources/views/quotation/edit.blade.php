@@ -13,7 +13,10 @@
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Quotation Information</legend>
                             <div class="mb-4">
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                                 <livewire:editselectmanager  manager="{{$quotation->user->name}}" />
                             </div>
                             @error('owner')
@@ -32,18 +35,27 @@
                             @error('lead_value')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
+<<<<<<< Updated upstream
 
 
                             <div class="mb-4">
 
+=======
+                            <div class="mb-4">
+>>>>>>> Stashed changes
                                 <livewire:editsearchleadmanager lm="{{$quotation->leadManager->name}}" />
                             </div>
                             @error('lead_type_id')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
+<<<<<<< Updated upstream
 
                             <div class="mb-4">
                                 <livewire:serachlead  />
+=======
+                            <div class="mb-4">
+                                <livewire:editsearchlead ln="dammy" />
+>>>>>>> Stashed changes
                             </div>
                             @error('lead_manager_id')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -57,7 +69,10 @@
                                     <x-Quotation.inputs.textarea   name="billing_address"  autofocus >{{$quotation->billing_address}}</x-Quotation.inputs.textarea >
                                 </div>
                                 <div>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                                    <div>
                                     <x-Quotation.inputs.select name="contry"  required  class="m-1">
                                         <option value=1>india</option>
@@ -80,7 +95,10 @@
                                     <x-Quotation.inputs.textarea   name="shipping_address"  autofocus >{{$quotation->shipping_address}}</x-Quotation.inputs.textarea >
                                 </div>
                                 <div>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
                                    <div>
                                     <x-Quotation.inputs.select name="contry"  required  class="m-1">
                                        <option value=1>india</option>
@@ -112,14 +130,18 @@
 
                                                 <th>Name</th>
                                                 <th>Quntity</th>
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
                                                 <th>Price</th>
                                                 <th>Total</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+<<<<<<< Updated upstream
 
                                             @forelse ($quotation->quotationItems as $item )
                                             <tr class="itemrow">
@@ -133,6 +155,21 @@
                                                     <td><span class="button  bg-red-600 deleteitem">delete</span></td>
                                                 @endif
                                             </tr>
+=======
+                                            {{-- @dd($quotation->quotationItems) --}}
+                                            @forelse ($quotation->quotationItems as $item )
+                                                <tr class="itemrow">
+                                                    <td class="itemsid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="itemid[]"></td>
+                                                    <td class="qid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="qid[]"></td>
+                                                    <td><input name="itemname[]" value="{{$item->name}}" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                    <td class="itemquntity"><input type="text" value="{{$item->quantity}}" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                    <td class="itemprice"><input name="itemprice[]" value="{{$item->price}}" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                    <td class="itemtotal"><input  value="{{$item->total}}" name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                    @if (!$loop->first)
+                                                        <td><span class="button  bg-red-600 deleteitem">delete</span></td>
+                                                    @endif
+                                                </tr>
+>>>>>>> Stashed changes
                                             @empty
                                             <tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td></tr>
                                             @endforelse

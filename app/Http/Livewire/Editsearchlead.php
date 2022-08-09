@@ -5,38 +5,29 @@ namespace App\Http\Livewire;
 use App\Models\Lead;
 use Livewire\Component;
 
-class Serachlead extends Component
+class Editsearchlead extends Component
 {
     public $query;
     public $leadnames;
 
 
-    public function mount(){
-        $this->query = "";
+    public function mount($ln){
+        $this->query = $ln;
         $this->leadnames = [];
     }
 
 
     public function updatedQuery(){
-<<<<<<< Updated upstream
-        $this->leadnames = Lead::where('title','like',"%$this->query%")->get();
-=======
         $this->leadnames = Lead::where('title','like',"%$this->query%")->limit(3)->get();
->>>>>>> Stashed changes
     }
 
 
     public function select($name){
         $this->query = $name;
-<<<<<<< Updated upstream
-=======
         $this->leadnames = [];
->>>>>>> Stashed changes
     }
-
-
     public function render()
     {
-        return view('livewire.serachlead');
+        return view('livewire.editsearchlead');
     }
 }

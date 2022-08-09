@@ -47,7 +47,11 @@
 
     @livewireStyles
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<<<<<<< Updated upstream
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+=======
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+>>>>>>> Stashed changes
 </head>
 
 <body class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
@@ -99,7 +103,11 @@
             notyf.success('{{ session('success') }}')
         </script>
     @endif
+<<<<<<< Updated upstream
 
+=======
+{{--
+>>>>>>> Stashed changes
     <script>
         // $(document).ready(function() {
         //     let editor = new FroalaEditor('#description', {
@@ -141,7 +149,11 @@
                 }
             })
         })
+<<<<<<< Updated upstream
     </script>
+=======
+    </script> --}}
+>>>>>>> Stashed changes
     @section('scripts')
 
     @show

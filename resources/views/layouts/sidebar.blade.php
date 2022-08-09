@@ -60,10 +60,20 @@
             </li>
 
             <li class="mt-0.5 w-full">
+<<<<<<< Updated upstream
                 <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors cursor-pointer" href="{{ route('products.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>credit-card</title>
+=======
+                <a class="{{ request()->is('quotation/*') || request()->is('quotation') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"
+                    href="{{ route('quotation.index') }}">
+                    <div
+                        class="{{ request()->is('quotation/*') || request()->is('quotation') ? 'bg-gradient-orange' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                        <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>box-3d-50</title>
+>>>>>>> Stashed changes
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                     <g transform="translate(1716.000000, 291.000000)">
@@ -79,6 +89,20 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Products</span>
                 </a>
 
+<<<<<<< Updated upstream
+=======
+            <li class="mt-0.5 w-full">
+                <a class="{{ request()->is('mails/*') || request()->is('mails') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"
+                    href="{{ route('mails.index') }}">
+                    <div
+                        class="{{ request()->is('mails/*') || request()->is('mails') ? 'bg-gradient-orange' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                        <div class="text-slate-800">
+                            <i class="fa fa-envelope fa-xs" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Mails</span>
+                </a>
+>>>>>>> Stashed changes
             </li>
 
             <li class="mt-0.5 w-full">
