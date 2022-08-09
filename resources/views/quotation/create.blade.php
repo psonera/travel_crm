@@ -65,9 +65,9 @@
                                     <x-Quotation.inputs.select name="contry"  required  class="m-2">
                                         <option value=1>india</option>
                                      </x-Quotation.inputs.select>
-                                     <x-Quotation.inputs.select name="state"  required class="m-2">
-                                        <option value=1>Gujarat</option>
-                                     </x-Quotation.inputs.select>
+
+                                       <livewire:addstate />
+
                                      <x-Quotation.inputs.select name="city"  required class="m-2">
                                         <option value=1>dakor</option>
                                      </x-Quotation.inputs.select>
@@ -103,9 +103,7 @@
                                      <x-Quotation.inputs.select name="contry"  required  class="m-2">
                                         <option value=1>india</option>
                                      </x-Quotation.inputs.select>
-                                     <x-Quotation.inputs.select name="state"  required class="m-2">
-                                        <option value=1>Gujarat</option>
-                                     </x-inputs.select>
+                                     <livewire:addstate />
                                      <x-Quotation.inputs.select name="city"  required class="m-2">
                                         <option value=1>dakor</option>
                                      </x-Quotation.inputs.select>

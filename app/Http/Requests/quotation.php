@@ -25,12 +25,16 @@ class quotation extends FormRequest
     {
         return [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             ''
 =======
+=======
+>>>>>>> Stashed changes
             'owner'=>'required',
             'subject'=>'required',
             'description'=>'required',
             'person'=>'required',
+<<<<<<< Updated upstream
             'Lead'=>'required',
             'billing_address'=>'required',
             'b_contry'=>'required',
@@ -50,6 +54,9 @@ class quotation extends FormRequest
             'discount'=>'required',
             'tax'=>'required',
             'grandtotal'=>'required',
+>>>>>>> Stashed changes
+=======
+
 >>>>>>> Stashed changes
         ];
     }

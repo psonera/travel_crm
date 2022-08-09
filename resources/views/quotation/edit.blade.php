@@ -14,7 +14,10 @@
                             <legend class="text-xl pl-4 pr-4">Quotation Information</legend>
                             <div class="mb-4">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                                 <livewire:editselectmanager  manager="{{$quotation->user->name}}" />
@@ -70,7 +73,10 @@
                                 </div>
                                 <div>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                                    <div>
@@ -131,8 +137,11 @@
                                                 <th>Name</th>
                                                 <th>Quntity</th>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                                                 <th>Price</th>
@@ -141,6 +150,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
                                             @forelse ($quotation->quotationItems as $item )
@@ -158,6 +168,10 @@
 =======
                                             {{-- @dd($quotation->quotationItems) --}}
                                             @forelse ($quotation->quotationItems as $item )
+=======
+                                            {{-- @dd($quotation->quotationItems) --}}
+                                            @forelse ($quotation->quotationItems as $item )
+>>>>>>> Stashed changes
                                                 <tr class="itemrow">
                                                     <td class="itemsid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="itemid[]"></td>
                                                     <td class="qid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="qid[]"></td>
@@ -169,6 +183,9 @@
                                                         <td><span class="button  bg-red-600 deleteitem">delete</span></td>
                                                     @endif
                                                 </tr>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                                             @empty
                                             <tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td></tr>

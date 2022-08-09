@@ -1,9 +1,13 @@
 <div>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <x-Quotation.inputs.text wire:model='query' name="Lead" label="{{__('Lead Name')}}"   required autofocus/>
+=======
+    <x-Quotation.inputs.text wire:model='query' name="Lead" label="{{__('Lead Name')}}"    autofocus/>
+>>>>>>> Stashed changes
     @forelse ($leadnames  as $leadname )
-    <li  wire:click="select('{{$leadname->title}}')" > {{$leadname->title}}</li>
+        <li  wire:click="select('{{$leadname->title}}')" > {{$leadname->title}}</li>
     @empty
         NO data Found
     @endforelse

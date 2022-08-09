@@ -24,7 +24,6 @@
     {{-- <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
         type='text/css' /> --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -33,7 +32,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <!-- Icons -->
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -44,7 +42,6 @@
     {{-- <script type="module">
         // import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
     </script> --}}
-
     @livewireStyles
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
 <<<<<<< Updated upstream
@@ -83,7 +80,6 @@
             </footer>
         </div>
     </main>
-
     @stack('modals')
 
     @livewireScripts

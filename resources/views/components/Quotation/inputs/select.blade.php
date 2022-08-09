@@ -7,7 +7,11 @@
 @include('components.Quotation.inputs.partials.label')
 @endif
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <select
+=======
+<select size="1"
+>>>>>>> Stashed changes
 =======
 <select size="1"
 >>>>>>> Stashed changes
