@@ -7,16 +7,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProductController;
-<<<<<<< Updated upstream
+
 use App\Http\Controllers\Quotationcontroller;
-=======
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LeadTypeController;
 use App\Http\Controllers\TripTypeController;
-use App\Http\Controllers\Quotationcontroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LeadSourceController;
->>>>>>> Stashed changes
+
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -60,8 +59,8 @@ Route::name('leads.')
         Route::get('/search',[Quotationcontroller::class,'searchproduct']);
     });
 
-<<<<<<< Updated upstream
-=======
+
+
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', function () {
         return view('dashboard',[
@@ -158,8 +157,8 @@ Route::group(['middleware' => ['auth']], function(){
 
         // Lead Type Routes
         Route::resource('lead_types',LeadTypeController::class);
->>>>>>> Stashed changes
 
+    });
 
 Auth::routes();
 
@@ -194,11 +193,11 @@ Route::name('products.')
         Route::post('update/{id}', [ProductController::class, 'update'])->name('update');
     });
 
-<<<<<<< Updated upstream
+
     Route::get('serachview',function(){
         return view('serachview');
     });
-=======
+
 
     Route::name('quotation.')->prefix('quotation')->group(function(){
         Route::get('/index',[Quotationcontroller::class,'index'])->name('index');
@@ -216,4 +215,4 @@ Route::name('products.')
 });
 
 Auth::routes();
->>>>>>> Stashed changes
+
