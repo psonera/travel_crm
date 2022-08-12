@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\LeadTypeController;
 use App\Http\Controllers\TripTypeController;
 use App\Http\Controllers\Auth\LoginController;
@@ -100,7 +102,7 @@ Route::group(['middleware' => ['auth']], function(){
         ->controller(MailController::class)
         ->group(function(){
             Route::post('/draft', 'draft')->name('storedraft');
-            Route::get('/', 'index')->name('index');
+            Route::get('/','index')->name('index');
             Route::get('/inbox', 'inbox')->name('inbox');
             Route::get('/compose', 'compose')->name('compose');
             Route::get('/outbox', 'outbox')->name('outbox');           
@@ -109,13 +111,21 @@ Route::group(['middleware' => ['auth']], function(){
             Route::delete('/mail/{id}', 'destroy')->name('destroy');            
             Route::get('/trash', 'trash')->name('trash');
             Route::get('/draft','getDraft')->name('draft');
+            Route::post('/maill/{id}', 'forceDelete')->name('forceDelete');            
+            Route::post('/mail/{id}', 'restore')->name('restore');
         });
-
 
     // Product Routes
     Route::resource('products',ProductController::class);
 
-     // Profile Routes
+    // Note Routes
+    Route::resource('notes',NoteController::class);
+
+    // Activity Routes
+    Route::post('/activities/create/find_user',[ActivityController::class,'find_user'])->name('find_user');
+    Route::resource('activities',ActivityController::class);
+
+    // Profile Routes
      Route::resource('profile',ProfileController::class);
 
     // Lead Manager Routes

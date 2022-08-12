@@ -1,12 +1,13 @@
 @component('mail::message')
-<h1> Thrill Blazers </h1>
 Hello,
 <br>
 This is {{ $name }},
+From Thrill Blazers
 <br>
-<h1>{{ $data['subject'] }}</h1>
 
+@component('mail::panel')
 {{ $data['content'] }}
+@endcomponent
 
 @component('mail::button',['url' => $data['attachment']])
 View Attachment

@@ -309,3 +309,41 @@ Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail,$user) {
     $trail->push('Edit Profile', route('profile.edit',$user));
 });
 
+
+
+// Dashboard / Notes
+Breadcrumbs::for('notes.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Notes', route('notes.index'));
+});
+
+// Dashboard / Notes / Create Note
+Breadcrumbs::for('notes.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('notes.index');
+    $trail->push('Create Note', route('notes.create'));
+});
+
+// Dashboard / Notes / Edit Note
+Breadcrumbs::for('notes.edit', function (BreadcrumbTrail $trail, $note) {
+    $trail->parent('notes.index');
+    $trail->push('Edit Note', route('notes.edit',$note));
+});
+
+
+// Dashboard / Activities
+Breadcrumbs::for('activities.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Activities', route('activities.index'));
+});
+
+// Dashboard / Activities / Create Activity
+Breadcrumbs::for('activities.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('activities.index');
+    $trail->push('Create Activity', route('activities.create'));
+});
+
+// Dashboard / Activities / Edit Activity
+Breadcrumbs::for('activities.edit', function (BreadcrumbTrail $trail, $note) {
+    $trail->parent('activities.index');
+    $trail->push('Edit Activity', route('activities.edit',$note));
+});

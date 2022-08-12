@@ -18,10 +18,15 @@ class Compose extends Mailable
      * @return void
      */
     public $data,
-           $name;
+           $name,
+           $email,
+           $subject;
 
-    public function __construct($data)
-    {
+
+    public function __construct($data,$email,$subject)
+    {   
+            $this->subject = $subject;
+        $this->email = $email;
         $this->data = $data;
         $this->name = Auth::user()->name;  
     }
@@ -33,8 +38,12 @@ class Compose extends Mailable
      */
     public function build()
     {
-        return $this->from(Auth::user()->email)
-                    ->markdown('mails.email-template',($this->data));
+        return $this ->cc($this->email['cc'])
+                     ->bcc($this->email['bcc'])
+                     ->subject($this->subject)
+                     ->from(Auth::user()->email)
+                     ->markdown('mails.email-template',($this->data));
     }
+
 }
 

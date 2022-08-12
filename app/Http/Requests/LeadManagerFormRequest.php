@@ -26,9 +26,9 @@ class LeadManagerFormRequest extends FormRequest
         return [
             'name'=> 'required|max:30|string', 
             'email'=> 'required|email', 
-            'contact_number'=> 'required|numeric', 
+            'contact_number'=> 'required|digits:10|regex:/^([0-9\s\-\+\(\)]*)$', 
             'lead_source_id'=> 'required',
-            'manager_image' => 'image', 
+            'manager_image' => 'image|required|mimes:png,jpeg,gif|size:5000', /* 5 MB */ 
         ];
     }
 

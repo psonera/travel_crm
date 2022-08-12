@@ -7,7 +7,6 @@ use App\Models\Email;
 
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,6 +25,7 @@ class MailController extends Controller
  
  public function store(Request $request)
  { 
+    // Storing mail data in the database
     $status =  EMAIL::SENT;
       
     $mail = Email::Create([
@@ -37,21 +37,32 @@ class MailController extends Controller
       'content' => $request->content,
       "status" => $status,    
     ]);
-     
+    
     if($request->attachment === true)  
     {      
       $mail ->addMedia($request->attachment)
             ->preservingOriginal()
             ->toMediaCollection('attachment');
     }
-   
+    // Sending mail    
     $emailAddress = $request->to;
+    $cc = $request->cc;
+    $bcc = $request->bcc;
+    $email = [
+        'cc' => $cc,
+        'bcc' => $bcc,
+    ];
+    
+    $subject = $request->subject;
+    
     $data = [
         "content" => $request->content,
-        "subject" => $request->subject,
         "attachment" => $request->attachment
     ];        
-    Mail::to($emailAddress)->send(new Compose($data));
+    Mail::to($emailAddress)
+        ->cc($cc)
+        ->bcc($bcc)
+        ->send(new Compose($data,$email,$subject));
 
     $mail->save();
 
@@ -60,9 +71,9 @@ class MailController extends Controller
 
  public function draft(Request $request)
  {
-      $status =  EMAIL::DRAFT; 
+    $status =  EMAIL::DRAFT; 
 
-      $mail = Email::Create([
+    $mail = Email::Create([
         'to' => $request->to,
         'cc' => $request->cc,
         'bcc' => $request->bcc,
@@ -70,56 +81,67 @@ class MailController extends Controller
         'subject' => $request->subject,
         'content' => $request->content,
         "status" => $status,    
-      ]);
+    ]);
 
-      $mails = Email::where('status', 'draft');
-
-      return response()->json([
+    return response()->json([
         'success' => true
-      ]);
-
-    }
+    ]);
+  }
   
-    public function getDraft()
-    {
-      $mails = Email::where('status','3')->get();
+  public function getDraft()
+  {
+      $mails = Email::where('status',Email::DRAFT)->get();
       return view('mails.draft',compact('mails'));  
-    }
- 
- public function sent()
- {
-    $mails = Email::where('status','2')->get();
-    return view('mails.sent',compact('mails'));
- }
+  }
+  
+  public function sent()
+  {
+      $mails = Email::where('status',Email::SENT)->get();
+      return view('mails.sent',compact('mails'));
+  }
 
- public function inbox()
- {
+  public function inbox()
+  {
       $mails = Email::all();
-      // $mails = Email::where('status', 'inbox');
+      // $mails = Email::where('status',Email::INBOX);
       return view('mails.inbox',compact('mails'));
- }
+  }
 
 
- public function outbox()
- {
-      $mails = Email::where('status', 'outbox');
+  public function outbox()
+  {
+      $mails = Email::where('status',Email::OUTBOX);
       return view('mails.outbox',compact('mails'));
- }
+  }
 
- public function destroy(Email $mail)
- {
-    $status = Email::TRASH;
-    $mail->status =$status;
-    $mail->save();
-    $mail->delete();
+  public function destroy(Email $mail)
+  {
+      $status = Email::TRASH;
+      $mail->status = $status;
+      $mail->save();
+      $mail->delete();
 
-   return view ('mails.inbox');
- }
+      return view ('mails.inbox');
+  }
 
- public function trash()
- {  
-   $mails = Email::withTrashed()->get();
-   return view('mails.trash',compact('mails'));
- }
+  public function trash()
+  {
+    // $mails = Email::where('status',Email::TRASH);  
+      $mails = Email::withTrashed()->get();
+      return view('mails.trash',compact('mails'));
+  }
 
+  public function restore($id)
+  {
+      $mail = Email::withTrashed()->find($id);
+      $mail -> restore();
+      return view('mails.trash',compact('mails'));
+  }
+
+  public function forceDelete($id)
+  {
+      $mail = Email::withTrashed()->find($id);
+      $mail -> forceDelete();
+      return view('mails.trash',compact('mails'));
+  }
 }

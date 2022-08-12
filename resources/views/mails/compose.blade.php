@@ -13,15 +13,23 @@
                             <div class="mb-4">
                                 <x-inputs.email name="to" id='to' label="{{ __('To') }}" value="{{ old('to') }}" required autocomplete="to" autofocus />
                             </div>
-                            
-                            {{-- <button onclick="myFunction()">CC</button>
-                            <div id="CC">
-                                <x-inputs.email name="cc" value="{{ old('cc') }}" autocomplete="cc" autofocus />
-                            </div> --}}
-                            {{-- <button onclick="myFunction1()">BCC</button>
-                            <div id="BCC">
-                                <x-inputs.email name="bcc" label="{{ __('BCC') }}" value="{{ old('bcc') }}" autocomplete="bcc" autofocus />
-                            </div> --}}
+
+                            {{-- <div id="email">
+                                <button onclick="myFunction()">CC</button>
+                                <div id="CC"> --}}
+                                    <div class="mb-4">
+                                    <x-inputs.email 
+                                    label="{{ __('cc') }}"
+                                    name="cc"  value="{{ old('cc') }}" value="{{ old('cc') }}" autocomplete="cc" autofocus />
+                                </div>
+                                {{-- <button onclick="myFunction1()">BCC</button>
+                                <div id="BCC"> --}}
+                                    <div class="mb-4">
+                                    <x-inputs.email 
+                                    label="{{ __('bcc') }}"
+                                    name="bcc" value="{{ old('bcc') }}" value="{{ old('bcc') }}" autocomplete="bcc" autofocus />
+                                </div>
+                            {{-- </div> --}}
 
                             <div class="mb-4">
                                 <x-inputs.text name="subject" id="subject" label="{{ __('Subject') }}" value="{{ old('subject') }}" required autocomplete="subject" autofocus />
@@ -51,23 +59,25 @@
                         </fieldset>
                         
                         <div class="text-center">
-                            <button type="submit" name="save"
-                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white fa fa-paper-plane-o">
+                            <button type="submit" name="save" class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white fa fa-paper-plane-o">
                                 Send
-                            </button>
-                            
+                            </button>    
                         </div>
                     </form>
-                    <button id='draft-btn'  
-                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
-                                Save as Draft
-                            </button>
+                    <button id='draft-btn' class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
+                        Save as Draft
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 <script>
 $(document).ready(function() {
+
+    $('#email').on('click',function(){
+
+    });
+
 
     $('#email_template').on('change',function() {
         var email_template = $('#email_template').val();
@@ -114,7 +124,5 @@ $(document).ready(function() {
             );
             });
 });
- 
- 
 </script>
 </x-app-layout>

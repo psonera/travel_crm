@@ -25,7 +25,7 @@ class TripFactory extends Factory
         return [
             'title' => $this->faker->sentence(10),
             'description' => $this->faker->sentence(15),
-            'location' => $this->faker->text,
+            'location' => $this->faker->text(15),
             'start_date' => $this->faker->dateTime('now', 'UTC'),
             'end_date' => $this->faker->dateTime('now', 'UTC'),
             'batch_size' => $this->faker->randomNumber(0),
