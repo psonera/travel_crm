@@ -72,7 +72,7 @@
 
             <li class="mt-0.5 w-full">
                 <a class="{{ request()->is('quotation/*') || request()->is('quotation') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"
-                    href="{{ route('leads.index') }}">
+                    href="{{ route('quotation.index') }}">
                     <div
                         class="{{ request()->is('quotation/*') || request()->is('quotation') ? 'bg-gradient-orange' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
@@ -112,7 +112,7 @@
                     </div>
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Mails</span>
                 </a>
-            </li>    
+            </li>
 
             <li class="mt-0.5 w-full">
                 <a class="{{ request()->is('products/*') || request()->is('products') ? 'shadow-soft-xl bg-white font-semibold' : '' }} ease-nav-brand flex font-semibold items-center mx-4 my-0 px-4 py-2.7 rounded-lg text-black text-lg text-size-sm text-slate-700 transition-colors whitespace-nowrap"

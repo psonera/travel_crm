@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\LeadTypeController;
 use App\Http\Controllers\TripTypeController;
+use App\Http\Controllers\Quotationcontroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LeadSourceController;
 use App\Http\Controllers\PermissionController;
@@ -83,7 +84,7 @@ Route::group(['middleware' => ['auth']], function(){
     //         Route::resource('permissions', PermissionController::class);
     // });
 
-   
+
 
     // Testing purpose
     // Route::get('/permission',function(){
@@ -105,13 +106,13 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/','index')->name('index');
             Route::get('inbox', 'inbox')->name('inbox');
             Route::get('compose', 'compose')->name('compose');
-            Route::get('outbox', 'outbox')->name('outbox');           
+            Route::get('outbox', 'outbox')->name('outbox');
             Route::post('store', 'store')->name('store');
             Route::get('sent', 'sent')->name('sent');
-            Route::delete('mail/{id}', 'destroy')->name('destroy');            
+            Route::delete('mail/{id}', 'destroy')->name('destroy');
             Route::get('trash', 'trash')->name('trash');
             Route::get('draft','getDraft')->name('draft');
-            // Route::post('maill/{id}', 'forceDelete')->name('forceDelete');            
+            // Route::post('maill/{id}', 'forceDelete')->name('forceDelete');
             // Route::post('mail/{id}', 'restore')->name('restore');
         });
 
@@ -167,9 +168,19 @@ Route::group(['middleware' => ['auth']], function(){
         Route::resource('users',UserController::class);
     });
 
+    Route::name('quotation.')->prefix('quotation')->group(function(){
+        Route::get('/index',[Quotationcontroller::class,'index'])->name('index');
+        Route::get('/create',[Quotationcontroller::class,'create'])->name('create');
+        Route::post('/store',[Quotationcontroller::class,'store'])->name('store');
+        Route::get('/edit/{id}',[Quotationcontroller::class,'edit'])->name('edit');
+        Route::post('/update.{id}',[Quotationcontroller::class,'update'])->name('update');
+        Route::get('/delete/{id}',[Quotationcontroller::class,'destroy'])->name('delete');
+        Route::get('/search',[Quotationcontroller::class,'searchproduct']);
+    });
+
     Route::get('/test_session', function(){ return view('test.test_session'); });
 
     Route::get('/logout', [LoginController::class, 'logout']);
-});    
+});
 
 Auth::routes();
