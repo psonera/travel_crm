@@ -20,7 +20,6 @@ class ActivityController extends Controller
             'activities' => Activity::latest()->paginate(10)
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *

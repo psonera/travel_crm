@@ -40,14 +40,14 @@
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.date name="schedule_from" label="{{ __('Schedule From') }}" value="{{ old('schedule_from') }}" required autocomplete="schedule_from" autofocus />
+                                <x-inputs.datetime name="schedule_from" label="{{ __('Schedule From') }}" value="{{ old('schedule_from') }}" required autocomplete="schedule_from" autofocus />
                             </div>
                             @error('schedule_from')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.date name="schedule_to" label="{{ __('Schedule To') }}" value="{{ old('schedule_to') }}" required autocomplete="schedule_to" autofocus />
+                                <x-inputs.datetime name="schedule_to" label="{{ __('Schedule To') }}" value="{{ old('schedule_to') }}" required autocomplete="schedule_to" autofocus />
                             </div>
                             @error('schedule_to')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

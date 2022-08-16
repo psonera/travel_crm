@@ -5,7 +5,7 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">Edit Lead Manager</h2>
+                    <h2 class="text-3xl font-bold">Edit Activity</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('activities.update',$activity) }}">
@@ -43,14 +43,14 @@
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.date name="schedule_from" label="{{ __('Schedule From') }}" value="{{ Carbon\Carbon::parse($activity->schedule_from)->format('Y-m-d') }}" required autocomplete="schedule_from" autofocus />
+                                <x-inputs.datetime name="schedule_from" label="{{ __('Schedule From') }}" value="{{ Carbon\Carbon::parse($activity->schedule_from)->format('Y-m-d H:i:s') }}" required autocomplete="schedule_from" autofocus />
                             </div>
                             @error('schedule_from')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.date name="schedule_to" label="{{ __('Schedule To') }}" value="{{ Carbon\Carbon::parse($activity->schedule_to)->format('Y-m-d') }}" required autocomplete="schedule_to" autofocus />
+                                <x-inputs.datetime name="schedule_to" label="{{ __('Schedule To') }}" value="{{ Carbon\Carbon::parse($activity->schedule_to)->format('Y-m-d H:i:s') }}" required autocomplete="schedule_to" autofocus />
                             </div>
                             @error('schedule_to')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

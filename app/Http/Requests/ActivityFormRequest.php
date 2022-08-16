@@ -25,11 +25,11 @@ class ActivityFormRequest extends FormRequest
     {
         return [
             'title'=> 'required|max:30|string',
-            'type'=> 'required',
+            'type'=> 'required|boolean',
             'comment'=> 'required|max:200|string',
-            'schedule_from' => 'required',
-            'schedule_to' => 'required',
-            'is_done' => 'required',
+            'schedule_from' => 'required|date',
+            'schedule_to' => 'required|after:schedule_from',
+            'is_done' => 'required|boolean',
             'user_id' => 'required',
             'location'=> 'required|max:200|string', 
            
