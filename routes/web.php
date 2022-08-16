@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\LeadTypeController;
 use App\Http\Controllers\TripTypeController;
+use App\Http\Controllers\Quotationcontroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LeadSourceController;
 use App\Http\Controllers\PermissionController;

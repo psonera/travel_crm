@@ -43,7 +43,7 @@
         // import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
     </script> --}}
     @livewireStyles
-    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    {{-- <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"> --}}
 
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 
@@ -91,6 +91,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
+    @yield('page_scripts')
+    
     @if (session()->has('success'))
         <script>
             const notyf = new Notyf({
@@ -99,12 +101,6 @@
             notyf.success('{{ session('success') }}')
         </script>
     @endif
-
-
-
-    @section('scripts')
-
-    @show
 </body>
 
 </html>
