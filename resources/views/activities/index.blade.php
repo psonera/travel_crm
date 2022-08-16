@@ -154,7 +154,7 @@
 function toggleModal(id) {
 document.getElementById('modal').classList.toggle('hidden');
 $('#deleteBtn').attr('data-id',id);
-manager_id = id;
+activity_id = id;
 }
 
 $('#deleteBtn').on("click",function(){

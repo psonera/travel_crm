@@ -8,61 +8,194 @@
                     <h2 class="text-3xl font-bold">Edit Lead Manager</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('lead_managers.update',$lead_manager) }}" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('activities.update',$activity) }}">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf   
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Details</legend>
                             <div class="mb-4">
-                                <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $lead_manager->name }}" autocomplete="name" autofocus />
+                                <x-inputs.text name="title" label="{{ __('Title') }}" value="{{ $activity->title }}" required autocomplete="title" autofocus />
                             </div>
-                            @error('name')
+                            @error('title')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.text name="email" label="{{ __('Email Address') }}" value="{{ $lead_manager->email }}" autocomplete="email" autofocus />
+                                <b>{{ __('Type') }}</b>
+                                <div class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                                    <input id="call" type="radio" value="1" name="type"  @if(old('type') == '1' || $activity->type == '1') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                   <label for="call" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Call</label>
+                                    
+                                    <input id="meeting" type="radio" value="0" name="type"  @if(old('type') == '0' || $activity->type == '0') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="meeting" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Meeting</label>
+                                </div>
                             </div>
-                            @error('email')
+                            @error('type')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.text name="contact_number" label="{{ __('Contact Number') }}" value="{{ $lead_manager->contact_number }}" autofocus />
+                                <x-inputs.text name="comment" label="{{ __('Comment') }}" value="{{ $activity->comment }}" required autocomplete="comment" autofocus />
                             </div>
-                            @error('contact_number')
+                            @error('comment')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
-                                <x-inputs.select name="lead_source_id" label="{{ __('Source') }}" required>
-                                    <option value="">-- Select Lead Source --</option>
-                                    @foreach (App\Models\LeadSource::all() as $source)
-                                        <option value="{{ $source->id }}" {{ ($lead_manager->lead_source_id === $source->id) ? ' selected' : '' }}>{{ $source->name }}</option>
-                                    @endforeach
-                                </x-inputs.select>
+                                <x-inputs.date name="schedule_from" label="{{ __('Schedule From') }}" value="{{ Carbon\Carbon::parse($activity->schedule_from)->format('Y-m-d') }}" required autocomplete="schedule_from" autofocus />
                             </div>
-                            @error('lead_source_id')
+                            @error('schedule_from')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
-                            
                             <div class="mb-4">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="manager_image">Upload Profile Photo</label> 
-                                <input type="file" name="manager_image" id="manager_image" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">    
+                                <x-inputs.date name="schedule_to" label="{{ __('Schedule To') }}" value="{{ Carbon\Carbon::parse($activity->schedule_to)->format('Y-m-d') }}" required autocomplete="schedule_to" autofocus />
                             </div>
-                            
+                            @error('schedule_to')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <div class="mb-4">
+                                <b>{{ __('Done') }}</b>
+                                <div class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                                    <input id="yes" type="radio" value="1" name="is_done"  @if(old('is_done') == '1' || $activity->is_done == '1') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                   <label for="yes" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                                    
+                                    <input id="no" type="radio" value="0" name="is_done"  @if(old('is_done') == '0' || $activity->is_done == '0') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="no" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                                </div>
+                            </div>
+                            @error('is_done')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <div class="mb-4 relative">
+                                <x-inputs.text name="find_users" label="{{ __('User') }}"
+                                    value="{{ $activity->user->name }}" required autocomplete="find_users" autofocus
+                                    placeholder="Start typing name..." />
+                                <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
+                                    id="select_user">
+                                </ul>
+                                <x-inputs.hidden name="user_id" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-inputs.text name="location" label="{{ __('Location') }}" value="{{ $activity->location }}" required autocomplete="location" autofocus />
+                            </div>
+                            @error('location')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </fieldset>
                         
                         <div class="text-center">
                             <button type="submit"
                                 class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
-                                Edit Lead Manager</button>
+                                Edit Activity</button>
                         </div>
+                        @if ($errors->any())
+                            {!! implode('', $errors->all('<div>:message</div>')) !!}
+                        @endif
                     </form>
                 </div>
             </div>
         </div>
     </div>
+<script>
+        $(document).ready(function() {
+            var i = {{ 0 }};
+                    $("#find_users").keyup(function() 
+                    {
+                        var search_user = $(this).val();
+                        if (search_user.length >= 2) {
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                method: 'POST',
+                                beforeSend: function(xhr) {
+                                    var token = $('meta[name="csrf_token"]').attr('content');
+        
+                                    if (token) {
+                                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                                    }
+                                },
+                                data: {
+                                    search_user: search_user,
+                                    type: 1
+                                },
+                                url: "{{ route('find_user') }}",
+                                dataType: 'json',
+                                success: function(res) {
+                                    var len = res.length;
+                                    if (res != '') {
+                                        $("#select_user").empty();
+                                        $("#select_user").show();
+                                        for (var i = 0; i < len; i++) {
+                                            var u_id = res[i]['id'];
+                                            var u_name = res[i]['name'];
+        
+                                            $("#select_user").append(
+                                                "<li class='p-2 cursor-pointer' value='" +
+                                                u_id + "'>" + u_name +
+                                                "</li>");
+                                        }
+                                        $("#select_user li").bind("click", function() {
+                                            setUserInfo(this);
+                                        });
+                                    } else {
+                                        $("#select_user").empty();
+                                        $("#select_user li").html(
+                                            "<p class='text-left'>No results found!</p>");
+                                    }
+                                }
+                            });
+                        } else {
+                            $("#select_user").empty();
+                            $("#select_user").hide();
+                            $("#find_users_id").val('');
+                           
+                        }
+                    });
+                    function setUserInfo(element) {
+                        var value = $(element).text();
+                        var user_id = $(element).val();
+        
+                        $("#find_users").val(value);
+                        $("#select_user").empty();
+                        $("#select_user").hide();
+        
+                        // Request User Details
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            beforeSend: function(xhr) {
+                                var token = $('meta[name="csrf_token"]').attr('content');
+        
+                                if (token) {
+                                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                                }
+                            },
+                            data: {
+                                user_id: user_id,
+                                type: 2
+                            },
+                            url: "{{ route('find_user') }}",
+                            dataType: 'json',
+                            success: function(response) {
+                                var len = response.length;
+                                $("#select_user").empty();
+                                $("#select_user").hide();
+                                if (response) {
+                                    var s_u_id = response.id;
+                                    $("#user_id").val(s_u_id);
+                                }
+                            }
+                        });
+                    }
+    });
+</script>
 </x-app-layout>
+        
