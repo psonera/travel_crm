@@ -14,9 +14,8 @@
             <div>
                 @foreach ($items as $key=>$item )
                     <tr>
-                        <td><input class="border "  type="text" wire:model="query.{{$loop->index}}" name="item"  value="{{$loop->index}}">
-                            {{$products}}
-                        </td>
+                        <livewire:qrow />
+                       
                         <td><input class="border "  type="text" name="quntity"  value="{{$loop->index}}"></td>
                         <td><input  class="border " type="text" name="price"  value="{{$loop->index}}"></td>
                         <td><input class="border "  type="text" name="total"  value="{{$loop->index}}"></td>

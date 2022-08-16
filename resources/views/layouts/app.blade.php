@@ -45,6 +45,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+
     <script type="module">
         import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
     </script>
@@ -52,6 +53,7 @@
     @yield('page_styles')
 
     @livewireStyles
+
 </head>
 
 <body class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
@@ -104,7 +106,8 @@
             notyf.success('{{ session('success') }}')
         </script>
     @endif
-{{-- 
+
+{{--
     <script>
         /* Simple Alpine Image Viewer */
         document.addEventListener('alpine:init', () => {
@@ -133,6 +136,7 @@
             })
         })
     </script> --}}
+
 </body>
 
 </html>

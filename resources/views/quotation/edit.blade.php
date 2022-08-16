@@ -13,8 +13,7 @@
                         <fieldset class="border border-solid border-gray-300 p-6">
                             <legend class="text-xl pl-4 pr-4">Quotation Information</legend>
                             <div class="mb-4">
-
-                                <livewire:editselectmanager manager="{{ $quotation->user->name }}" />
+                                <livewire:editselectmanager  manager="{{$quotation->user->name}}" />
                             </div>
                             @error('owner')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -26,132 +25,108 @@
                             @error('subject')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-
                             <div class="mb-4">
-                                <x-Quotation.inputs.textarea name="description" label="{{ __('Description') }}"
-                                    value="" autofocus>{{ $quotation->description }}</x-Quotation.inputs.textarea>
+
+                                <x-Quotation.inputs.textarea name="description" label="{{__('Description')}}" value="" autofocus required>{{$quotation->description}}</x-Quotation.inputs.textarea>
                             </div>
-                            @error('lead_value')
+                            @error('description')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                             <div class="mb-4">
-
-                                <livewire:editsearchleadmanager lm="{{ $quotation->leadManager->name }}" />
+                                <livewire:editsearchleadmanager lm="{{$quotation->leadManager->name}}" />
                             </div>
-                            @error('lead_type_id')
+                            @error('person')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-
-
-
                             <div class="mb-4">
                                 <livewire:editsearchlead ln="dammy" />
-
                             </div>
-                            @error('lead_manager_id')
+                            @error('Lead')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-
                             <div class="mb-4">
-                                <div class="container  ">
-                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Billing Address
-                                    </h2>
-                                    <div class="columns-2 border border-black">
-                                        <div>
-                                            <x-Quotation.inputs.textarea name="billing_address" autofocus>
-                                                {{ $quotation->billing_address }}</x-Quotation.inputs.textarea>
+                               <div class="container  ">
+                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Billing Address</h2>
+                                    <div class="columns-2 ">
+                                        <div >
+                                            <x-Quotation.inputs.textarea   name="billing_address"  autofocus required>{{$quotation->billing_address}}</x-Quotation.inputs.textarea >
+                                            @error('billing_address')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div>
 
-                                            <div>
-                                                <x-Quotation.inputs.select name="contry" required class="m-1">
-                                                    <option value=1>india</option>
-                                                </x-Quotation.inputs.select>
-                                                <livewire:addstate />
-                                                <x-Quotation.inputs.select name="city" required class="m-1">
-                                                    <option value=1>dakor</option>
-                                                </x-Quotation.inputs.select>
-                                                <x-Quotation.inputs.select name="postcode" required class="m-1">
-                                                    <option value=1>388225</option>
-                                                </x-Quotation.inputs.select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="columns-2 border border-black mt-2">
-                                        <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping
-                                            Address</h2>
                                         <div>
-                                            <x-Quotation.inputs.textarea name="shipping_address" autofocus>
-                                                {{ $quotation->shipping_address }}</x-Quotation.inputs.textarea>
-                                        </div>
-                                        <div>
-
-                                            <div>
-                                                <x-Quotation.inputs.select name="contry" required class="m-1">
-                                                    <option value=1>india</option>
-                                                </x-Quotation.inputs.select>
-                                                <livewire:s-addstate />
-                                                <x-Quotation.inputs.select name="city" required class="m-1">
-                                                    <option value=1>dakor</option>
-                                                </x-Quotation.inputs.select>
-                                                <x-Quotation.inputs.select name="postcode" required class="m-1">
-                                                    <option value=1>388225</option>
-                                                </x-Quotation.inputs.select>
-                                            </div>
-
+                                            <x-Quotation.inputs.select name="contry"  required  class="m-1">
+                                                <option value=1>india</option>
+                                            </x-Quotation.inputs.select>
+                                            <livewire:addstate />
+                                            <x-Quotation.inputs.select name="city"  required class="m-1">
+                                                <option value=1>dakor</option>
+                                            </x-Quotation.inputs.select>
+                                            <x-Quotation.inputs.select name="postcode"  required class="m-1">
+                                                <option value=1>388225</option>
+                                            </x-Quotation.inputs.select>
                                         </div>
                                     </div>
-                                </div>
-
+                               </div>
                             </div>
-
-
-                            <div class="mb-4 conatiner border border-black ">
+                               <div class="mb-4">
+                                <div class="container">
+                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping Address</h2>
+                                <div class="columns-2 ">
+                                 <div >
+                                    <x-Quotation.inputs.textarea   name="shipping_address"  autofocus required>{{$quotation->shipping_address}}</x-Quotation.inputs.textarea >
+                                    @error('shipping_address')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                 </div>
+                                 <div>
+                                    <div>
+                                        <x-Quotation.inputs.select name="contry"  required  class="m-1">
+                                            <option value=1>india</option>
+                                        </x-Quotation.inputs.select>
+                                        <livewire:s-addstate />
+                                        <x-Quotation.inputs.select name="city"  required class="m-1">
+                                            <option value=1>dakor</option>
+                                        </x-Quotation.inputs.select>
+                                        <x-Quotation.inputs.select name="postcode"  required class="m-1">
+                                            <option value=1>388225</option>
+                                        </x-Quotation.inputs.select>
+                                    </div>
+                                 </div>
+                                </div>
+                                </div>
+                            </div>
+                               </div>
+                               </div>
+                            </div>
+                             <div class="mb-4 conatiner border border-black ">
                                 <span class="font-bold">Quotation Item</span>
                                 <div class="m-2">
                                     <table class="table-auto">
                                         <thead>
                                             <tr>
-
                                                 <th>Name</th>
                                                 <th>Quntity</th>
-
                                                 <th>Price</th>
-                                                <th>Total</th>
+                                                <th>Tot l</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
-
-                                            @forelse ($quotation->quotationItems as $item)
-                                                <tr class="itemrow">
-
-                                                    <td class="itemsid" hidden><input hidden type="text"
-                                                            value="{{ $item->product_id }}" name="itemid[]"></td>
-                                                    <td class="qid" hidden><input hidden type="text"
-                                                            value="{{ $item->product_id }}" name="qid[]"></td>
-                                                    <td><input name="itemname[]" value="{{ $item->name }}"
-                                                            type="text"
-                                                            class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemquntity"><input type="text"
-                                                            value="{{ $item->quantity }}" name="itemquntity[]"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemprice"><input name="itemprice[]"
-                                                            value="{{ $item->price }}" type="text"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemtotal"><input value="{{ $item->total }}"
-                                                            name='total[]' type="text"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    @if (!$loop->first)
-                                                        <td><span class="button  bg-red-600 deleteitem">delete</span>
-                                                        </td>
-                                                    @endif
-                                                </tr>
+                                            @forelse ($quotation->quotationItems as $item )
+                                            <tr class="itemrow">
+                                                <td class="itemsid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="itemid[]"></td>
+                                                <td class="qid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="qid[]"></td>
+                                                <td><input name="itemname[]" value="{{$item->name}}" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                <td class="itemquntity"><input type="text" value="{{$item->quantity}}" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                <td class="itemprice"><input name="itemprice[]" value="{{$item->price}}" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                <td class="itemtotal"><input  value="{{$item->total}}" name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
+                                                @if (!$loop->first)
+                                                    <td><span class="button  bg-red-600 deleteitem">delete</span></td>
+                                                @endif
+                                            </tr>
                                             @empty
                                                 <tr class="itemrow">
                                                     <td class="itemsid" hidden><input hidden type="text"
@@ -170,12 +145,9 @@
                                                     </td>
                                                 </tr>
                                             @endforelse
-
-
                                         </tbody>
                                     </table>
                                     <span class="button" id="addmore">ADD</span>
-
                                     <div class="flex flex-row-reverse">
                                         <div class="cotainer w-34">
                                             <div class="columns-2 mt-3">
@@ -230,14 +202,15 @@
 
     @section('page_scripts')
         <script>
-            $(document).ready(function() {
-                function final(d = {{ $quotation->discount_amount }}, t = {{ $quotation->tax_amount }}) {
-                    console.log('in final');
+        $(document).ready(function(){
+
+
+                function final(d={{$quotation->discount_amount}},t={{$quotation->tax_amount}}){
                     var alltotal = document.getElementsByName('total[]')
                     var subtotal = 0;
                     var discount = d;
                     var tax = t;
-                    console.log(d + "---------" + t);
+
                     var grandtotal = Number(0);
                     $("#discount").val(discount);
                     $("#tax").val(tax);
@@ -258,9 +231,9 @@
                     if (discount != 0) {
 
                         var dam = parseFloat(discount);
-                        console.log(dam);
-                        subtotal = Number(subtotal) - (parseFloat(discount / 100) * Number(subtotal))
-                        console.log(subtotal);
+
+                        subtotal = Number(subtotal) - (parseFloat(discount/100)*Number(subtotal))
+
                         $("#grandtotal").val(Number(subtotal));
                         subtotal = parseFloat(subtotal);
                     }
@@ -285,8 +258,8 @@
                     $(this).parents('tr').remove();
                     discount = $('#discount').val();
                     tax = $("#tax").val();
-                    console.log("d-->" + discount + " tax-->" + tax);
-                    final(discount, tax);
+
+                    final(discount,tax);
 
                 });
 
@@ -316,7 +289,7 @@
                     $(x).autocomplete({
                         source: function(request, response) {
                             var value = request.term;
-                            // console.log(value); // console.log(value);
+                            //
                             // $.ajaxSetup({
                             //     headers:
                             //     { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
@@ -340,12 +313,7 @@
 
                         select: function(event, ui) {
                             $(x).val(ui.item.label);
-                            console.log(ui.item.quntity)
-                            console.log(ui.item.price)
-                            console.log(ui.item.total)
-                            console.log(ui.item.value)
-                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item
-                                .quntity)
+                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item.quntity)
                             $(x).parents('tr').find('.itemprice').find('input').val(ui.item.price)
                             $(x).parents('tr').find('.itemtotal').find('input').val(ui.item.total)
                             $(x).parents('tr').find('.itemsid').find('input').val(ui.item.value)

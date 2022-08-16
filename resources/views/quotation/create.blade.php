@@ -30,10 +30,9 @@
                             @enderror
 
                             <div class="mb-4">
-                                <x-Quotation.inputs.textarea name="description" label="{{ __('Description') }}"
-                                    autofocus />
+                                <x-Quotation.inputs.textarea name="description" label="{{__('Description')}}"  autofocus required/>
                             </div>
-                            @error('lead_value')
+                            @error('description')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
@@ -41,14 +40,14 @@
                             <div class="mb-4">
                                 <livewire:serachleadmanager />
                             </div>
-                            @error('lead_type_id')
+                            @error('person')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
                             <div class="mb-4">
                                 <livewire:serachlead />
                             </div>
-                            @error('lead_manager_id')
+                            @error('Lead')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
@@ -58,51 +57,54 @@
                                     <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Billing Address
                                     </h2>
 
-                                    <div class="columns-2">
-                                        <div>
-                                            <x-Quotation.inputs.textarea name="billing_address" autofocus />
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <x-Quotation.inputs.select name="b_contry" required class="m-2">
-                                                    <option value=1>india</option>
-                                                </x-Quotation.inputs.select>
-                                                <livewire:addstate />
-                                                <x-Quotation.inputs.select name="b_city" required class="m-2">
-                                                    <option value=1>dakor</option>
-                                                </x-Quotation.inputs.select>
-                                                <x-Quotation.inputs.select name="b_postcode" required class="m-2">
-                                                    <option value=1>388225</option>
-                                                </x-Quotation.inputs.select>
-                                            </div>
-                                        </div>
-                                    </div>
+                               <div class="columns-2">
+                                <div >
+                                    <x-Quotation.inputs.textarea   name="billing_address"  autofocus required/>
+                                    @error('billing_address')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                   <div>
+                                    <x-Quotation.inputs.select name="b_contry"  required  class="m-2">
+                                        <option value=1>india</option>
+                                     </x-Quotation.inputs.select>
+                                       <livewire:addstate />
+                                     <x-Quotation.inputs.select name="b_city"  required class="m-2">
+                                        <option value=1>dakor</option>
+                                     </x-Quotation.inputs.select>
+                                     <x-Quotation.inputs.select name="b_postcode"  required class="m-2">
+                                        <option value=1>388225</option>
+                                     </x-Quotation.inputs.select>
+                                   </div>
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <div class="container border border-black ">
-                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping Address
-                                    </h2>
-                                    <div class="columns-2">
-                                        <div>
-                                            <x-Quotation.inputs.textarea name="shipping_address" autofocus />
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <x-Quotation.inputs.select name="s_contry" required class="m-2">
-                                                    <option value=1>india</option>
-                                                </x-Quotation.inputs.select>
-                                                <livewire:s-addstate />
-                                                <x-Quotation.inputs.select name="s_city" required class="m-2">
-                                                    <option value=1>dakor</option>
-                                                </x-Quotation.inputs.select>
-                                                <x-Quotation.inputs.select name="s_postcode" required class="m-2">
-                                                    <option value=1>388225</option>
-                                                </x-Quotation.inputs.select>
-                                            </div>
-                                        </div>
+                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping Address</h2>
+                                <div class="columns-2">
+                                 <div >
+                                     <x-Quotation.inputs.textarea   name="shipping_address"  autofocus required/>
+                                     @error('shipping_address')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                 </div>
+                                 <div>
+                                    <div>
+                                     <x-Quotation.inputs.select name="s_contry"  required  class="m-2">
+                                        <option value=1>india</option>
+                                     </x-Quotation.inputs.select>
+                                     <livewire:s-addstate  />
+                                     <x-Quotation.inputs.select name="s_city"  required class="m-2">
+                                        <option value=1>dakor</option>
+                                     </x-Quotation.inputs.select>
+                                     <x-Quotation.inputs.select name="s_postcode"  required class="m-2">
+                                        <option value=1>388225</option>
+                                     </x-Quotation.inputs.select>
+
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="mb-4 conatiner border border-black ">
@@ -193,14 +195,12 @@
         <script>
             $(document).ready(function() {
 
-
-                function final(d = 0, t = 0) {
-                    console.log('in final');
+                function final(d=0,t=0){
                     var alltotal = document.getElementsByName('total[]')
                     var subtotal = 0;
                     var discount = d;
                     var tax = t;
-                    console.log(d + "---------" + t);
+
                     var grandtotal = Number(0);
                     $("#discount").val(discount);
                     $("#tax").val(tax);
@@ -221,9 +221,9 @@
                     if (discount != 0) {
 
                         var dam = parseFloat(discount);
-                        console.log(dam);
-                        subtotal = Number(subtotal) - (parseFloat(discount / 100) * Number(subtotal))
-                        console.log(subtotal);
+
+                        subtotal = Number(subtotal) - (parseFloat(discount/100)*Number(subtotal))
+
                         $("#grandtotal").val(Number(subtotal));
                         subtotal = parseFloat(subtotal);
                     }
@@ -248,8 +248,8 @@
                     $(this).parents('tr').remove();
                     discount = $('#discount').val();
                     tax = $("#tax").val();
-                    console.log("d-->" + discount + " tax-->" + tax);
-                    final(discount, tax);
+
+                    final(discount,tax);
 
                 });
 
@@ -287,10 +287,8 @@
                                     value: value
                                 },
                                 dataType: "json",
-                                success: function(data) {
-
+                                success:function(data){
                                     response(data);
-
                                 }
 
                             })
@@ -298,12 +296,7 @@
 
                         select: function(event, ui) {
                             $(x).val(ui.item.label);
-                            console.log(ui.item.quntity)
-                            console.log(ui.item.price)
-                            console.log(ui.item.total)
-                            console.log(ui.item.value)
-                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item
-                                .quntity)
+                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item.quntity)
                             $(x).parents('tr').find('.itemprice').find('input').val(ui.item.price)
                             $(x).parents('tr').find('.itemtotal').find('input').val(ui.item.total)
                             $(x).parents('tr').find('.itemsid').find('input').val(ui.item.value)

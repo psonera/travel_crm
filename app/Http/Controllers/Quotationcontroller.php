@@ -45,11 +45,7 @@ class Quotationcontroller extends Controller
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;
         $quotation->billing_address = $request->billing_address;
-
-        $quotation->shipping_address = $request->billing_address;
-
         $quotation->shipping_address = $request->shipping_address;
-
         $quotation->discount_percent = $request->discount;
         $quotation->discount_amount = $request->discount;
         $quotation->tax_amount = $request->tax;
@@ -57,7 +53,7 @@ class Quotationcontroller extends Controller
         $quotation->sub_total = $request->subtotal;
         $quotation->grand_total = $request->grandtotal;
         $quotation->lead_manager_id = LeadManager::where('name',$request->person)->first()->id;
-        $quotation->user_id = User::inRandomOrder()->first()->id;
+        $quotation->user_id = User::where('name',$request->owner)->first()->id;
         $quotation->save();
         //quotation items
         $itemid = $request->itemid;
@@ -78,8 +74,6 @@ class Quotationcontroller extends Controller
             $quotationitem->quotation()->associate($quotation);
             $quotationitem->save();
         }
-
-
         return redirect(route('quotation.index'));
 
     }
@@ -128,7 +122,7 @@ class Quotationcontroller extends Controller
         $quotation->sub_total = $request->subtotal;
         $quotation->grand_total = $request->grandtotal;
         $quotation->lead_manager_id = LeadManager::where('name',$request->person)->first()->id;
-        $quotation->user_id = User::inRandomOrder()->first()->id;
+        $quotation->user_id = User::where('name',$request->owner)->first()->id;
         $quotation->save();
 
         //quotation items
@@ -172,7 +166,14 @@ class Quotationcontroller extends Controller
      */
     public function destroy($id)
     {
-        dd('delete');
+        $quotation = Quotation::find($id);
+        $qitems = $quotation->quotationItems;
+        foreach($qitems as $qitem){
+            $qitem->delete();
+        }
+
+        $quotation->delete();
+        return redirect(route('quotation.index'));
     }
 
     public function searchproduct(Request $request){
