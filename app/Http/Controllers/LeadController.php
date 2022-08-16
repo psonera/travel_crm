@@ -49,7 +49,7 @@ class LeadController extends Controller
         ]);
     }
 
-    public function show(Lead $lead): View
+    public function view(Lead $lead): View
     {   
         return view('leads.view',[
             'lead' => Lead::find($lead)
@@ -58,7 +58,9 @@ class LeadController extends Controller
 
     public function store(LeadFormRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
+
+        dd($data);
 
         $data['status'] = 1;
         $data['accomodation_id'] = $request->input('accomodation_id');
@@ -77,11 +79,27 @@ class LeadController extends Controller
             $data['lead_pipeline_stage_id'] = $stage->id;
         }
         
+        if($data['selected_trip_date']){
+            $data['selected_trip_date'] = Carbon::parse($data['selected_trip_date']);
+        }
+
+        if($data['expected_closed_date']){
+            $data['expected_closed_date'] = Carbon::parse($data['expected_closed_date']);
+        }
+
+        
+
         if (in_array($stage->code, ['won', 'lost'])) {
             $data['closed_at'] = Carbon::now();
         }
 
         $lead = Lead::create($data);
+
+        // if($data['products']){
+        //     foreach($data['products'] as $){
+
+        //     }   
+        // }
 
         session()->flash('success', 'Lead Created Successfully!!');
 

@@ -14,9 +14,12 @@ class Lead extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'lead_value',
         'status',
         'traveler_count',
+        'selected_trip_date',
+        'closed_at',
         'user_id',
         'lead_manager_id',
         'lead_source_id',
@@ -27,6 +30,7 @@ class Lead extends Model
         'trip_type_id',
         'accomodation_id',
         'transport_id',
+        'expected_closed_date'
     ];
 
     protected $searchableFields = ['*'];
@@ -64,21 +68,13 @@ class Lead extends Model
 
     public function leadPipelineStage()
     {
-        return $this->belongsTo(
-            LeadPipelineStage::class,
-            'lead_pipeline_stage_id'
-        );
+        return $this->belongsTo(LeadPipelineStage::class, 'lead_pipeline_stage_id');
     }
 
     public function leadProducts()
     {
         return $this->hasMany(LeadProduct::class);
     }
-
-    // public function leadStage()
-    // {
-    //     return $this->belongsTo(LeadStage::class, 'lead_pipeline_stage_id');
-    // }
 
     public function trip()
     {

@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth']], function(){
         ->controller(LeadController::class)
         ->group(function(){
             Route::get('/', 'index')->name('index');
-            Route::get('view/{id}', 'show')->name('view');
+            Route::get('view/{lead}', 'view')->name('view');
             Route::get('create', 'create')->name('create');
             Route::post('store', 'store')->name('store');
             Route::get('edit/{id}', 'edit')->name('edit');

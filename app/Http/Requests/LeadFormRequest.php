@@ -23,12 +23,13 @@ class LeadFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+
+        $rules = [
             'title' => 'required',
             'description' => 'string',
             'lead_value' => 'required',
             'traveler_count' => 'required',
-            'selected_trip_date' => 'date|nullable|sometimes',
+            'selected_trip_date' => 'date_format:Y-m-d|date|after:today',
             'user_id' => 'required',
             'lead_manager_id' => 'required',
             'lead_source_id' => 'required',
@@ -38,7 +39,19 @@ class LeadFormRequest extends FormRequest
             'trip_type_id' => 'required',
             'accomodation_id' => 'required',
             'transport_id' => 'required',
-            'expected_closed_date' => 'date|nullable|sometimes',
+            'expected_closed_date' => 'date|date_format:Y-m-d',
         ];
+
+        if($this->products){
+            foreach($this->products as $key => $val)
+            {
+                $rules['products.' . $key . '.name'] = 'required';
+                $rules['products.' . $key . '.price'] = 'required';
+                $rules['products.' . $key . '.quantity'] = 'required';
+                $rules['products.' . $key . '.id'] = 'required';
+            }
+        }
+
+        return $rules;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Lead;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -27,9 +28,9 @@ Breadcrumbs::for('leads.edit', function (BreadcrumbTrail $trail) {
 });
 
 // Dashboard / Leads / [Lead Title]
-Breadcrumbs::for('leads.show', function (BreadcrumbTrail $trail, $lead) {
+Breadcrumbs::for('leads.view', function (BreadcrumbTrail $trail,Lead $lead) {
     $trail->parent('leads.index');
-    $trail->push($lead->title, route('leads.show', $lead->id));
+    $trail->push($lead->title, route('leads.view', $lead->id));
 });
 
 

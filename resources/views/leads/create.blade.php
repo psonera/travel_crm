@@ -7,182 +7,207 @@
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
                     <h2 class="text-3xl font-bold">Create Lead</h2>
                 </div>
-                <div class="flex-auto p-6" role="tabpanel">
+                <div class="flex-auto px-6 py-1">
                     <form role="form" method="POST" action="{{ route('leads.store') }}">
                         @csrf
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Details</legend>
+                        <div class="mb-4 border-b border-gray-200 dark:border-gray-700" id="tabs">
+                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center pl-4">
+                                <li class="mr-2" role="details">
+                                    <a href="#details"
+                                        class="inline-block p-4 rounded-t-lg border-b-2 text-xl">Details</a>
+                                </li>
+                                <li class="mr-2" role="trip">
+                                    <a href="#trip" class="inline-block p-4 rounded-t-lg border-b-2 text-xl">Trip</a>
+                                </li>
+                                <li class="mr-2" role="lead_manager_info">
+                                    <a href="#lead_manager_info"
+                                        class="inline-block p-4 rounded-t-lg border-b-2 text-xl">Lead
+                                        Manager</a>
+                                </li>
+                                <li role="product">
+                                    <a href="#product"
+                                        class="inline-block p-4 rounded-t-lg border-b-2 text-xl">Product</a>
+                                </li>
+                            </ul>
 
-                            <div class="mb-4">
-                                <x-inputs.text name="title" label="{{ __('Title') }}" value="{{ old('title') }}"
-                                    required autocomplete="title" autofocus />
+                            {{-- Details Section --}}
+                            <div id="details" class="p-4">
+                                <div class="mb-4">
+                                    <x-inputs.text name="title" label="{{ __('Title') }}"
+                                        value="{{ old('title') }}" required autocomplete="title" autofocus />
+                                </div>
+                                @error('title')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.textarea name="description" label="{{ __('Lead Body') }}">
+                                        {{ old('description') }}</x-inputs.textarea>
+                                </div>
+                                @error('description')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.text name="lead_value" currencySymbol="true"
+                                        label="{{ __('Lead Value') }}" value="{{ old('lead_value') }}" required
+                                        autocomplete="lead_value" autofocus />
+                                </div>
+                                @error('lead_value')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.select name="lead_source_id" label="{{ __('Source') }}" required>
+                                        <option value="">-- Select Lead Source --</option>
+                                        @foreach ($sources as $source)
+                                            <option value="{{ $source->id }}">{{ $source->name }}</option>
+                                        @endforeach
+                                    </x-inputs.select>
+                                </div>
+                                @error('lead_source_id')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.select name="lead_type_id" label="{{ __('Type') }}" required>
+                                        <option value="">-- Select Lead Type --</option>
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                        @endforeach
+                                    </x-inputs.select>
+                                </div>
+                                @error('lead_type_id')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.select name="user_id" label="{{ __('Manager') }}" required>
+                                        <option value="">-- Select Manager --</option>
+                                        @foreach ($managers as $manager)
+                                            <option value="{{ $manager->id }}">{{ $manager->name }}</option>
+                                        @endforeach
+                                    </x-inputs.select>
+                                </div>
+                                @error('user_id')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.date name="expected_closed_date"
+                                        label="{{ __('Expected Close Date') }}" />
+                                </div>
+                                @error('expected_closed_date')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <x-inputs.hidden name="lead_pipeline_stage_id" value="1" />
+
                             </div>
-                            @error('title')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
 
-                            <div class="mb-4">
-                                <x-inputs.textarea name="description" label="{{ __('Lead Body') }}">
-                                    {{ old('description') }}</x-inputs.textarea>
-                            </div>
-                            @error('description')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                            {{-- Trip Section --}}
+                            <div id="trip" class="p-4">
+                                <div class="mb-4 relative">
+                                    <x-inputs.text name="find_trips" label="{{ __('Trip') }}"
+                                        value="{{ old('find_trips') }}" required autocomplete="find_trips" autofocus
+                                        placeholder="Start typing title..." />
+                                    <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
+                                        id="select_trip">
+                                    </ul>
+                                    <x-inputs.hidden name="trip_id" />
+                                </div>
 
-                            <div class="mb-4">
-                                <x-inputs.text name="lead_value" currencySymbol="true" label="{{ __('Lead Value') }}"
-                                    value="{{ old('lead_value') }}" required autocomplete="lead_value" autofocus />
-                            </div>
-                            @error('lead_value')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.select name="lead_source_id" label="{{ __('Source') }}" required>
-                                    <option value="">-- Select Lead Source --</option>
-                                    @foreach ($sources as $source)
-                                        <option value="{{ $source->id }}">{{ $source->name }}</option>
+                                <div class="mb-4">
+                                    <x-inputs.partials.label name="trip_type_id" label="Trip Type" required />
+                                    <span class="text-red-500">*</span>
+                                    @foreach ($trip_types as $trip_type)
+                                        <div>
+                                            <input
+                                                class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                                type="radio" name="trip_type_id" value="{{ $trip_type->id }}"
+                                                {{ $trip_type->id === 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label text-gray-800"
+                                                for="trip_type_id_{{ $trip_type->id }}">{{ $trip_type->name }}</label>
+                                        </div>
                                     @endforeach
-                                </x-inputs.select>
-                            </div>
-                            @error('lead_source_id')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                                </div>
 
-                            <div class="mb-4">
-                                <x-inputs.select name="lead_type_id" label="{{ __('Type') }}" required>
-                                    <option value="">-- Select Lead Type --</option>
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                <div class="mb-4">
+                                    <x-inputs.number name="traveler_count"
+                                        label="{{ __('How many travelers are you?') }}" autocomplete="traveler_count"
+                                        autofocus required />
+                                </div>
+
+                                <div class="mb-4">
+                                    <x-inputs.date name="selected_trip_date" label="{{ __('Select Trip Date') }}"
+                                        autocomplete="selected_trip_date" autofocus />
+                                </div>
+
+                                <div class="mb-4">
+                                    <x-inputs.partials.label name="accomodation_id" label="Accomodation" required />
+                                    <span class="text-red-500">*</span>
+                                    @foreach ($accomodations as $acc)
+                                        <div>
+                                            <input
+                                                class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                                type="radio" name="accomodation_id" value="{{ $acc->id }}"
+                                                {{ $acc->id === 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label text-gray-800"
+                                                for="accomodation_id_{{ $acc->id }}">{{ $acc->name }}</label>
+                                        </div>
                                     @endforeach
-                                </x-inputs.select>
-                            </div>
-                            @error('lead_type_id')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                                </div>
 
-                            <div class="mb-4">
-                                <x-inputs.select name="user_id" label="{{ __('Manager') }}" required>
-                                    <option value="">-- Select Manager --</option>
-                                    @foreach ($managers as $manager)
-                                        <option value="{{ $manager->id }}">{{ $manager->name }}</option>
+                                <div class="mb-4">
+                                    <x-inputs.partials.label name="transport_id" label="Choose Transportation"
+                                        required />
+                                    <span class="text-red-500">*</span>
+                                    @foreach ($transports as $transport)
+                                        <div>
+                                            <input
+                                                class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                                type="radio" name="transport_id" value="{{ $transport->id }}"
+                                                {{ $transport->id === 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label text-gray-800"
+                                                for="trip_type_id_{{ $transport->id }}">{{ $transport->name }}</label>
+                                        </div>
                                     @endforeach
-                                </x-inputs.select>
-                            </div>
-                            @error('user_id')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.date name="expected_closed_date" label="{{ __('Expected Closed Date') }}" />
-                            </div>
-                            @error('expected_closed_date')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <x-inputs.hidden name="lead_pipeline_stage_id" value="1" />
-
-                        </fieldset>
-
-                        <fieldset class="border border-solid border-gray-300 p-6 mt-12">
-                            <legend class="text-xl pl-4 pr-4">Trip Details</legend>
-                            <div class="mb-4 relative">
-                                <x-inputs.text name="find_trips" label="{{ __('Trip') }}"
-                                    value="{{ old('find_trips') }}" required autocomplete="find_trips" autofocus
-                                    placeholder="Start typing title..." />
-                                <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
-                                    id="select_trip">
-                                </ul>
-                                <x-inputs.hidden name="trip_id" />
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <x-inputs.partials.label name="trip_type_id" label="Trip Type" required />
-                                <span class="text-red-500">*</span>
-                                @foreach ($trip_types as $trip_type)
-                                    <div>
-                                        <input
-                                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            type="radio" name="trip_type_id" value="{{ $trip_type->id }}"
-                                            {{ $trip_type->id === 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label text-gray-800"
-                                            for="trip_type_id_{{ $trip_type->id }}">{{ $trip_type->name }}</label>
-                                    </div>
-                                @endforeach
+                            {{-- Lead Manager Section --}}
+                            <div id="lead_manager_info" class="p-4">
+                                <div class="mb-4 relative">
+                                    <x-inputs.text type="search" name="lead_manager" label="{{ __('Name') }}"
+                                        value="{{ old('lead_manager') }}" required autocomplete="lead_manager"
+                                        autofocus placeholder="Start typing name..." />
+                                    <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
+                                        id="select_lm">
+                                    </ul>
+                                </div>
+                                @error('lead_manager')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+
+                                <div class="mb-4">
+                                    <x-inputs.email name="email" label="{{ __('Email') }}" autocomplete="email"
+                                        required />
+                                </div>
+                                <div class="mb-4">
+                                    <x-inputs.text name="contact_number" label="{{ __('Phone') }}"
+                                        autocomplete="contact_number" />
+                                </div>
+                                <x-inputs.hidden name="lead_manager_id" />
                             </div>
 
-                            <div class="mb-4">
-                                <x-inputs.number name="traveler_count" label="{{ __('How many travelers are you?') }}"
-                                    autocomplete="traveler_count" autofocus required />
+                            {{-- Product Section --}}
+                            <div id="product" class="p-4">
+                                <div id="add_product_form"></div>
+                                <button class="font-bold text-center text-blue-500" type="button" id="add_product">+
+                                    Add
+                                    Product</button>
                             </div>
-
-                            <div class="mb-4">
-                                <x-inputs.date name="selected_trip_date" label="{{ __('Select Date') }}"
-                                    autocomplete="selected_trip_date" autofocus />
-                            </div>
-
-                            <div class="mb-4">
-                                <x-inputs.partials.label name="accomodation_id" label="Accomodation" required />
-                                <span class="text-red-500">*</span>
-                                @foreach ($accomodations as $acc)
-                                    <div>
-                                        <input
-                                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            type="radio" name="accomodation_id" value="{{ $acc->id }}"
-                                            {{ $acc->id === 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label text-gray-800"
-                                            for="accomodation_id_{{ $acc->id }}">{{ $acc->name }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="mb-4">
-                                <x-inputs.partials.label name="transport_id" label="Choose Transportation" required />
-                                <span class="text-red-500">*</span>
-                                @foreach ($transports as $transport)
-                                    <div>
-                                        <input
-                                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            type="radio" name="transport_id" value="{{ $transport->id }}"
-                                            {{ $transport->id === 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label text-gray-800"
-                                            for="trip_type_id_{{ $transport->id }}">{{ $transport->name }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </fieldset>
-
-                        <fieldset class="border border-solid border-gray-300 p-6 mt-12">
-                            <legend class="text-xl pl-4 pr-4">Lead Manager Details</legend>
-                            <div class="mb-4 relative">
-                                <x-inputs.text type="search" name="lead_manager" label="{{ __('Name') }}"
-                                    value="{{ old('lead_manager') }}" required autocomplete="lead_manager" autofocus
-                                    placeholder="Start typing name..." />
-                                <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
-                                    id="select_lm">
-                                </ul>
-                            </div>
-                            @error('lead_manager')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.email name="email" label="{{ __('Email') }}" autocomplete="email"
-                                    required />
-                            </div>
-                            <div class="mb-4">
-                                <x-inputs.text name="contact_number" label="{{ __('Phone') }}"
-                                    autocomplete="contact_number" />
-                            </div>
-                            <x-inputs.hidden name="lead_manager_id" />
-                        </fieldset>
-
-                        <fieldset class="border border-solid border-gray-300 p-6 mt-12">
-                            <legend class="text-xl pl-4 pr-4">Products</legend>
-                            <div id="add_product_form"></div>
-                            <button class="font-bold text-center text-blue-500" type="button" id="add_product">+ Add
-                                Product</button>
-                        </fieldset>
+                        </div>
 
                         <div class="text-center">
                             <button type="submit"
@@ -198,6 +223,9 @@
         </div>
     </div>
     <script>
+        $(function() {
+            $("#tabs").tabs();
+        });
         $(document).ready(function() {
             var i = {{ 0 }};
             $("#lead_manager").keyup(function() {
@@ -407,26 +435,26 @@
                 } else {
                     $("#select_prd_" + item_id).empty();
                     $("#select_prd_" + item_id).hide();
-                    $("input[name='products[product_" + item_id + "][price]'").val('');
-                    $("input[name='products[product_" + item_id + "][quantity]'").val('');
-                    $("input[name='products[product_" + item_id + "][amount]'").val('');
-                    $("input[name='products[product_" + item_id + "][id]'").val('');
+                    $("input[name='products[" + item_id + "][price]'").val('');
+                    $("input[name='products[" + item_id + "][quantity]'").val('');
+                    $("input[name='products[" + item_id + "][amount]'").val('');
+                    $("input[name='products[" + item_id + "][id]'").val('');
                 }
             });
 
             $(document).on('keyup', '.edit_price, .edit_qty', function() {
                 var edit = $(this).data('id');
-                let edit_price = $("input[name='products[product_" + edit + "][price]'").val();
-                let edit_qty = $("input[name='products[product_" + edit + "][quantity]'").val();
+                let edit_price = $("input[name='products[" + edit + "][price]'").val();
+                let edit_qty = $("input[name='products[" + edit + "][quantity]'").val();
                 let new_amount = edit_price * edit_qty;
-                $("input[name='products[product_" + edit + "][amount]'").val(new_amount);
+                $("input[name='products[" + edit + "][amount]'").val(new_amount);
             });
 
             function setPrdInfo(prd_info, nearest) {
                 var product_name = $(prd_info).text();
                 var product_id = $(prd_info).val();
 
-                $("input[name='products[product_" + nearest + "][name]'").val(product_name);
+                $("input[name='products[" + nearest + "][name]'").val(product_name);
                 $("#select_prd_" + nearest).empty();
                 $("#select_prd_" + nearest).hide();
 
@@ -457,10 +485,10 @@
                             var qty = response.quantity;
                             var price = response.price;
                             var amount = price * qty;
-                            $("input[name='products[product_" + nearest + "][id]'").val(prod_id);
-                            $("input[name='products[product_" + nearest + "][price]'").val(price);
-                            $("input[name='products[product_" + nearest + "][quantity]'").val(qty);
-                            $("input[name='products[product_" + nearest + "][amount]'").val(amount);
+                            $("input[name='products[" + nearest + "][id]'").val(prod_id);
+                            $("input[name='products[" + nearest + "][price]'").val(price);
+                            $("input[name='products[" + nearest + "][quantity]'").val(qty);
+                            $("input[name='products[" + nearest + "][amount]'").val(amount);
                         }
                     }
                 });

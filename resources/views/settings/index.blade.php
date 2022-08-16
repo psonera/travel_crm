@@ -141,7 +141,7 @@
             <!--Title-->
             <div>
                 <h2 class="font-sans font-bold break-normal text-gray-700 px-2 text-2xl">Trips</h2>
-                <p class="text-xl px-2 pb-2">Manage all your trips, their types & accomodations in the CRM.
+                <p class="text-xl px-2 pb-2">Manage all your trips, its types & accomodations in the CRM.
                 </p>
             </div>
             <!--Card-->
