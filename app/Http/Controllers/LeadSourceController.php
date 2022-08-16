@@ -92,7 +92,9 @@ class LeadSourceController extends Controller
      */
     public function destroy($id)
     {
-        $lead_source->delete();
-        return redirect()->route('settings.lead_sources.index')->with('success','Lead Source has been deleted successfully');
-    }
+        $lead_source = LeadSource::findOrFail($id);
+        $lead_source->delete();  
+        return response()->json([
+            'success' => true,
+        ]);    }
 }

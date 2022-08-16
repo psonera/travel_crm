@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TripTypeFormRequest;
+use App\Models\Trip;
 use App\Models\TripType;
 use Illuminate\Http\Request;
 
@@ -87,12 +88,15 @@ class TripTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  TripType $trip_type
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TripType $trip_type)
+    public function destroy($id)
     {
-        $trip_type->delete();
-        return redirect()->route('settings.trip_types.index')->with('success','Trip Type has been deleted successfully');
+        $trip_type = TripType::findOrFail($id);
+        $trip_type->delete();  
+        return response()->json([
+            'success' => true,
+        ]);    
     }
 }

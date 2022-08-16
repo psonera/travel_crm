@@ -101,18 +101,18 @@ Route::group(['middleware' => ['auth']], function(){
         ->prefix('mails')
         ->controller(MailController::class)
         ->group(function(){
-            Route::post('/draft', 'draft')->name('storedraft');
+            Route::post('draft', 'draft')->name('storedraft');
             Route::get('/','index')->name('index');
-            Route::get('/inbox', 'inbox')->name('inbox');
-            Route::get('/compose', 'compose')->name('compose');
-            Route::get('/outbox', 'outbox')->name('outbox');           
-            Route::post('/store', 'store')->name('store');
-            Route::get('/sent', 'sent')->name('sent');
-            Route::delete('/mail/{id}', 'destroy')->name('destroy');            
-            Route::get('/trash', 'trash')->name('trash');
-            Route::get('/draft','getDraft')->name('draft');
-            Route::post('/maill/{id}', 'forceDelete')->name('forceDelete');            
-            Route::post('/mail/{id}', 'restore')->name('restore');
+            Route::get('inbox', 'inbox')->name('inbox');
+            Route::get('compose', 'compose')->name('compose');
+            Route::get('outbox', 'outbox')->name('outbox');           
+            Route::post('store', 'store')->name('store');
+            Route::get('sent', 'sent')->name('sent');
+            Route::delete('mail/{id}', 'destroy')->name('destroy');            
+            Route::get('trash', 'trash')->name('trash');
+            Route::get('draft','getDraft')->name('draft');
+            // Route::post('maill/{id}', 'forceDelete')->name('forceDelete');            
+            // Route::post('mail/{id}', 'restore')->name('restore');
         });
 
     // Product Routes

@@ -69,6 +69,31 @@ class MailController extends Controller
     return redirect()->route('mails.sent')->with('success','Email has been sent successfully.');
  }
 
+ public function send(Request $request)
+ {
+  // for sending emails from draft
+     // Sending mail    
+     $emailAddress = $request->to;
+     $cc = $request->cc;
+     $bcc = $request->bcc;
+     $email = [
+         'cc' => $cc,
+         'bcc' => $bcc,
+     ];
+     
+     $subject = $request->subject;
+     
+     $data = [
+         "content" => $request->content,
+         "attachment" => $request->attachment
+     ];        
+     Mail::to($emailAddress)
+         ->cc($cc)
+         ->bcc($bcc)
+         ->send(new Compose($data,$email,$subject));
+ 
+  
+ }
  public function draft(Request $request)
  {
     $status =  EMAIL::DRAFT; 
@@ -103,7 +128,8 @@ class MailController extends Controller
   public function inbox()
   {
       $mails = Email::all();
-      // $mails = Email::where('status',Email::INBOX);
+    //   $mails = Email::where('status',Email::INBOX);
+        // dd($mails);
       return view('mails.inbox',compact('mails'));
   }
 
@@ -114,20 +140,31 @@ class MailController extends Controller
       return view('mails.outbox',compact('mails'));
   }
 
-  public function destroy(Email $mail)
+  public function destroy($id)
   {
+      $mail = Email::findOrFail($id);
       $status = Email::TRASH;
       $mail->status = $status;
-      $mail->save();
-      $mail->delete();
 
-      return view ('mails.inbox');
+      $mail->save();
+
+      $mail->delete();  
+      return response()->json([
+          'success' => true,
+      ]);
+
+
+      // $mail->delete();
+
+      // return view ('mails.inbox');
   }
 
   public function trash()
   {
     // $mails = Email::where('status',Email::TRASH);  
+    
       $mails = Email::withTrashed()->get();
+    //   dd($mails);
       return view('mails.trash',compact('mails'));
   }
 
@@ -144,4 +181,5 @@ class MailController extends Controller
       $mail -> forceDelete();
       return view('mails.trash',compact('mails'));
   }
+
 }

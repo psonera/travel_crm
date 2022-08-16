@@ -87,12 +87,16 @@ class LeadTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  LeadType $lead_type
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LeadType $lead_type)
+    public function destroy($id)
     {
-        $lead_type->delete();    
-        return redirect()->route('lead_type.index')->with('success','Lead Type has been deleted successfully');
+        $lead_type = LeadType::findOrFail($id);
+        $lead_type->delete();  
+        return response()->json([
+            'success' => true,
+        ]);    
     }
+
 }

@@ -112,7 +112,7 @@
                                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you
-                                                sure you want to delete this Lead Pipeline?</h3>
+                                                sure you want to delete this Lead manager?</h3>
                                                                                                 
                                             <button data-modal-toggle="popup-modal" id="deleteBtn" type="submit"
                                                 class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
@@ -130,16 +130,16 @@
                 </div>
             </div>
         </div>
-<script>    
-function toggleModal(id) {
+    <script>    
+    function toggleModal(id) {
     document.getElementById('modal').classList.toggle('hidden');
     $('#deleteBtn').attr('data-id',id);
-    pipeline_id = id;
-}
-
-$('#deleteBtn').on("click",function(){
+    manager_id = id;
+    }
+    
+    $('#deleteBtn').on("click",function(){
     var product=$('#deleteBtn').attr('data-id');
-
+    
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -147,7 +147,7 @@ $('#deleteBtn').on("click",function(){
         method: 'DELETE',
         beforeSend: function(xhr) {
         var token = $('meta[name="csrf_token"]').attr('content');
-
+    
             if (token) {
                 return xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
@@ -164,5 +164,5 @@ $('#deleteBtn').on("click",function(){
                 }
             );
             });
-</script>
-</x-app-layout>
+    </script>
+    </x-app-layout>

@@ -17,9 +17,9 @@
                                     <th
                                         class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Name</th>
-                                    <th
+                                    {{-- <th
                                         class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Created At</th>
+                                        Created At</th> --}}
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Actions</th>
@@ -39,10 +39,10 @@
                                             <p class="mb-0 leading-tight text-slate-400">{{ $trip_type->name }}</p>
                                         </td>
                                
-                                        <td
+                                        {{-- <td
                                             class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap shadow-transparent">
                                             <p class="mb-0 leading-tight text-slate-400">{{ date('d/m/Y', strtotime($trip_type->created_at)); }}</p>
-                                        </td>
+                                        </td> --}}
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                             <a href="{{ route('settings.trip_types.edit', $trip_type) }}"
                                                 class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Edit

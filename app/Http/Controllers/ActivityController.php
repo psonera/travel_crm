@@ -69,7 +69,7 @@ class ActivityController extends Controller
     public function store(ActivityFormRequest $request)
     {
         $validated = $request->validated();
-        dd($validated);
+
         Activity::create($validated);
 
         return redirect()->route('activities.index')->with('success', 'Activity has been created successfully.');

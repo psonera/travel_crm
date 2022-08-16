@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             $this->call(AccomodationSeeder::class);
             $this->call(ActivitySeeder::class);
             $this->call(ActivityParticipantSeeder::class);
+            $this->call(EmailSeeder::class);
             $this->call(EmailTemplateSeeder::class);
             $this->call(GroupSeeder::class);
             $this->call(LeadSourceSeeder::class);

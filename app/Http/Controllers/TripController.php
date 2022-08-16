@@ -86,12 +86,15 @@ class TripController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Trip $trip
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Trip $trip)
+    public function destroy($id)
     {
-        $trip->delete();
-        return redirect()->route('settings.trips.index')->with('success','Trip has been deleted successfully');;
+        $trip = Trip::findOrFail($id);
+        $trip->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

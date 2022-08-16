@@ -87,13 +87,15 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Product $product
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
-    
-        return redirect()->route('products.index')->with('success','Product has been deleted successfully');
+        $product = Product::findOrFail($id);
+        $product->delete();  
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
