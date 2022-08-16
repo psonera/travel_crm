@@ -222,164 +222,134 @@
             </div>
         </div>
     </div>
-    <script>
-        $(function() {
-            $("#tabs").tabs();
-        });
-        $(document).ready(function() {
-            var i = {{ 0 }};
-            $("#lead_manager").keyup(function() {
-                var search = $(this).val();
-                if (search.length >= 2) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        method: 'POST',
-                        beforeSend: function(xhr) {
-                            var token = $('meta[name="csrf_token"]').attr('content');
+    @section('page_scripts')
+        <script>
+            $(function() {
+                $("#tabs").tabs();
+            });
+            $(document).ready(function() {
+                var i = {{ 0 }};
+                $("#lead_manager").keyup(function() {
+                    var search = $(this).val();
+                    if (search.length >= 2) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            beforeSend: function(xhr) {
+                                var token = $('meta[name="csrf_token"]').attr('content');
 
-                            if (token) {
-                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                            }
-                        },
-                        data: {
-                            search: search,
-                            type: 1
-                        },
-                        url: "{{ route('leads.find_lm') }}",
-                        dataType: 'json',
-                        success: function(res) {
-                            var len = res.length;
-                            if (res != '') {
-                                $("#select_lm").empty();
-                                $("#select_lm").show();
-                                for (var i = 0; i < len; i++) {
-                                    var id = res[i]['id'];
-                                    var name = res[i]['name'];
-
-                                    $("#select_lm").append(
-                                        "<li class='p-2 cursor-pointer' value='" +
-                                        id + "'>" + name +
-                                        "</li>");
+                                if (token) {
+                                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                                 }
-                                $("#select_lm li").bind("click", function() {
-                                    setLMInfo(this);
-                                });
-                            } else {
-                                $("#select_lm").empty();
-                                $("#select_lm li").html(
-                                    "<p class='text-left'>No results found!</p>");
-                            }
-                        }
-                    });
-                } else {
-                    $("#select_lm").empty();
-                    $("#select_lm").hide();
-                    $("#lead_manager_id").val('');
-                    $("#email").val('');
-                    $("#contact_number").val('');
-                }
-            });
+                            },
+                            data: {
+                                search: search,
+                                type: 1
+                            },
+                            url: "{{ route('leads.find_lm') }}",
+                            dataType: 'json',
+                            success: function(res) {
+                                var len = res.length;
+                                if (res != '') {
+                                    $("#select_lm").empty();
+                                    $("#select_lm").show();
+                                    for (var i = 0; i < len; i++) {
+                                        var id = res[i]['id'];
+                                        var name = res[i]['name'];
 
-            $("#find_trips").keyup(function() {
-                var search_trip = $(this).val();
-                if (search_trip.length >= 2) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        method: 'POST',
-                        beforeSend: function(xhr) {
-                            var token = $('meta[name="csrf_token"]').attr('content');
-
-                            if (token) {
-                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                            }
-                        },
-                        data: {
-                            search_trip: search_trip,
-                            type: 1
-                        },
-                        url: "{{ route('leads.find_trip') }}",
-                        dataType: 'json',
-                        success: function(res) {
-                            var len = res.length;
-                            if (res != '') {
-                                $("#select_trip").empty();
-                                $("#select_trip").show();
-                                for (var i = 0; i < len; i++) {
-                                    var t_id = res[i]['id'];
-                                    var t_name = res[i]['title'];
-
-                                    $("#select_trip").append(
-                                        "<li class='p-2 cursor-pointer' value='" +
-                                        t_id + "'>" + t_name +
-                                        "</li>");
+                                        $("#select_lm").append(
+                                            "<li class='p-2 cursor-pointer' value='" +
+                                            id + "'>" + name +
+                                            "</li>");
+                                    }
+                                    $("#select_lm li").bind("click", function() {
+                                        setLMInfo(this);
+                                    });
+                                } else {
+                                    $("#select_lm").empty();
+                                    $("#select_lm li").html(
+                                        "<p class='text-left'>No results found!</p>");
                                 }
-                                $("#select_trip li").bind("click", function() {
-                                    setTripInfo(this);
-                                });
-                            } else {
-                                $("#select_trip").empty();
-                                $("#select_trip li").html(
-                                    "<p class='text-left'>No results found!</p>");
                             }
-                        }
-                    });
-                } else {
-                    $("#select_trip").empty();
-                    $("#select_trip").hide();
-                    $("#find_trips_id").val('');
-                    $("#email").val('');
-                    $("#contact_number").val('');
-                }
-            });
-
-            $(document).mouseup(function(e) {
-                var container = $("#select_lm, .select_prd, #select_trip");
-
-                // If the target of the click isn't the container
-                if (!container.is(e.target) && container.has(e.target).length === 0) {
-                    container.hide();
-                }
-            });
-
-            $('#user_id').select2();
-
-            $("#add_product").click(function() {
-                ++i;
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'POST',
-                    beforeSend: function(xhr) {
-                        var token = $('meta[name="csrf_token"]').attr('content');
-
-                        if (token) {
-                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                        }
-                    },
-                    data: {
-                        i: i,
-                    },
-                    url: "{{ route('leads.add_product') }}",
-                    success: function(res) {
-                        $('#add_product_form').append(res.html);
+                        });
+                    } else {
+                        $("#select_lm").empty();
+                        $("#select_lm").hide();
+                        $("#lead_manager_id").val('');
+                        $("#email").val('');
+                        $("#contact_number").val('');
                     }
                 });
-            });
 
-            $(document).on('click', '.delete-item', function() {
-                var delete_id = $(this).data('id');
-                $('.add_product_form_' + delete_id).remove();
-            });
+                $("#find_trips").keyup(function() {
+                    var search_trip = $(this).val();
+                    if (search_trip.length >= 2) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            beforeSend: function(xhr) {
+                                var token = $('meta[name="csrf_token"]').attr('content');
 
-            $(document).on('keyup', '.find_product', function() {
-                var item_id = $(this).data("id");
-                var search_prd = $(this).val();
-                if (search_prd.length >= 2) {
+                                if (token) {
+                                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                                }
+                            },
+                            data: {
+                                search_trip: search_trip,
+                                type: 1
+                            },
+                            url: "{{ route('leads.find_trip') }}",
+                            dataType: 'json',
+                            success: function(res) {
+                                var len = res.length;
+                                if (res != '') {
+                                    $("#select_trip").empty();
+                                    $("#select_trip").show();
+                                    for (var i = 0; i < len; i++) {
+                                        var t_id = res[i]['id'];
+                                        var t_name = res[i]['title'];
+
+                                        $("#select_trip").append(
+                                            "<li class='p-2 cursor-pointer' value='" +
+                                            t_id + "'>" + t_name +
+                                            "</li>");
+                                    }
+                                    $("#select_trip li").bind("click", function() {
+                                        setTripInfo(this);
+                                    });
+                                } else {
+                                    $("#select_trip").empty();
+                                    $("#select_trip li").html(
+                                        "<p class='text-left'>No results found!</p>");
+                                }
+                            }
+                        });
+                    } else {
+                        $("#select_trip").empty();
+                        $("#select_trip").hide();
+                        $("#find_trips_id").val('');
+                        $("#email").val('');
+                        $("#contact_number").val('');
+                    }
+                });
+
+                $(document).mouseup(function(e) {
+                    var container = $("#select_lm, .select_prd, #select_trip");
+
+                    // If the target of the click isn't the container
+                    if (!container.is(e.target) && container.has(e.target).length === 0) {
+                        container.hide();
+                    }
+                });
+
+                $('#user_id').select2();
+
+                $("#add_product").click(function() {
+                    ++i;
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -393,188 +363,220 @@
                             }
                         },
                         data: {
-                            search_prd: search_prd,
-                            type: 1
+                            i: i,
+                        },
+                        url: "{{ route('leads.add_product') }}",
+                        success: function(res) {
+                            $('#add_product_form').append(res.html);
+                        }
+                    });
+                });
+
+                $(document).on('click', '.delete-item', function() {
+                    var delete_id = $(this).data('id');
+                    $('.add_product_form_' + delete_id).remove();
+                });
+
+                $(document).on('keyup', '.find_product', function() {
+                    var item_id = $(this).data("id");
+                    var search_prd = $(this).val();
+                    if (search_prd.length >= 2) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            method: 'POST',
+                            beforeSend: function(xhr) {
+                                var token = $('meta[name="csrf_token"]').attr('content');
+
+                                if (token) {
+                                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                                }
+                            },
+                            data: {
+                                search_prd: search_prd,
+                                type: 1
+                            },
+                            url: "{{ route('leads.find_prd') }}",
+                            dataType: 'json',
+                            success: function(res) {
+                                var len = res.length;
+                                if (res != '') {
+                                    $("#select_prd_" + item_id).empty();
+                                    $("#select_prd_" + item_id).show();
+
+                                    // $.each(res, function(index, value){
+                                    //     $('.product_id').each(function(){
+                                    //         var selected = $(this).val();
+                                    //         if(selected == res.id){
+                                    //             res.splice(index, selected);
+                                    //         }
+                                    //     })
+                                    // });
+
+                                    for (var i = 0; i < len; i++) {
+                                        var prdid = res[i]['id'];
+                                        var name = res[i]['name'];
+
+                                        $("#select_prd_" + item_id).append(
+                                            "<li class='p-2 cursor-pointer' value='" +
+                                            prdid + "'>" + name +
+                                            "</li>");
+                                    }
+                                    $("#select_prd_" + item_id + " li").bind("click", function() {
+                                        setPrdInfo(this, item_id);
+                                    });
+                                } else {
+                                    $("#select_prd_" + item_id).empty();
+                                    $("#select_prd_" + item_id + " li").html(
+                                        "<p class='text-left'>No results found!</p>");
+                                }
+                            }
+                        });
+                    } else {
+                        $("#select_prd_" + item_id).empty();
+                        $("#select_prd_" + item_id).hide();
+                        $("input[name='products[" + item_id + "][price]'").val('');
+                        $("input[name='products[" + item_id + "][quantity]'").val('');
+                        $("input[name='products[" + item_id + "][amount]'").val('');
+                        $("input[name='products[" + item_id + "][id]'").val('');
+                    }
+                });
+
+                $(document).on('keyup', '.edit_price, .edit_qty', function() {
+                    var edit = $(this).data('id');
+                    let edit_price = $("input[name='products[" + edit + "][price]'").val();
+                    let edit_qty = $("input[name='products[" + edit + "][quantity]'").val();
+                    let new_amount = edit_price * edit_qty;
+                    $("input[name='products[" + edit + "][amount]'").val(new_amount);
+                });
+
+                function setPrdInfo(prd_info, nearest) {
+                    var product_name = $(prd_info).text();
+                    var product_id = $(prd_info).val();
+
+                    $("input[name='products[" + nearest + "][name]'").val(product_name);
+                    $("#select_prd_" + nearest).empty();
+                    $("#select_prd_" + nearest).hide();
+
+                    // Request User Details
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        method: 'POST',
+                        beforeSend: function(xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        },
+                        data: {
+                            prd_id: product_id,
+                            type: 2
                         },
                         url: "{{ route('leads.find_prd') }}",
                         dataType: 'json',
-                        success: function(res) {
-                            var len = res.length;
-                            if (res != '') {
-                                $("#select_prd_" + item_id).empty();
-                                $("#select_prd_" + item_id).show();
-
-                                // $.each(res, function(index, value){
-                                //     $('.product_id').each(function(){
-                                //         var selected = $(this).val();
-                                //         if(selected == res.id){
-                                //             res.splice(index, selected);
-                                //         }
-                                //     })
-                                // });
-
-                                for (var i = 0; i < len; i++) {
-                                    var prdid = res[i]['id'];
-                                    var name = res[i]['name'];
-
-                                    $("#select_prd_" + item_id).append(
-                                        "<li class='p-2 cursor-pointer' value='" +
-                                        prdid + "'>" + name +
-                                        "</li>");
-                                }
-                                $("#select_prd_" + item_id + " li").bind("click", function() {
-                                    setPrdInfo(this, item_id);
-                                });
-                            } else {
-                                $("#select_prd_" + item_id).empty();
-                                $("#select_prd_" + item_id + " li").html(
-                                    "<p class='text-left'>No results found!</p>");
+                        success: function(response) {
+                            $("#select_prd_" + nearest).empty();
+                            $("#select_prd_" + nearest).hide();
+                            if (response) {
+                                var prod_id = response.id;
+                                var qty = response.quantity;
+                                var price = response.price;
+                                var amount = price * qty;
+                                $("input[name='products[" + nearest + "][id]'").val(prod_id);
+                                $("input[name='products[" + nearest + "][price]'").val(price);
+                                $("input[name='products[" + nearest + "][quantity]'").val(qty);
+                                $("input[name='products[" + nearest + "][amount]'").val(amount);
                             }
                         }
                     });
-                } else {
-                    $("#select_prd_" + item_id).empty();
-                    $("#select_prd_" + item_id).hide();
-                    $("input[name='products[" + item_id + "][price]'").val('');
-                    $("input[name='products[" + item_id + "][quantity]'").val('');
-                    $("input[name='products[" + item_id + "][amount]'").val('');
-                    $("input[name='products[" + item_id + "][id]'").val('');
+                }
+
+                function setLMInfo(element) {
+                    var value = $(element).text();
+                    var user_id = $(element).val();
+
+                    $("#lead_manager").val(value);
+                    $("#select_lm").empty();
+                    $("#select_lm").hide();
+
+                    // Request User Details
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        method: 'POST',
+                        beforeSend: function(xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        },
+                        data: {
+                            user_id: user_id,
+                            type: 2
+                        },
+                        url: "{{ route('leads.find_lm') }}",
+                        dataType: 'json',
+                        success: function(response) {
+                            var len = response.length;
+                            $("#select_lm").empty();
+                            $("#select_lm").hide();
+                            if (response) {
+                                var email = response.email;
+                                var phone = response.contact_number;
+                                var lm_id = response.id;
+                                $("#email").val(email);
+                                $("#lead_manager_id").val(lm_id);
+                                $("#contact_number").val(phone);
+                            }
+                        }
+                    });
+                }
+
+                function setTripInfo(element) {
+                    var value = $(element).text();
+                    var trip_id = $(element).val();
+
+                    $("#find_trips").val(value);
+                    $("#select_trip").empty();
+                    $("#select_trip").hide();
+
+                    // Request User Details
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        method: 'POST',
+                        beforeSend: function(xhr) {
+                            var token = $('meta[name="csrf_token"]').attr('content');
+
+                            if (token) {
+                                return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            }
+                        },
+                        data: {
+                            trip_id: trip_id,
+                            type: 2
+                        },
+                        url: "{{ route('leads.find_trip') }}",
+                        dataType: 'json',
+                        success: function(response) {
+                            var len = response.length;
+                            $("#select_trip").empty();
+                            $("#select_trip").hide();
+                            if (response) {
+                                var s_t_id = response.id;
+                                $("#trip_id").val(s_t_id);
+                            }
+                        }
+                    });
                 }
             });
-
-            $(document).on('keyup', '.edit_price, .edit_qty', function() {
-                var edit = $(this).data('id');
-                let edit_price = $("input[name='products[" + edit + "][price]'").val();
-                let edit_qty = $("input[name='products[" + edit + "][quantity]'").val();
-                let new_amount = edit_price * edit_qty;
-                $("input[name='products[" + edit + "][amount]'").val(new_amount);
-            });
-
-            function setPrdInfo(prd_info, nearest) {
-                var product_name = $(prd_info).text();
-                var product_id = $(prd_info).val();
-
-                $("input[name='products[" + nearest + "][name]'").val(product_name);
-                $("#select_prd_" + nearest).empty();
-                $("#select_prd_" + nearest).hide();
-
-                // Request User Details
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'POST',
-                    beforeSend: function(xhr) {
-                        var token = $('meta[name="csrf_token"]').attr('content');
-
-                        if (token) {
-                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                        }
-                    },
-                    data: {
-                        prd_id: product_id,
-                        type: 2
-                    },
-                    url: "{{ route('leads.find_prd') }}",
-                    dataType: 'json',
-                    success: function(response) {
-                        $("#select_prd_" + nearest).empty();
-                        $("#select_prd_" + nearest).hide();
-                        if (response) {
-                            var prod_id = response.id;
-                            var qty = response.quantity;
-                            var price = response.price;
-                            var amount = price * qty;
-                            $("input[name='products[" + nearest + "][id]'").val(prod_id);
-                            $("input[name='products[" + nearest + "][price]'").val(price);
-                            $("input[name='products[" + nearest + "][quantity]'").val(qty);
-                            $("input[name='products[" + nearest + "][amount]'").val(amount);
-                        }
-                    }
-                });
-            }
-
-            function setLMInfo(element) {
-                var value = $(element).text();
-                var user_id = $(element).val();
-
-                $("#lead_manager").val(value);
-                $("#select_lm").empty();
-                $("#select_lm").hide();
-
-                // Request User Details
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'POST',
-                    beforeSend: function(xhr) {
-                        var token = $('meta[name="csrf_token"]').attr('content');
-
-                        if (token) {
-                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                        }
-                    },
-                    data: {
-                        user_id: user_id,
-                        type: 2
-                    },
-                    url: "{{ route('leads.find_lm') }}",
-                    dataType: 'json',
-                    success: function(response) {
-                        var len = response.length;
-                        $("#select_lm").empty();
-                        $("#select_lm").hide();
-                        if (response) {
-                            var email = response.email;
-                            var phone = response.contact_number;
-                            var lm_id = response.id;
-                            $("#email").val(email);
-                            $("#lead_manager_id").val(lm_id);
-                            $("#contact_number").val(phone);
-                        }
-                    }
-                });
-            }
-
-            function setTripInfo(element) {
-                var value = $(element).text();
-                var trip_id = $(element).val();
-
-                $("#find_trips").val(value);
-                $("#select_trip").empty();
-                $("#select_trip").hide();
-
-                // Request User Details
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'POST',
-                    beforeSend: function(xhr) {
-                        var token = $('meta[name="csrf_token"]').attr('content');
-
-                        if (token) {
-                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                        }
-                    },
-                    data: {
-                        trip_id: trip_id,
-                        type: 2
-                    },
-                    url: "{{ route('leads.find_trip') }}",
-                    dataType: 'json',
-                    success: function(response) {
-                        var len = response.length;
-                        $("#select_trip").empty();
-                        $("#select_trip").hide();
-                        if (response) {
-                            var s_t_id = response.id;
-                            $("#trip_id").val(s_t_id);
-                        }
-                    }
-                });
-            }
-        });
-    </script>
+        </script>
+    @endsection    
 </x-app-layout>

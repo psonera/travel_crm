@@ -1,4 +1,7 @@
 <x-app-layout>
+    @section('page_styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+    @endsection
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
@@ -237,7 +240,7 @@
                     event.preventDefault();
                     $('tbody').append(
                         '<tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name="total[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td><span class="button  bg-red-600 deleteitem">delete</span></td></tr>'
-                        );
+                    );
                 });
 
                 $(document).on('click', '.deleteitem', function(e) {
@@ -269,7 +272,7 @@
                     tax = $("#tax").val();
                     di = $("#discount").val();
                     final(di, tax);
-                })
+                });
 
                 $(document).on("click", ".itemname", function() {
                     var x = this;
@@ -311,7 +314,7 @@
                         }
 
                     });
-                })
+                });
             });
         </script>
     @endsection
