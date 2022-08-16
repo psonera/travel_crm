@@ -16,16 +16,23 @@
                                         ID</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        STATUS</th>
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         To</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         From</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
+                                        deleted_at</th>
+
+                                    {{-- <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Subject</th> 
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
-                                        Content</th>   
+                                        Content</th>    --}}
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none border-b-solid tracking-none whitespace-nowrap text-slate opacity-70">
                                         Actions</th>
@@ -40,6 +47,12 @@
                                                 <p class="mb-0 leading-tight text-slate-400">{{ $index + 1 }}</p>
                                             </div>
                                         </td>
+                                        <td
+                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            <div class="flex px-2 py-1">
+                                                <p class="mb-0 leading-tight text-slate-400">{{ \App\Models\Email::STATUS[$mail->status]}}</p>
+                                            </div>
+                                        </td>
                                        
                                         <td
                                             class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -48,12 +61,18 @@
                                             </div>
                                         </td>
                                         <td
-                                        class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                        <div class="flex px-2 py-1">
+                                           class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            <div class="flex px-2 py-1">
                                             <p class="mb-0 leading-tight text-slate-400">{{ $mail->from }}</p>
-                                        </div>
-                                    </td>
-                                    <td
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            <div class="flex px-2 py-1">
+                                                <p class="mb-0 leading-tight text-slate-400">{{ $mail->deleted_at }}</p>
+                                            </div>
+                                        </td>
+                                    {{-- <td
                                         class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                         <div class="flex px-2 py-1">
                                             <p class="mb-0 leading-tight text-slate-400">{{ substr($mail->subject,0,17) }}</p>
@@ -64,10 +83,10 @@
                                         <div class="flex px-2 py-1">
                                             <p class="mb-0 leading-tight text-slate-400">{{ substr($mail->content,0,40) }}</p>
                                         </div>
-                                    </td>
+                                    </td> --}}
 
                                          <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <a href="" class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Restore
+                                            <a href="{{ route('mails.restore', $mail->id) }}" class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Restore
                                             </a>
                                             <a onclick="toggleModal('{{ $mail->id }}')" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-full focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer"> Delete</a>
                                         </td>
@@ -126,24 +145,24 @@
                 </div>
             </div>
         </div>
-<script>    
-function toggleModal(id) {
+    <script>    
+    function toggleModal(id) {
     document.getElementById('modal').classList.toggle('hidden');
     $('#deleteBtn').attr('data-id',id);
     mail_id = id;
-}
-
-$('#deleteBtn').on("click",function(){
+    }
+    
+    $('#deleteBtn').on("click",function(){
     var mail=$('#deleteBtn').attr('data-id');
-
+    
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        method: 'DELETE',
+        method: 'POST',
         beforeSend: function(xhr) {
         var token = $('meta[name="csrf_token"]').attr('content');
-
+    
             if (token) {
                 return xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
@@ -151,7 +170,7 @@ $('#deleteBtn').on("click",function(){
             data: {
                 mail: mail,
             },
-            url: "mails/"+mail,
+            url: "forceDelete/"+mail,
             dataType: 'json',
                 success: function(response) {
                     document.getElementById('modal').classList.toggle('hidden');
@@ -160,5 +179,5 @@ $('#deleteBtn').on("click",function(){
                 }
             );
             });
-</script>
-</x-app-layout>     
+    </script>
+    </x-app-layout>                                                

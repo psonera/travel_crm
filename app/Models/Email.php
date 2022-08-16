@@ -20,18 +20,14 @@ class Email extends Model implements HasMedia
 
     protected $table = 'mails';
 
-    public const INBOX = 1;
-    public const SENT = 2;
-    public const DRAFT = 3;
-    public const  TRASH = 4;
-    public const OUTBOX = 5;
+    public const SENT = 1;
+    public const DRAFT = 2;
+    public const  TRASH = 3;
 
     const STATUS = [
-        self::INBOX => 'Inbox',
         self::SENT => 'Sent',
         self::DRAFT => 'Draft',
         self::TRASH => 'Trash',
-        self::OUTBOX => 'Outbox',
     ];
 
     public function template()

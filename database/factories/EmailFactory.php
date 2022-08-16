@@ -23,7 +23,7 @@ class EmailFactory extends Factory
             'bcc' => $this->faker->email(),
             'subject' => $this->faker->text(15), 
             'content' => $this->faker->text(50),
-            'status' => $this->faker->numberBetween(1, 5),
+            'status' => $this->faker->numberBetween(1, 3),
         ];
     }
 }

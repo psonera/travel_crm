@@ -62,10 +62,12 @@
                                     <td
                                         class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                         <div class="flex px-2 py-1">
-                                            <p class="mb-0 leading-tight text-slate-400">{{ $mail->content }}</p>
+                                            <p class="mb-0 leading-tight text-slate-400">{{substr($mail->content,0,20) }}</p>
                                         </div>
                                     </td>
                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                        <a href="{{ route('mails.sendDraft', $mail->id) }}" class="focus:outline-none text-black bg-yellow-400 rounded-full hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"> Send
+                                        </a>
                                         <a onclick="toggleModal('{{ $mail->id }}')" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-full focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer"> Delete</a>
                                     </td>
                                 </tr>
@@ -148,7 +150,7 @@ $.ajax({
         data: {
             mail: mail,
         },
-        url: "mails/"+mail,
+        url: "destroy/"+mail,
         dataType: 'json',
             success: function(response) {
                 document.getElementById('modal').classList.toggle('hidden');

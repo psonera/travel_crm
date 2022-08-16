@@ -14,23 +14,26 @@
                                 <x-inputs.email name="to" id='to' label="{{ __('To') }}" value="{{ old('to') }}" required autocomplete="to" autofocus />
                             </div>
 
-                            {{-- <div id="email">
-                                <button onclick="myFunction()">CC</button>
-                                <div id="CC"> --}}
+                            <div x-data="{open:false}">
+                                <button type="button" x-on:click="open=!open" class="bg-slate-700 text-white px-4 py-1 rounded-xl">
+                                    CC
+                                </button>
+                                <div x-show="open" x-transition x-cloak>
                                     <div class="mb-4">
-                                    <x-inputs.email 
-                                    label="{{ __('cc') }}"
-                                    name="cc"  value="{{ old('cc') }}" value="{{ old('cc') }}" autocomplete="cc" autofocus />
+                                        <x-inputs.email name="cc"  value="{{ old('cc') }}" value="{{ old('cc') }}" autocomplete="cc" autofocus />
+                                    </div>
                                 </div>
-                                {{-- <button onclick="myFunction1()">BCC</button>
-                                <div id="BCC"> --}}
+                            </div>
+                            <div x-data="{open:false}">
+                                <button type="button" x-on:click="open=!open" class="bg-slate-500 text-white px-4 py-1 rounded-xl">
+                                    BCC
+                                </button>
+                                <div x-show="open" x-transition x-cloak>
                                     <div class="mb-4">
-                                    <x-inputs.email 
-                                    label="{{ __('bcc') }}"
-                                    name="bcc" value="{{ old('bcc') }}" value="{{ old('bcc') }}" autocomplete="bcc" autofocus />
+                                        <x-inputs.email name="bcc"  value="{{ old('bcc') }}" value="{{ old('bcc') }}" autocomplete="bcc" autofocus />
+                                    </div>
                                 </div>
-                            {{-- </div> --}}
-
+                            </div>
                             <div class="mb-4">
                                 <x-inputs.text name="subject" id="subject" label="{{ __('Subject') }}" value="{{ old('subject') }}" required autocomplete="subject" autofocus />
                             </div>

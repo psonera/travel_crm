@@ -148,7 +148,7 @@ $.ajax({
         data: {
             mail: mail,
         },
-        url: "mails/"+mail,
+        url: "destroy/"+mail,
         dataType: 'json',
             success: function(response) {
                 document.getElementById('modal').classList.toggle('hidden');

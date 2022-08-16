@@ -69,33 +69,39 @@ class MailController extends Controller
     return redirect()->route('mails.sent')->with('success','Email has been sent successfully.');
  }
 
- public function send(Request $request)
+ public function sendDraft($id)
  {
   // for sending emails from draft
      // Sending mail    
-     $emailAddress = $request->to;
-     $cc = $request->cc;
-     $bcc = $request->bcc;
+     $mail = Email::findOrFail($id);
+     $status =  EMAIL::SENT; 
+     $mail->status = $status;
+     $mail->save();
+
+     $emailAddress = $mail->to;
+     $cc = $mail->cc;
+     $bcc = $mail->bcc;
      $email = [
          'cc' => $cc,
          'bcc' => $bcc,
      ];
      
-     $subject = $request->subject;
+     $subject = $mail->subject;
      
      $data = [
-         "content" => $request->content,
-         "attachment" => $request->attachment
+         "content" => $mail->content,
+         "attachment" => $mail->attachment
      ];        
      Mail::to($emailAddress)
          ->cc($cc)
          ->bcc($bcc)
-         ->send(new Compose($data,$email,$subject));
- 
-  
- }
- public function draft(Request $request)
- {
+         ->send(new Compose($data,$email,$subject)); 
+
+     return view('mails.sent');
+    }
+
+  public function draft(Request $request)
+  {
     $status =  EMAIL::DRAFT; 
 
     $mail = Email::Create([
@@ -125,43 +131,22 @@ class MailController extends Controller
       return view('mails.sent',compact('mails'));
   }
 
-  public function inbox()
-  {
-      $mails = Email::all();
-    //   $mails = Email::where('status',Email::INBOX);
-        // dd($mails);
-      return view('mails.inbox',compact('mails'));
-  }
-
-
-  public function outbox()
-  {
-      $mails = Email::where('status',Email::OUTBOX);
-      return view('mails.outbox',compact('mails'));
-  }
-
   public function destroy($id)
   {
       $mail = Email::findOrFail($id);
       $status = Email::TRASH;
       $mail->status = $status;
-
       $mail->save();
 
       $mail->delete();  
       return response()->json([
           'success' => true,
       ]);
-
-
-      // $mail->delete();
-
-      // return view ('mails.inbox');
   }
 
   public function trash()
   {
-    // $mails = Email::where('status',Email::TRASH);  
+    //  $mails = Email::where('status',Email::TRASH);  
     
       $mails = Email::withTrashed()->get();
     //   dd($mails);
@@ -172,14 +157,18 @@ class MailController extends Controller
   {
       $mail = Email::withTrashed()->find($id);
       $mail -> restore();
-      return view('mails.trash',compact('mails'));
+      return view('mails.trash',compact('mail'));
   }
 
   public function forceDelete($id)
   {
       $mail = Email::withTrashed()->find($id);
       $mail -> forceDelete();
-      return view('mails.trash',compact('mails'));
+
+      return response()->json([
+          'success' => true,
+      ]);
+    //   return view('mails.trash',compact('mail'));
   }
 
 }
