@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Thrill Blazers LMS</title>
+    <title>Travel CRM</title>
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
@@ -21,10 +21,9 @@
     <link href="/css/styles.css?v=1.0.2" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
-        type='text/css' />
-
-    <link rel="icon" type="image/png" href="/img/favicon.png">
+    {{-- <link href='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/css/froala_editor.pkgd.min.css' rel='stylesheet'
+        type='text/css' /> --}}
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -33,23 +32,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <!-- Icons -->
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
-    </script>
+    {{-- <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@4.0.10/js/froala_editor.pkgd.min.js'>
+    </script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqwidgets/14.0.0/jqwidgets/jqx-all.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-    <script type="module">
-        import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
-    </script>
-
+    {{-- <script type="module">
+        // import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
+    </script> --}}
     @livewireStyles
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+
 </head>
 
 <body class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
@@ -72,7 +71,7 @@
                                 ©
                                 2022,
                                 made with <i class="fa fa-heart"></i> by
-                                <a class="font-semibold text-slate-700">Developers</a>
+                                <a href="#" class="font-semibold text-slate-700" target="_blank">Developers</a>
                                 for a better web.
                             </div>
                         </div>
@@ -81,19 +80,17 @@
             </footer>
         </div>
     </main>
-
     @stack('modals')
 
     @livewireScripts
 
-    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-        data-turbolinks-eval="false" data-turbo-eval="false"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
+        data-turbolinks-eval="false" data-turbo-eval="false"></script> --}}
 
     @stack('scripts')
 
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    @yield('page_scripts')
+
     @if (session()->has('success'))
         <script>
             const notyf = new Notyf({
@@ -102,35 +99,12 @@
             notyf.success('{{ session('success') }}')
         </script>
     @endif
-{{-- 
-    <script>
-        /* Simple Alpine Image Viewer */
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('imageViewer', (src = '') => {
-                return {
-                    imageUrl: src,
 
-                    refreshUrl() {
-                        this.imageUrl = this.$el.getAttribute("image-url")
-                    },
 
-                    fileChosen(event) {
-                        this.fileToDataUrl(event, src => this.imageUrl = src)
-                    },
 
-                    fileToDataUrl(event, callback) {
-                        if (!event.target.files.length) return
+    @section('scripts')
 
-                        let file = event.target.files[0],
-                            reader = new FileReader()
-
-                        reader.readAsDataURL(file)
-                        reader.onload = e => callback(e.target.result)
-                    },
-                }
-            })
-        })
-    </script> --}}
+    @show
 </body>
 
 </html>

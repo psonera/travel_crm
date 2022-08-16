@@ -70,8 +70,20 @@ Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail, $lead_m
     $trail->push('Edit Lead Manager', route('lead_managers.edit',$lead_manager));
 });
 
-
-// All the breadcrumbs in settings section 
+//Quotation
+Breadcrumbs::for('quotation.index',function(BreadcrumbTrail $trail){
+    $trail->parent('dashboard');
+    $trail->push('Quotation', route('quotation.index'));
+});
+Breadcrumbs::for('quotation.create',function(BreadcrumbTrail $trail){
+    $trail->parent('quotation.index');
+    $trail->push('Create Quotation', route('quotation.create'));
+});
+Breadcrumbs::for('quotation.edit',function(BreadcrumbTrail $trail,$id){
+    $trail->parent('quotation.index');
+    $trail->push('Quotation Edit', route('quotation.edit',$id));
+});
+// All the breadcrumbs in settings section
 // Dashboard / Settings
 Breadcrumbs::for('settings.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
