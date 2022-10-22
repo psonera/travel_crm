@@ -1,6 +1,15 @@
 <?php
 
 use App\Models\Lead;
+use App\Models\Note;
+use App\Models\User;
+use App\Models\Email;
+use App\Models\Activity;
+use App\Models\LeadType;
+use App\Models\Transport;
+use App\Models\EmailTemplate;
+use App\Models\LeadPipelineStage;
+use Spatie\Permission\Models\Role;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -22,9 +31,9 @@ Breadcrumbs::for('leads.create', function (BreadcrumbTrail $trail) {
 });
 
 // Dashboard / Leads / Edit Lead
-Breadcrumbs::for('leads.edit', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('leads.edit', function (BreadcrumbTrail $trail, Lead $lead) {
     $trail->parent('leads.index');
-    $trail->push('Edit Lead', route('leads.edit'));
+    $trail->push($lead->title, route('leads.edit', $lead->id));
 });
 
 // Dashboard / Leads / [Lead Title]
@@ -71,17 +80,17 @@ Breadcrumbs::for('lead_managers.edit', function (BreadcrumbTrail $trail, $lead_m
 });
 
 //Quotation
-Breadcrumbs::for('quotation.index',function(BreadcrumbTrail $trail){
+Breadcrumbs::for('quotations.index',function(BreadcrumbTrail $trail){
     $trail->parent('dashboard');
-    $trail->push('Quotation', route('quotation.index'));
+    $trail->push('Quotation', route('quotations.index'));
 });
-Breadcrumbs::for('quotation.create',function(BreadcrumbTrail $trail){
-    $trail->parent('quotation.index');
-    $trail->push('Create Quotation', route('quotation.create'));
+Breadcrumbs::for('quotations.create',function(BreadcrumbTrail $trail){
+    $trail->parent('quotations.index');
+    $trail->push('Create Quotation', route('quotations.create'));
 });
-Breadcrumbs::for('quotation.edit',function(BreadcrumbTrail $trail,$id){
-    $trail->parent('quotation.index');
-    $trail->push('Quotation Edit', route('quotation.edit',$id));
+Breadcrumbs::for('quotations.edit',function(BreadcrumbTrail $trail,$id){
+    $trail->parent('quotations.index');
+    $trail->push('Quotation Edit', route('quotations.edit',$id));
 });
 // All the breadcrumbs in settings section
 // Dashboard / Settings
@@ -145,12 +154,28 @@ Breadcrumbs::for('settings.lead_types.create', function (BreadcrumbTrail $trail)
 });
 
 // Settings / Lead types / Edit Lead type
-Breadcrumbs::for('settings.lead_types.edit', function (BreadcrumbTrail $trail, $lead_type) {
+Breadcrumbs::for('settings.lead_types.edit', function (BreadcrumbTrail $trail,LeadType $lead_type) {
     $trail->parent('settings.lead_types.index');
     $trail->push('Edit Lead type', route('settings.lead_types.edit',$lead_type));
 });
 
+// Settings / Lead Pipeline Stage
+Breadcrumbs::for('settings.lead_pipeline_stages.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Lead Pipeline Stage', route('settings.lead_pipeline_stages.index'));
+});
 
+// Settings / Lead Pipeline Stages / Create Lead Pipeline Stage
+Breadcrumbs::for('settings.lead_pipeline_stages.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.lead_pipeline_stages.index');
+    $trail->push('Create Lead Pipeline Stage', route('settings.lead_pipeline_stages.create'));
+});
+
+// Settings / Lead Pipeline Stages / Edit Lead Pipeline Stage
+Breadcrumbs::for('settings.lead_pipeline_stages.edit', function (BreadcrumbTrail $trail,LeadPipelineStage $lead_pipeline_stage) {
+    $trail->parent('settings.lead_pipeline_stages.index');
+    $trail->push('Edit Lead Pipeline Stage', route('settings.lead_pipeline_stages.edit',$lead_pipeline_stage));
+});
 
 // Settings / Email Templates
 Breadcrumbs::for('settings.email_templates.index', function (BreadcrumbTrail $trail) {
@@ -165,7 +190,7 @@ Breadcrumbs::for('settings.email_templates.create', function (BreadcrumbTrail $t
 });
 
 // Settings / Email Templates / Edit Email Template
-Breadcrumbs::for('settings.email_templates.edit', function (BreadcrumbTrail $trail, $email_template) {
+Breadcrumbs::for('settings.email_templates.edit', function (BreadcrumbTrail $trail,EmailTemplate $email_template) {
     $trail->parent('settings.email_templates.index');
     $trail->push('Edit Email Templates', route('settings.email_templates.edit',$email_template));
 });
@@ -210,7 +235,23 @@ Breadcrumbs::for('settings.trip_types.edit', function (BreadcrumbTrail $trail, $
     $trail->push('Edit Trip Type', route('settings.trip_types.edit',$trip_type));
 });
 
+// Settings / Transport
+Breadcrumbs::for('settings.transports.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.index');
+    $trail->push('Transport', route('settings.transports.index'));
+});
 
+// Settings / Transport / Create Transport
+Breadcrumbs::for('settings.transports.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('settings.transports.index');
+    $trail->push('Create Transport', route('settings.transports.create'));
+});
+
+// Settings / Transport / Edit Transport
+Breadcrumbs::for('settings.transports.edit', function (BreadcrumbTrail $trail, Transport $transport) {
+    $trail->parent('settings.transports.index');
+    $trail->push('Edit Transport', route('settings.transports.edit',$transport));
+});
 
 // Settings / Accomodations
 Breadcrumbs::for('settings.accomodations.index', function (BreadcrumbTrail $trail) {
@@ -246,7 +287,7 @@ Breadcrumbs::for('settings.roles.create', function (BreadcrumbTrail $trail) {
 });
 
 // Settings / Roles / Edit Role
-Breadcrumbs::for('settings.roles.edit', function (BreadcrumbTrail $trail, $role) {
+Breadcrumbs::for('settings.roles.edit', function (BreadcrumbTrail $trail,Role $role) {
     $trail->parent('settings.roles.index');
     $trail->push('Edit Role', route('settings.roles.edit',$role));
 });
@@ -266,12 +307,10 @@ Breadcrumbs::for('settings.users.create', function (BreadcrumbTrail $trail) {
 });
 
 // Settings / Users / Edit User
-Breadcrumbs::for('settings.users.edit', function (BreadcrumbTrail $trail, $user) {
+Breadcrumbs::for('settings.users.edit', function (BreadcrumbTrail $trail,User $user) {
     $trail->parent('settings.users.index');
     $trail->push('Edit User', route('settings.users.edit',$user));
 });
-
-
 
 // Dashboard / Mails
 Breadcrumbs::for('mails.index', function (BreadcrumbTrail $trail) {
@@ -315,33 +354,17 @@ Breadcrumbs::for('mails.trash', function (BreadcrumbTrail $trail) {
     $trail->push('Trash', route('mails.trash'));
 });
 
+//Dashboard / Mails / Draft / Edit
+Breadcrumbs::for('mails.editdraft', function (BreadcrumbTrail $trail,$id) {
+    $trail->parent('mails.draft');
+    $trail->push('Edit Draft', route('mails.editdraft',$id));
+});
 
 // Dashboard / Profile / Edit Profile
-Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail,$user) {
+Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail, User $user) {
     $trail->parent('dashboard');
     $trail->push('Edit Profile', route('profile.edit',$user));
 });
-
-
-
-// Dashboard / Notes
-Breadcrumbs::for('notes.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('dashboard');
-    $trail->push('Notes', route('notes.index'));
-});
-
-// Dashboard / Notes / Create Note
-Breadcrumbs::for('notes.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('notes.index');
-    $trail->push('Create Note', route('notes.create'));
-});
-
-// Dashboard / Notes / Edit Note
-Breadcrumbs::for('notes.edit', function (BreadcrumbTrail $trail, $note) {
-    $trail->parent('notes.index');
-    $trail->push('Edit Note', route('notes.edit',$note));
-});
-
 
 // Dashboard / Activities
 Breadcrumbs::for('activities.index', function (BreadcrumbTrail $trail) {
@@ -356,7 +379,7 @@ Breadcrumbs::for('activities.create', function (BreadcrumbTrail $trail) {
 });
 
 // Dashboard / Activities / Edit Activity
-Breadcrumbs::for('activities.edit', function (BreadcrumbTrail $trail, $note) {
+Breadcrumbs::for('activities.edit', function (BreadcrumbTrail $trail, Activity $activity) {
     $trail->parent('activities.index');
-    $trail->push('Edit Activity', route('activities.edit',$note));
+    $trail->push('Edit Activity', route('activities.edit',$activity));
 });

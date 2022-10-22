@@ -16,10 +16,9 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('sku')->unique();
             $table->string('name');
-            $table->text('description');
-            $table->integer('quantity');
-            $table->integer('price');
-
+            $table->string('description');
+            $table->integer('quantity')->default(0);
+            $table->decimal('price',12,4)->nullable();
             $table->timestamps();
         });
     }

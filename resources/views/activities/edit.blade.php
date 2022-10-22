@@ -8,86 +8,94 @@
                     <h2 class="text-3xl font-bold">Edit Activity</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('activities.update',$activity) }}">
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        @csrf   
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Details</legend>
+                    <form role="form" method="POST" action="{{ route('activities.update', $activity) }}">
+                        @csrf
+                        @if ($activity->type != 'note')
                             <div class="mb-4">
-                                <x-inputs.text name="title" label="{{ __('Title') }}" value="{{ $activity->title }}" required autocomplete="title" autofocus />
+                                <x-inputs.text name="title" label="{{ __('Title') }}" value="{{ $activity->title }}"
+                                    required autocomplete="title" autofocus />
                             </div>
-                            @error('title')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
 
-                            <div class="mb-4">
-                                <b>{{ __('Type') }}</b>
-                                <div class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
-                                    <input id="call" type="radio" value="1" name="type"  @if(old('type') == '1' || $activity->type == '1') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                   <label for="call" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Call</label>
-                                    
-                                    <input id="meeting" type="radio" value="0" name="type"  @if(old('type') == '0' || $activity->type == '0') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="meeting" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Meeting</label>
+                            @if ($activity->type == 'call' || $activity->type == 'meeting')
+                                <div class="mb-4">
+                                    <b>{{ __('Type') }}</b>
+                                    <div
+                                        class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                                        <input id="call" type="radio" value="1" name="type"
+                                            {{ $activity->type == 'call' ? 'checked' : '' }}
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="call"
+                                            class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Call</label>
+                                        <input id="meeting" type="radio" value="0" name="type"
+                                            {{ $activity->type == 'meeting' ? 'checked' : '' }}
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="meeting"
+                                            class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Meeting</label>
+                                    </div>
                                 </div>
+                                @error('type')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            @endif
+                        @endif
+                        @if ($activity->type == 'note' || $activity->type == 'file')
+                            <div class="mb-4">
+                                <label class="p-2 font-semibold text-gray-700">Comment</label>
+                                <span class="text-red-500">*</span>
+                                <textarea name="comment" rows="5"
+                                    class="text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"
+                                    spellcheck="false">{!! $activity->comment !!}</textarea>
                             </div>
-                            @error('type')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                            <x-inputs.hidden name="type" value="{{ $activity->type }}" />
+                        @endif
+                        @if ($activity->type == 'call' || $activity->type == 'meeting')
+                            <div class="mb-4">
+                                <x-inputs.datetime name="schedule_from" label="{{ __('Schedule From') }}"
+                                    value="{{ $activity->schedule_from->format('Y-m-d H:i') }}" required
+                                    autocomplete="schedule_from" autofocus />
+                            </div>
 
                             <div class="mb-4">
-                                <x-inputs.text name="comment" label="{{ __('Comment') }}" value="{{ $activity->comment }}" required autocomplete="comment" autofocus />
+                                <x-inputs.datetime name="schedule_to" label="{{ __('Schedule To') }}"
+                                    value="{{ $activity->schedule_to->format('Y-m-d H:i') }}" required
+                                    autocomplete="schedule_to" autofocus />
                             </div>
-                            @error('comment')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.datetime name="schedule_from" label="{{ __('Schedule From') }}" value="{{ Carbon\Carbon::parse($activity->schedule_from)->format('Y-m-d H:i:s') }}" required autocomplete="schedule_from" autofocus />
-                            </div>
-                            @error('schedule_from')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mb-4">
-                                <x-inputs.datetime name="schedule_to" label="{{ __('Schedule To') }}" value="{{ Carbon\Carbon::parse($activity->schedule_to)->format('Y-m-d H:i:s') }}" required autocomplete="schedule_to" autofocus />
-                            </div>
-                            @error('schedule_to')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
+                        @endif
+                        @if ($activity->type != 'note' && $activity->type != 'file')
                             <div class="mb-4">
                                 <b>{{ __('Done') }}</b>
-                                <div class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
-                                    <input id="yes" type="radio" value="1" name="is_done"  @if(old('is_done') == '1' || $activity->is_done == '1') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                   <label for="yes" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
-                                    
-                                    <input id="no" type="radio" value="0" name="is_done"  @if(old('is_done') == '0' || $activity->is_done == '0') checked @endif class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="no" class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                                <div
+                                    class="flex row items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                                    <input id="yes" type="radio" value="1" name="is_done"
+                                        {{ $activity->is_done == '1' ? 'checked' : '' }}
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="yes"
+                                        class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+
+                                    <input id="no" type="radio" value="0" name="is_done"
+                                        {{ $activity->is_done == '0' ? 'checked' : '' }}
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="no"
+                                        class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
                                 </div>
                             </div>
                             @error('is_done')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
+                        @endif
 
+                        @if ($activity->type == 'call' || $activity->type == 'meeting')
                             <div class="mb-4 relative">
-                                <x-inputs.text name="find_users" label="{{ __('User') }}"
-                                    value="{{ $activity->user->name }}" required autocomplete="find_users" autofocus
-                                    placeholder="Start typing name..." />
-                                <ul class="bg-white absolute shadow border-gray-100 appearance-none block border border-gray-200 leading-normal px-2 py-1 rounded text-base text-gray-800 w-full hidden z-990"
-                                    id="select_user">
-                                </ul>
-                                <x-inputs.hidden name="user_id" />
+                                <participants :data.users="{{ $activity->activityParticipants }}"
+                                    :data.lead_managers="{{ $activity->activityParticipants }}"></participants>
                             </div>
 
                             <div class="mb-4">
-                                <x-inputs.text name="location" label="{{ __('Location') }}" value="{{ $activity->location }}" required autocomplete="location" autofocus />
+                                <x-inputs.text name="location" label="{{ __('Location') }}"
+                                    value="{{ $activity->location }}" required autocomplete="location" autofocus />
                             </div>
-                            @error('location')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </fieldset>
-                        
+                        @endif
+
                         <div class="text-center">
                             <button type="submit"
                                 class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
@@ -101,101 +109,4 @@
             </div>
         </div>
     </div>
-<script>
-        $(document).ready(function() {
-            var i = {{ 0 }};
-                    $("#find_users").keyup(function() 
-                    {
-                        var search_user = $(this).val();
-                        if (search_user.length >= 2) {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                method: 'POST',
-                                beforeSend: function(xhr) {
-                                    var token = $('meta[name="csrf_token"]').attr('content');
-        
-                                    if (token) {
-                                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                                    }
-                                },
-                                data: {
-                                    search_user: search_user,
-                                    type: 1
-                                },
-                                url: "{{ route('find_user') }}",
-                                dataType: 'json',
-                                success: function(res) {
-                                    var len = res.length;
-                                    if (res != '') {
-                                        $("#select_user").empty();
-                                        $("#select_user").show();
-                                        for (var i = 0; i < len; i++) {
-                                            var u_id = res[i]['id'];
-                                            var u_name = res[i]['name'];
-        
-                                            $("#select_user").append(
-                                                "<li class='p-2 cursor-pointer' value='" +
-                                                u_id + "'>" + u_name +
-                                                "</li>");
-                                        }
-                                        $("#select_user li").bind("click", function() {
-                                            setUserInfo(this);
-                                        });
-                                    } else {
-                                        $("#select_user").empty();
-                                        $("#select_user li").html(
-                                            "<p class='text-left'>No results found!</p>");
-                                    }
-                                }
-                            });
-                        } else {
-                            $("#select_user").empty();
-                            $("#select_user").hide();
-                            $("#find_users_id").val('');
-                           
-                        }
-                    });
-                    function setUserInfo(element) {
-                        var value = $(element).text();
-                        var user_id = $(element).val();
-        
-                        $("#find_users").val(value);
-                        $("#select_user").empty();
-                        $("#select_user").hide();
-        
-                        // Request User Details
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            method: 'POST',
-                            beforeSend: function(xhr) {
-                                var token = $('meta[name="csrf_token"]').attr('content');
-        
-                                if (token) {
-                                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                                }
-                            },
-                            data: {
-                                user_id: user_id,
-                                type: 2
-                            },
-                            url: "{{ route('find_user') }}",
-                            dataType: 'json',
-                            success: function(response) {
-                                var len = response.length;
-                                $("#select_user").empty();
-                                $("#select_user").hide();
-                                if (response) {
-                                    var s_u_id = response.id;
-                                    $("#user_id").val(s_u_id);
-                                }
-                            }
-                        });
-                    }
-    });
-</script>
 </x-app-layout>
-        

@@ -19,14 +19,14 @@ class TripFormRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
-            'title'=> 'required|string|max:25', 
-            'description'=> 'required|string|max:255', 
-            'location'=> 'required|string|max:100', 
+            'title'=> 'required|string|max:255', 
+            'description'=> 'required', 
+            'location'=> 'required|string|max:255', 
             'start_date'=> 'required|date', 
             'end_date'=> 'required|date', 
             'batch_size'=> 'required|numeric',

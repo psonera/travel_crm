@@ -4,14 +4,6 @@
 * Soft UI Dashboard Tailwind - v1.0.2
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-tailwind
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (site.license)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
@@ -3919,7 +3911,6 @@ content: var(--tw-content);
     }
 }
 
-/* jQuery Demo */
 .clearfix:after {
     clear: both;
     content: "";
@@ -3927,61 +3918,72 @@ content: var(--tw-content);
     height: 0;
 }
 .arrow-steps .step {
-    font-size: 14px;
+    font-size: 17px;
+    font-weight: 600;
     text-align: center;
     color: #777;
     cursor: default;
     margin: 0 1px 0 0;
-    padding: 10px 0px 3px 0px;
-    width: 15%;
+    padding: 15px 0px 15px 15px;
+    width: 16%;
     float: left;
     position: relative;
     background-color: #ddd;
+    cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
+
 .arrow-steps .step a {
     color: #777;
     text-decoration: none;
 }
+
 .arrow-steps .step:after,
 .arrow-steps .step:before {
     content: "";
     position: absolute;
     top: 0;
     right: -17px;
-    width: 0;
-    height: 0;
-    border-top: 19px solid transparent;
-    border-bottom: 17px solid transparent;
+    width: 11px;
+    height: 20px;
+    border-top: 29px solid transparent;
+    border-bottom: 29px solid transparent;
     border-left: 17px solid #ddd;
     z-index: 2;
 }
+
 .arrow-steps .step:before {
     right: auto;
     left: 0;
     border-left: 17px solid #fff;
     z-index: 0;
 }
+
 .arrow-steps .step:first-child:before {
     border: none;
 }
+
 .arrow-steps .step:last-child:after {
-    border: none;
+// border: none;
 }
+
 .arrow-steps .step:first-child {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
+
 .arrow-steps .step:last-child {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
+
 .arrow-steps .step span {
-    position: relative;
+    position: relative; 
 }
+
 *.arrow-steps .step.done span:before {
     opacity: 1;
     content: "";
@@ -3991,36 +3993,61 @@ content: var(--tw-content);
     font-size: 11px;
     line-height: 21px;
 }
+
 .arrow-steps .step.current {
     color: #fff;
     background-color: #5599e5;
 }
+
 .arrow-steps .step.current a {
     color: #fff;
     text-decoration: none;
 }
+
 .arrow-steps .step.current:after {
     border-left: 17px solid #5599e5;
 }
+
 .arrow-steps .step.done {
-    color: #173352;
+    color: #ffffff;
     background-color: #2f69aa;
 }
+
 .arrow-steps .step.done a {
-    color: #173352;
+    color: #ffffff;
     text-decoration: none;
 }
+
 .arrow-steps .step.done:after {
     border-left: 17px solid #2f69aa;
 }
-.ui-tabs-active a {
+
+.tabs-component ul.tabs-component-tabs{
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-align: center;
+    padding-left: 1rem;
+    flex-wrap: wrap;
+    display: flex;
+    margin-bottom: -1px;
+}
+
+.tabs-component ul.tabs-component-tabs li.tabs-component-tab{
+    margin-right: 0.5rem;
+}
+
+.tabs-component ul.tabs-component-tabs li.tabs-component-tab a.tabs-component-tab-a{
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    padding: 1rem;
+    border-bottom-width: 2px;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    display: inline-block;
+}
+
+.tabs-component ul.tabs-component-tabs li.tabs-component-tab a.is-active{
     --tw-border-opacity: 1;
     border-bottom-color: rgb(59 130 246 / var(--tw-border-opacity));
-}
-.select2-container--default .select2-selection--single {
-    border: 1px solid #E5E7EB !important;
-    padding-right: 0.5rem !important;
-    line-height: 1.5 !important;
-    height: 34px !important;
-    padding-top: 2px !important;
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\LeadManager;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,4 +25,12 @@ class ActivityParticipant extends Model
     {
         return $this->belongsTo(Activity::class);
     }
+
+    // public function users(){
+    //     return $this->hasMany(User::class);
+    // }
+
+    // public function leadManagers(){
+    //     return $this->hasMany(LeadManager::class);
+    // }
 }

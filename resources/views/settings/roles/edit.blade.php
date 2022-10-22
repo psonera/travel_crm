@@ -9,34 +9,32 @@
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('settings.roles.update',$role) }}">
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        @csrf   
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Details</legend>
+                        @csrf
                             <div class="mb-4">
                                 <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $role->name }}" autocomplete="name" autofocus />
                             </div>
-                            @error('name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+
 
                             <div class="mb-4">
                                 <x-inputs.text name="guard_name" label="{{ __('Guard Name') }}" value="{{ $role->guard_name }}" autocomplete="guard_name" autofocus />
                             </div>
-                            @error('guard_name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </fieldset>
-                        
+
+                            <div>
+                                <permission old_value="{{json_encode(old('permission'))}}" :dp="{{$role->getAllPermissions()}}" permissions="{{$permissions}}"></permission>
+                            </div>
+
                         <div class="text-center">
                             <button type="submit"
                                 class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs triping-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">
                                 Edit Role</button>
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    @section('page_scripts')
+        <script src="{{ mix('js/app.js') }}"></script>
+    @endsection
 </x-app-layout>

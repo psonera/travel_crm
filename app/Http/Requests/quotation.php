@@ -24,40 +24,32 @@ class quotation extends FormRequest
     public function rules()
     {
         return [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            ''
-=======
-=======
->>>>>>> Stashed changes
-            'owner'=>'required',
+            'owner'=>'required|not_in:0',
             'subject'=>'required',
             'description'=>'required',
-            'person'=>'required',
-<<<<<<< Updated upstream
-            'Lead'=>'required',
+            'lead_manager'=>'required',
+            'r_lead_manager'=>'required',
+            'lead'=>'required',
+            'r_lead'=>'required',
             'billing_address'=>'required',
-            'b_contry'=>'required',
-            'b_state'=>'required',
-            'b_city'=>'required',
-            'b_postcode'=>'required',
+            'b_contry'=>'required|not_in:0',
+            'b_state'=>'required|not_in:0',
+            'b_city'=>'required|not_in:0',
+            'b_postcode'=>'required|max:6|min:6',
             'shipping_address'=>'required',
-            's_contry'=>'required',
-            's_state'=>'required',
-            's_city'=>'required',
-            's_postcode'=>'required',
-            'itemname.*'=>'required',
-            'itemquntity.*'=>'required',
-            'itemprice.*'=>'required',
-            'total.*'=>'required',
-            'subtotal'=>'required',
-            'discount'=>'required',
-            'tax'=>'required',
-            'grandtotal'=>'required',
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
+            's_contry'=>'required|not_in:0',
+            's_state'=>'required|not_in:0',
+            's_city'=>'required|not_in:0',
+            's_postcode'=>'required|max:6|min:6',
+            'name.*'=>'required',
+            'oldname.*'=>'required',
+            'quntity.*'=>'required|min:1|numeric',
+            'price.*'=>'required|numeric',
+            'amount.*'=>'required|numeric',
+            'subtotal'=>'required|numeric',
+            'discount'=>'required|numeric',
+            'tax'=>'required|numeric',
+            'grandtotal'=>'required|numeric',
         ];
     }
 }

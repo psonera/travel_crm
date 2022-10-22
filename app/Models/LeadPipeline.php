@@ -24,6 +24,6 @@ class LeadPipeline extends Model
 
     public function leadStages()
     {
-        return $this->hasMany(LeadStage::class);
+        return $this->hasMany(LeadPipelineStage::class);
     }
 }

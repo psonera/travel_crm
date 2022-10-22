@@ -9,18 +9,10 @@
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('settings.lead_types.update',$lead_type) }}">
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @csrf   
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Details</legend>
-                            <div class="mb-4">
-                                <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $lead_type->name }}" autocomplete="name" autofocus />
-                            </div>
-                            @error('name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </fieldset>
+                        <div class="mb-4">
+                            <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $lead_type->name }}" autocomplete="name" autofocus />
+                        </div>
                         
                         <div class="text-center">
                             <button type="submit"

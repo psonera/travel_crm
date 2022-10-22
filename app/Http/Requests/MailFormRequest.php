@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MailFormRequest extends FormRequest
 {
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,18 +20,18 @@ class MailFormRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
-        'to' => 'required|email:rfc,dns,spoof',
-        'cc' => 'nullable|email:rfc,dns,spoof',
-        'bcc' => 'nullable |email:rfc,dns,spoof',
-        'subject' => 'required|',
+        'to' => 'required|email',
+        'cc' => 'sometimes|email',
+        'bcc' => 'sometimes|email',
+        'subject' => 'required',
         'content' => 'required',
-        'status' => 'required', 
-        'attachment' => 'nullable|image|file'
+        'status' => 'required',
+        'attachment.*' => ['nullable','mimes:png,jpg,pdf,txt','size:5000']
         ];
     }
 }

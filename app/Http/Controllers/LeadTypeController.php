@@ -15,9 +15,16 @@ class LeadTypeController extends Controller
      */
     public function index()
     {
+        // $this->authorize('lead-types',LeadType::class);
         return view('settings.lead_types.index',[
             'lead_types' => LeadType::latest()->paginate(10)
-        ]);    
+        ]);
+    }
+
+
+    public function allleadtype(){
+        $leadtype = LeadType::all();
+        return response()->json($leadtype);
     }
 
     /**
@@ -27,6 +34,7 @@ class LeadTypeController extends Controller
      */
     public function create()
     {
+        // $this->authorize('create.lead-types',LeadType::class);
         return view('settings.lead_types.create');
     }
 
@@ -38,6 +46,7 @@ class LeadTypeController extends Controller
      */
     public function store(LeadTypeFormRequest $request)
     {
+        // $this->authorize('store.lead-types',LeadType::class);
         $validated = $request->validated();
         LeadType::create($validated);
 
@@ -52,6 +61,7 @@ class LeadTypeController extends Controller
      */
     public function show(LeadType $lead_type)
     {
+        // $this->authorize('view.lead-types',LeadType::class);
         //
     }
 
@@ -63,6 +73,7 @@ class LeadTypeController extends Controller
      */
     public function edit(LeadType $lead_type)
     {
+        // $this->authorize('update.lead-types',LeadType::class);
         return view('settings.lead_types.edit', compact('lead_type'));
     }
 
@@ -76,27 +87,25 @@ class LeadTypeController extends Controller
     public function update(LeadTypeFormRequest $request, LeadType $lead_type)
     {
         $validated = $request->validated();
-        
+
         if($lead_type){
             $lead_type->update($validated);
             $lead_type->save();
         }
-        return redirect()->route ('settings.lead_types.index')->with('success','Lead Type Has Been updated successfully');
+        return redirect()->route('settings.lead_types.index')->with('success','Lead Type Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  LeadType $lead_type
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LeadType $lead_type)
     {
-        $lead_type = LeadType::findOrFail($id);
-        $lead_type->delete();  
-        return response()->json([
-            'success' => true,
-        ]);    
+        $this->authorize('delete.lead-types',LeadType::class);
+        $lead_type->delete();
+        return back()->with('success','Lead Pipeline Stage has been deleted successfully!');
     }
 
 }

@@ -61,6 +61,17 @@ return [
             'root'   => public_path('media'),
             'url'    => env('APP_URL').'/media',
         ],
+
+        'media_file' => [
+            'driver' => 'local',
+            'root'   => public_path('storage/media'),
+            'url'    => env('APP_URL').'/storage/media',
+        ],
+        'attachment_file' => [
+            'driver' => 'local',
+            'root'   => public_path('storage/attachment'),
+            'url'    => env('APP_URL').'/storage/attachment',
+        ],
     ],
 
     /*

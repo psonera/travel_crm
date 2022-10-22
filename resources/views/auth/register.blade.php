@@ -12,12 +12,6 @@
 
                         <div class="md:w-1/2 pr-4 pl-4">
                             <x-inputs.text name="name" value="{{ old('name') }}" required autocomplete="name" autofocus/>
-
-                            @error('name')
-                                <span class="hidden mt-1 text-sm text-red" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
 
@@ -26,12 +20,6 @@
 
                         <div class="md:w-1/2 pr-4 pl-4">
                             <x-inputs.email name="email" value="{{ old('email') }}" required autocomplete="email"/>
-
-                            @error('email')
-                                <span class="hidden mt-1 text-sm text-red" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
 
@@ -41,11 +29,6 @@
                         <div class="md:w-1/2 pr-4 pl-4">
                             <x-inputs.password name="password" required autocomplete="new-password"/>
 
-                            @error('password')
-                                <span class="hidden mt-1 text-sm text-red" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
 

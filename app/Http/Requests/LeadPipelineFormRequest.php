@@ -27,6 +27,8 @@ class LeadPipelineFormRequest extends FormRequest
             'name' => 'required|string|max:50',
             'is_default' => 'required',
             'rotten_days' => 'required|numeric',
+            'stagename.*' => 'required',
+            'stageper.*' => 'required|numeric',
         ];
     }
     public function messages()
@@ -35,7 +37,7 @@ class LeadPipelineFormRequest extends FormRequest
             'name.required' => 'Name is required!',
             'is_default.required' => 'Default is required!',
             'rotten_days.required' => 'Expiry Days is required!',
-           
+
         ];
     }
 }

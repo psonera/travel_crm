@@ -14,11 +14,11 @@ return new class extends Migration {
     {
         Schema::create('lead_pipeline_stages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code')->unique();
-            $table->string('name')->unique();
+            $table->string('code')->unique()->nullable();
+            $table->string('name')->unique()->nullable();
             $table->integer('probability');
             $table->integer('sort_order');
-            $table->foreignId('lead_pipeline_id');
+            // $table->foreignId('lead_pipeline_id')->constrained('users')->onDelete('cascade');
 
             $table->timestamps();
         });

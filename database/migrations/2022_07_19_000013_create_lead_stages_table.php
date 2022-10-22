@@ -17,8 +17,6 @@ return new class extends Migration {
             $table->string('code');
             $table->string('name');
             $table->tinyInteger('is_user_defined')->default(1);
-            $table->unsignedBigInteger('lead_pipeline_id');
-
             $table->timestamps();
         });
     }

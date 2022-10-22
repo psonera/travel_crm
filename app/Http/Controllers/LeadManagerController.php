@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeadManagerFormRequest;
+use App\Models\User;
+use App\Models\LeadSource;
 use App\Models\LeadManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\LeadManagerFormRequest;
 
 class LeadManagerController extends Controller
 {
@@ -15,8 +18,9 @@ class LeadManagerController extends Controller
      */
     public function index()
     {
+        // $this->authorize('lead managers',LeadManager::class);
         return view('lead_managers.index',[
-            'lead_managers' => LeadManager::latest()->paginate(10)
+            'lead_managers' => LeadManager::where('is_lead_manager','1')->latest()->paginate(10)
         ]);
     }
 
@@ -27,7 +31,9 @@ class LeadManagerController extends Controller
      */
     public function create()
     {
-        return view('lead_managers.create');
+        // $this->authorize('create.lead managers',LeadManager::class);
+        $leadsources = LeadSource::all();
+        return view('lead_managers.create',['leadsources'=>$leadsources]);
     }
 
     /**
@@ -38,17 +44,24 @@ class LeadManagerController extends Controller
      */
     public function store(LeadManagerFormRequest $request)
     {
-        $validated = $request->validated();
-        
-        $lead_manager = LeadManager::create($validated);
-      
-        if($request->manager_image == true){
-            $lead_manager->addMedia($request->manager_image)
-                ->preservingOriginal()
-                ->toMediaCollection('manager_image');
-        }
 
-        $lead_manager->assignRole('Lead Manager');
+        // $this->authorize('store.lead managers',LeadManager::class);
+
+        $user = new LeadManager();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->is_lead_manager = 1;
+        $user->lead_source_id =  $request->leadsource;
+        $user->status = $request->status;
+        $user->save();
+
+        if($request->has('profile_image')){
+            $user->addMedia($request->profile_image)
+                ->preservingOriginal()
+                ->toMediaCollection('media');
+        }
 
         return redirect()->route('lead_managers.index')->with('success','Lead Manager has been created successfully.');;
     }
@@ -61,6 +74,7 @@ class LeadManagerController extends Controller
      */
     public function show($id)
     {
+        // $this->authorize('view.lead managers',LeadManager::class);
         //
     }
 
@@ -72,7 +86,9 @@ class LeadManagerController extends Controller
      */
     public function edit(LeadManager $lead_manager)
     {
-        return view('lead_managers.edit', compact('lead_manager'));      
+        // $this->authorize('update.lead managers',LeadManager::class);
+        $leadsources = LeadSource::all();
+        return view('lead_managers.edit', ['lead_manager'=>$lead_manager,'leadsources'=>$leadsources]);
     }
 
     /**
@@ -83,36 +99,51 @@ class LeadManagerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(LeadManagerFormRequest $request, LeadManager $lead_manager)
-    {        
-        $validated = $request->validated();
-        
-        if($lead_manager){
-            $lead_manager->update($validated);
+    {
+        // // dd('in controller');
+        // dd($lead_manager);
+        $user = $lead_manager;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->is_lead_manager = 1;
+        $user->lead_source_id =  $request->leadsource;
+        $user->status = $request->status;
+        $user->save();
 
-            if($request->manager_image == true){
-                $lead_manager->addMedia($request->manager_image)
-                    ->preservingOriginal()
-                    ->toMediaCollection('manager_image');
+        if($request->has('profile_image')){
+            //delete
+            if(count($user->getMedia('media')) > 0){
+                foreach($user->getMedia('media') as $media){
+                    $media->delete();
+                }
             }
-    
-            $lead_manager->save();
+            $user->addMedia($request->profile_image)
+                ->preservingOriginal()
+                ->toMediaCollection('media');
         }
+
         return redirect()->route ('lead_managers.index')->with('success','Lead Manager has been updated successfully.');;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  LeadManager $lead_manager
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LeadManager $lead_manager)
     {
-        $lead_manager = LeadManager::findOrFail($id);
-        $lead_manager->delete();  
-        return response()->json([
-            'success' => true,
-        ]);
+        // $this->authorize('delete.lead managers',LeadManager::class);
+
+        if(count($lead_manager->getMedia('media')) > 0){
+            foreach($lead_manager->getMedia('media') as $media){
+                $media->delete();
+            }
+       }
+        $lead_manager->delete();
+        return redirect()->route ('lead_managers.index')->with('success','Lead Manager has been deleted successfully.');;
 
     }
 }

@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('lead_sources', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-
             $table->timestamps();
         });
     }

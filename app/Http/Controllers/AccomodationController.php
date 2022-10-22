@@ -15,9 +15,7 @@ class AccomodationController extends Controller
      */
     public function index()
     {
-        return view('settings.accomodations.index', [
-            'accomodations' => Accomodation::latest()->paginate(10)
-        ]);
+        return view('settings.accomodations.index');
     }
 
     /**
@@ -91,13 +89,18 @@ class AccomodationController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $accomodation = Accomodation::findOrFail($id);
+        $accomodation = Accomodation::findOrFail($request->id);
         $accomodation->delete();  
         return response()->json([
-            'success' => true,
+            'success' => 'Accomodation Deleted Successfully!',
         ]);
+    }
 
+    public function get(){
+        return response()->json([
+            'accomodations' => Accomodation::all()->toArray(),
+        ]);
     }
 }

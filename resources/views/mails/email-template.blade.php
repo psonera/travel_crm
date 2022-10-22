@@ -2,17 +2,11 @@
 Hello,
 <br>
 This is {{ $name }},
+<br>
 From Thrill Blazers
 <br>
 
-@component('mail::panel')
-{{ $data['content'] }}
-@endcomponent
-
-@component('mail::button',['url' => $data['attachment']])
-View Attachment
-@endcomponent
-
+Message: {!! $data['content'] !!}
 
 For More Information, please visit Thrill Blazers website.
 @endcomponent

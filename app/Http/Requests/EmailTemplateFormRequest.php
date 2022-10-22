@@ -19,14 +19,14 @@ class EmailTemplateFormRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
             'name' => 'required|string|max:50',
-            'subject' => 'required|string|max:100',
-            'content' => 'required|string|max:255'
+            'subject' => 'required|string|max:200',
+            'content' => 'required'
         ];
     }
 

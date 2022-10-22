@@ -17,6 +17,7 @@ class Lead extends Model
         'description',
         'lead_value',
         'status',
+        'lost_reason',
         'traveler_count',
         'selected_trip_date',
         'closed_at',
@@ -24,7 +25,6 @@ class Lead extends Model
         'lead_manager_id',
         'lead_source_id',
         'lead_type_id',
-        'lead_pipeline_id',
         'lead_pipeline_stage_id',
         'trip_id',
         'trip_type_id',
@@ -61,11 +61,6 @@ class Lead extends Model
         return $this->belongsTo(LeadSource::class);
     }
 
-    public function leadPipeline()
-    {
-        return $this->belongsTo(LeadPipeline::class);
-    }
-
     public function leadPipelineStage()
     {
         return $this->belongsTo(LeadPipelineStage::class, 'lead_pipeline_stage_id');
@@ -73,7 +68,12 @@ class Lead extends Model
 
     public function leadProducts()
     {
-        return $this->hasMany(LeadProduct::class);
+        return $this->hasMany(LeadProduct::class, 'lead_id');
+    }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
     }
 
     public function trip()
@@ -104,5 +104,10 @@ class Lead extends Model
     public function activities()
     {
         return $this->belongsToMany(Activity::class);
+    }
+
+    public function activitiy_files()
+    {
+        return $this->belongsToMany(ActivityFile::class);
     }
 }

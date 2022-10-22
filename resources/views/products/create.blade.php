@@ -9,46 +9,26 @@
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('products.store') }}">
                         @csrf
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Details</legend>
                             
-                            <div class="mb-4">
-                                <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}" required autocomplete="name" autofocus />
-                            </div>
-                            @error('name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            
-                            <div class="mb-4">
-                                <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ old('sku') }}" required autocomplete="sku" autofocus />
-                            </div>
-                            @error('sku')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                        <div class="mb-4">
+                            <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}" required autocomplete="name" autofocus />
+                        </div>
+                        
+                        <div class="mb-4">
+                            <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ old('sku') }}" required autocomplete="sku" autofocus />
+                        </div>
 
-                            <div class="mb-4">
-                                <x-inputs.textarea name="description" label="{{ __('Description') }}" value="{{ old('description') }}"></x-inputs.textarea>
-                            </div>
-                            @error('description')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                        <div class="mb-4">
+                            <x-inputs.textarea name="description" label="{{ __('Description') }}" value="{{ old('description') }}"></x-inputs.textarea>
+                        </div>
 
-                            <div class="mb-4">
-                                <x-inputs.text name="quantity" label="{{ __('Quantity') }}" value="{{ old('quantity') }}" required autocomplete="quantity" autofocus />
-                            </div>
-                            @error('quantity')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                        <div class="mb-4">
+                            <x-inputs.text name="quantity" label="{{ __('Quantity') }}" value="{{ old('quantity') }}" required autocomplete="quantity" autofocus />
+                        </div>
 
-                            <div class="mb-4">
-                                <x-inputs.text name="price" label="{{ __('Price') }}" value="{{ old('price') }}" required autocomplete="price" autofocus />
-                            </div>
-                            @error('price')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-
-                            
-                        </fieldset>
+                        <div class="mb-4">
+                            <x-inputs.text name="price" currencySymbol="true" label="{{ __('Price') }}" value="{{ old('price') }}" required autocomplete="price" autofocus />
+                        </div>
                         
                         <div class="text-center">
                             <button type="submit"

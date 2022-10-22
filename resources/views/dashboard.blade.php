@@ -11,8 +11,6 @@
                                 <p class="mb-0 font-sans font-semibold leading-normal text-size-sm">Total Earnings</p>
                                 <h5 class="mb-0 font-bold">
                                     ₹{{ $total_earning }}
-                                    <span
-                                        class="leading-normal text-size-sm font-weight-bolder text-lime-500">+55%</span>
                                 </h5>
                             </div>
                         </div>
@@ -36,8 +34,6 @@
                                 <p class="mb-0 font-sans font-semibold leading-normal text-size-sm">Total Users</p>
                                 <h5 class="mb-0 font-bold">
                                     {{ $total_user }}
-                                    <span
-                                        class="leading-normal text-size-sm font-weight-bolder text-lime-500">+3%</span>
                                 </h5>
                             </div>
                         </div>
@@ -61,7 +57,6 @@
                                 <p class="mb-0 font-sans font-semibold leading-normal text-size-sm">New Leads</p>
                                 <h5 class="mb-0 font-bold">
                                     +{{ $new_leads }}
-                                    <span class="leading-normal text-red-600 text-size-sm font-weight-bolder">-2%</span>
                                 </h5>
                             </div>
                         </div>
@@ -85,8 +80,6 @@
                                 <p class="mb-0 font-sans font-semibold leading-normal text-size-sm">Product Sales</p>
                                 <h5 class="mb-0 font-bold">
                                     ₹{{ $product_sales }}
-                                    <span
-                                        class="leading-normal text-size-sm font-weight-bolder text-lime-500">+5%</span>
                                 </h5>
                             </div>
                         </div>
@@ -106,11 +99,7 @@
             <div
                 class="border-black/12.5 shadow-soft-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                 <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-                    <h6>Sales overview</h6>
-                    <p class="leading-normal text-size-sm">
-                        <i class="fa fa-arrow-up text-lime-500"></i>
-                        <span class="font-semibold">4% more</span> in 2022
-                    </p>
+                    <h6>Leads Overview</h6>
                 </div>
                 <div class="flex-auto p-4">
                     <div>
@@ -129,7 +118,6 @@
                         </div>
                     </div>
                     <h6 class="mt-6 mb-0 ml-2">Active Users</h6>
-                    <p class="ml-2 leading-normal text-size-sm">(<span class="font-bold">+23%</span>) than last week</p>
                     <div class="w-full px-6 mx-auto max-w-screen-2xl rounded-xl">
                         <div class="flex flex-wrap mt-0 -mx-3">
                             <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
@@ -308,16 +296,16 @@
                             <thead class="align-bottom">
                                 <tr>
                                     <th
-                                        class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                                        Leads</th>
+                                        class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid whitespace-nowrap border-b-gray-200 text-slate-800 opacity-70">
+                                        Title</th>
                                     <th
-                                        class="px-6 py-3 pl-2 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                        class="px-6 py-3 pl-2 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid whitespace-nowrap border-b-gray-200 text-slate-800 opacity-70">
                                         Lead Manager</th>
                                     <th
-                                        class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                        class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid whitespace-nowrap border-b-gray-200 text-slate-800 opacity-70">
                                         Lead Value</th>
                                     <th
-                                        class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                        class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid whitespace-nowrap border-b-gray-200 text-slate-800 opacity-70">
                                         Current Stage</th>
                                 </tr>
                             </thead>
@@ -325,29 +313,30 @@
                                 @forelse ($leads as $lead)
                                     <tr>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                            <div class="px-2 py-1">
+                                            <div class="px-2 py-1 text-black text-sm">
                                                 {{ $lead->title }}
                                             </div>
                                         </td>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                            <div class="py-1">
+                                            <div class="py-1 text-black text-sm">
                                                 {{ $lead->leadManager->name }}
                                             </div>
                                         </td>
                                         <td
                                             class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                                            <span class="leading-tight"> ₹{{ $lead->lead_value }} </span>
+                                            <span class="leading-tight text-black text-sm"> ₹{{ $lead->lead_value }} </span>
                                         </td>
-                                        <td class="p-2 align-middle bg-transparent text-center border-b whitespace-nowrap">
-                                            <div class="px-2 py-1">
+                                        <td
+                                            class="p-2 align-middle bg-transparent text-center border-b whitespace-nowrap">
+                                            <div class="px-2 py-1 text-black text-sm">
                                                 {{ $lead->leadPipelineStage->name }}
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
-                                <tr>
-                                    <p class="text-center text-2xl text-black"> No Leads Found! </p>
-                                </tr>
+                                    <tr>
+                                        <td class="p-2 float-left pl-6 text-center text-sm text-black"> No Leads Found! </td>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -355,106 +344,192 @@
                 </div>
             </div>
         </div>
-
         <!-- card 2 -->
 
         <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
             <div
                 class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                 <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-                    <h6>Quotations overview</h6>
-                    <p class="leading-normal text-size-sm">
-                        <i class="fa fa-arrow-up text-lime-500"></i>
-                        <span class="font-semibold">24%</span> this month
-                    </p>
+                    <h6>Lead Sources Overview</h6>
                 </div>
                 <div class="flex-auto p-4">
                     <div
                         class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
+                        @foreach($lead_source_counts as $lsc)
                         <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
                             <span
                                 class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
                                 <i
-                                    class="relative z-10 text-transparent ni ni-bell-55 leading-pro bg-gradient-lime bg-clip-text fill-transparent"></i>
-                            </span>
+                                    class="relative z-10 text-transparent fas fa-asterisk leading-pro bg-gradient-lime bg-clip-text fill-transparent"></i>
+                                </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">₹2400, Design
-                                    changes</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">22 DEC
-                                    7:20 PM</p>
+                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">{{ $lsc->name }} Leads - {{ $lsc->leads_count > 0 ? $lsc->leads_count : 0 }}</h6>
                             </div>
                         </div>
-                        <div class="relative mb-4 after:clear-both after:table after:content-['']">
-                            <span
-                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                                <i
-                                    class="relative z-10 text-transparent ni ni-html5 leading-pro bg-gradient-red bg-clip-text fill-transparent"></i>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">New order
-                                    #1832412</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">21 DEC 11
-                                    PM</p>
-                            </div>
-                        </div>
-                        <div class="relative mb-4 after:clear-both after:table after:content-['']">
-                            <span
-                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                                <i
-                                    class="relative z-10 text-transparent ni ni-cart leading-pro bg-gradient-cyan bg-clip-text fill-transparent"></i>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Server
-                                    payments for April</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">21 DEC
-                                    9:34 PM</p>
-                            </div>
-                        </div>
-                        <div class="relative mb-4 after:clear-both after:table after:content-['']">
-                            <span
-                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                                <i
-                                    class="relative z-10 text-transparent ni ni-credit-card leading-pro bg-gradient-orange bg-clip-text fill-transparent"></i>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">New card
-                                    added for order #4395133</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">20 DEC
-                                    2:20 AM</p>
-                            </div>
-                        </div>
-                        <div class="relative mb-4 after:clear-both after:table after:content-['']">
-                            <span
-                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                                <i
-                                    class="relative z-10 text-transparent ni ni-key-25 leading-pro bg-gradient-fuchsia bg-clip-text fill-transparent"></i>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Unlock
-                                    packages for development</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">18 DEC
-                                    4:54 AM</p>
-                            </div>
-                        </div>
-                        <div class="relative mb-0 after:clear-both after:table after:content-['']">
-                            <span
-                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                                <i
-                                    class="relative z-10 text-transparent ni ni-money-coins leading-pro bg-gradient-dark-gray bg-clip-text fill-transparent"></i>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">New order
-                                    #9583120</h6>
-                                <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">17 DEC</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
     @section('page_scripts')
-        <script src="./js/chart-1.js"></script>
-        <script src="./js/chart-2.js"></script>
+        <script type="text/javascript">
+            // chart 1
+            var ctx = document.getElementById("chart-bars").getContext("2d");
+
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: {!! json_encode(array_keys($user_monthwise)) !!},
+                    datasets: [{
+                        label: "Users",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        backgroundColor: "#fff",
+                        data: {!! json_encode(array_values($user_monthwise)) !!},
+                        maxBarThickness: 6,
+                    }, ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 600,
+                                beginAtZero: true,
+                                padding: 15,
+                                font: {
+                                    size: 14,
+                                    family: "Open Sans",
+                                    style: "normal",
+                                    lineHeight: 2,
+                                },
+                                color: "#fff",
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                            },
+                            ticks: {
+                                display: false,
+                            },
+                        },
+                    },
+                },
+            });
+            // end chart 1
+            // chart 2
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+            gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
+            gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
+
+            var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+            gradientStroke2.addColorStop(1, "rgba(20,23,39,0.2)");
+            gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
+
+            new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: {!! json_encode(array_keys($lead_monthwise)) !!},
+                    datasets: [{
+                        label: "Leads",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        pointRadius: 0,
+                        borderColor: "#cb0c9f",
+                        borderWidth: 3,
+                        backgroundColor: gradientStroke1,
+                        fill: true,
+                        data: {!! json_encode(array_values($lead_monthwise)) !!},
+                        maxBarThickness: 6,
+                    }, ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: "#b2b9bf",
+                                font: {
+                                    size: 11,
+                                    family: "Open Sans",
+                                    style: "normal",
+                                    lineHeight: 2,
+                                },
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                            },
+                            ticks: {
+                                display: true,
+                                color: "#b2b9bf",
+                                padding: 20,
+                                font: {
+                                    size: 11,
+                                    family: "Open Sans",
+                                    style: "normal",
+                                    lineHeight: 2,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            // end chart 2
+        </script>
     @endsection
 </x-app-layout>

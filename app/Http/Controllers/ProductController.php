@@ -15,11 +15,16 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize("products",Product::class);
         return view('products.index',[
             'products' => Product::latest()->paginate(10)
         ]);
     }
 
+    public function getproducts(){
+        $products = Product::all();
+        return response()->json($products);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -27,6 +32,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize("create.products",Product::class);
         return view('products.create');
     }
 
@@ -38,6 +44,7 @@ class ProductController extends Controller
      */
     public function store(ProductFormRequest $request)
     {
+        $this->authorize("store.products",Product::class);
         $validated = $request->validated();
         Product::create($validated);
 
@@ -52,7 +59,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        // 
+        // $this->authorize("view.products",Product::class);
+        //
     }
 
     /**
@@ -63,7 +71,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));      
+        $this->authorize("update.products",Product::class);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -76,26 +85,25 @@ class ProductController extends Controller
     public function update(ProductFormRequest $request,Product $product)
     {
         $validated = $request->validated();
-        
+
         if($product){
             $product->update($validated);
             $product->save();
         }
-        return redirect()->route ('products.index')->with('success','Product Has Been updated successfully');
+        return redirect()->route('products.index')->with('success','Product Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  $id
+     * @param  Product $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();  
-        return response()->json([
-            'success' => true,
-        ]);
+        $this->authorize("delete.products",Product::class);
+        $product->delete();
+        session()->flash('success', 'Product Deleted Successfully!!');
+        return redirect()->back();
     }
 }

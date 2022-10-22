@@ -13,7 +13,7 @@ class Email extends Model implements HasMedia
     use HasFactory, InteractsWithMedia, SoftDeletes;
 
     protected $dates = [ 'deleted_at' ];
-    
+
     protected $fillable = ['to', 'from', 'cc', 'bcc','subject', 'content','status'];
 
     protected $searchableFields = ['*'];

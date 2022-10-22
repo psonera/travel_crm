@@ -2,173 +2,283 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailRequest;
+use App\Http\Requests\MailFormRequest;
+use PDO;
+use Exception;
+
 use App\Mail\Compose;
 use App\Models\Email;
-
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Spatie\MediaLibrary\Support\MediaStream;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MailController extends Controller
 {
- public function compose()
- {
-    $templates = EmailTemplate::all();
-    return view('mails.compose',compact('templates'));
- }
 
- public function index()
- {
-   return view('mails.index');
- }
- 
- public function store(Request $request)
- { 
-    // Storing mail data in the database
-    $status =  EMAIL::SENT;
-      
-    $mail = Email::Create([
-      'to' => $request->to,
-      'cc' => $request->cc,
-      'bcc' => $request->bcc,
-      'from' => Auth::user()->email,
-      'subject' => $request->subject,
-      'content' => $request->content,
-      "status" => $status,    
-    ]);
-    
-    if($request->attachment === true)  
-    {      
-      $mail ->addMedia($request->attachment)
-            ->preservingOriginal()
-            ->toMediaCollection('attachment');
-    }
-    // Sending mail    
-    $emailAddress = $request->to;
-    $cc = $request->cc;
-    $bcc = $request->bcc;
-    $email = [
-        'cc' => $cc,
-        'bcc' => $bcc,
-    ];
-    
-    $subject = $request->subject;
-    
-    $data = [
-        "content" => $request->content,
-        "attachment" => $request->attachment
-    ];        
-    Mail::to($emailAddress)
-        ->cc($cc)
-        ->bcc($bcc)
-        ->send(new Compose($data,$email,$subject));
-
-    $mail->save();
-
-    return redirect()->route('mails.sent')->with('success','Email has been sent successfully.');
- }
-
- public function sendDraft($id)
- {
-  // for sending emails from draft
-     // Sending mail    
-     $mail = Email::findOrFail($id);
-     $status =  EMAIL::SENT; 
-     $mail->status = $status;
-     $mail->save();
-
-     $emailAddress = $mail->to;
-     $cc = $mail->cc;
-     $bcc = $mail->bcc;
-     $email = [
-         'cc' => $cc,
-         'bcc' => $bcc,
-     ];
-     
-     $subject = $mail->subject;
-     
-     $data = [
-         "content" => $mail->content,
-         "attachment" => $mail->attachment
-     ];        
-     Mail::to($emailAddress)
-         ->cc($cc)
-         ->bcc($bcc)
-         ->send(new Compose($data,$email,$subject)); 
-
-     return view('mails.sent');
+    public function compose()
+    {
+        $this->authorize('composer',Mail::class);
+        $templates = EmailTemplate::all();
+        return view('mails.compose',compact('templates'));
     }
 
-  public function draft(Request $request)
-  {
-    $status =  EMAIL::DRAFT; 
+    public function index()
+    {
+        return view('mails.sent');
+    }
 
-    $mail = Email::Create([
-        'to' => $request->to,
-        'cc' => $request->cc,
-        'bcc' => $request->bcc,
-        'from' => Auth::user()->email,
-        'subject' => $request->subject,
-        'content' => $request->content,
-        "status" => $status,    
-    ]);
+    public function store(EmailRequest $request)
+    {
+        $message = '';
+        if($request->has('save')){
 
-    return response()->json([
-        'success' => true
-    ]);
-  }
-  
-  public function getDraft()
-  {
-      $mails = Email::where('status',Email::DRAFT)->get();
-      return view('mails.draft',compact('mails'));  
-  }
-  
-  public function sent()
-  {
-      $mails = Email::where('status',Email::SENT)->get();
-      return view('mails.sent',compact('mails'));
-  }
+            $status =  EMAIL::SENT;
+            $emailAddress = $request->to;
+            $cc = $request->cc;
+            $bcc = $request->bcc;
+            $email = [
+                'cc' => $cc,
+                'bcc' => $bcc,
+            ];
 
-  public function destroy($id)
-  {
-      $mail = Email::findOrFail($id);
-      $status = Email::TRASH;
-      $mail->status = $status;
-      $mail->save();
+            $subject = $request->subject;
+            $data = [
+                "content" => $request->content,
+                "attachment" => $request->attachment
+            ];
+            //save Mail Detail
+            $mail = Email::Create([
+                'to' => $request->to,
+                'cc' => $request->cc,
+                'bcc' => $request->bcc,
+                'from' => Auth::user()->email,
+                'subject' => $request->subject,
+                'content' => $request->content,
+                "status" => $status,
+                'user_id'=>auth()->user()->id
+                ]);
 
-      $mail->delete();  
-      return response()->json([
-          'success' => true,
-      ]);
-  }
+                if($request->has('attachment'))
+                {
+                foreach($request->attachment as $file){
+                        $mail ->addMedia($file)
+                        ->toMediaCollection('attachment', 'attachment_file');
+                    }
+                }
+            //Attach Mail Id
+            $data['mail'] = $mail;
+            //sending mail
+            Mail::to($emailAddress)
+                ->cc($cc)
+                ->bcc($bcc)
+                ->send(new Compose($data,$email,$subject));
+            if(Mail::flushMacros()){
+                //Send mail into draft
+                $mail = Mail::find($mail->id)->delete();
+                $message = "Something Went Wrong.";
+                return redirect()->route('mails.draft')->with('success',$message);
+            }else{
+                $message = "Email has been sent successfully.";
+            }
 
-  public function trash()
-  {
-    //  $mails = Email::where('status',Email::TRASH);  
-    
-      $mails = Email::withTrashed()->get();
-    //   dd($mails);
-      return view('mails.trash',compact('mails'));
-  }
+        }else if($request->has('save_as_draft')){
+            
+            $status =  EMAIL::DRAFT;
+            $mail = Email::Create([
+                'to' => $request->to,
+                
+                'from' => Auth::user()->email,
+                'subject' => $request->subject,
+                'content' => $request->content,
+                "status" => $status,
+                'user_id'=>auth()->user()->id
+                ]);
 
-  public function restore($id)
-  {
-      $mail = Email::withTrashed()->find($id);
-      $mail -> restore();
-      return view('mails.trash',compact('mail'));
-  }
+                if($request->has('attachment'))
+                {
+                foreach($request->attachment as $file){
+                        $mail ->addMedia($file)
+                        ->toMediaCollection('attachment', 'attachment_file');
+                    }
+                }
+                $message = "Email has been store as draft successfully.";
+                return redirect()->route('mails.draft')->with('success',$message);
+        }
 
-  public function forceDelete($id)
-  {
-      $mail = Email::withTrashed()->find($id);
-      $mail -> forceDelete();
+        return redirect()->route('mails.sent')->with('success',$message);
+    }
 
-      return response()->json([
-          'success' => true,
-      ]);
-    //   return view('mails.trash',compact('mail'));
-  }
+    public function edit($id){
+        
+        $mail = Email::find($id);
+        return view('mails.editdraft',compact('mail'));
+    }
 
+    public function update(Request $request, $id){
+        $mail = Email::find($id);    
+        $message = '';
+        if($request->has('save')){
+
+            $status =  EMAIL::SENT;
+            $emailAddress = $request->to;
+            $cc = $request->cc;
+            $bcc = $request->bcc;
+            $email = [
+                'cc' => $cc,
+                'bcc' => $bcc,
+            ];
+
+            $subject = $request->subject;
+            $data = [
+                "content" => $request->content,
+                "attachment" => $request->attachment
+            ];
+            $data['mail'] = $mail;
+            $mail->to = $request->to;
+            $mail->cc = $request->cc;
+            $mail->bcc = $request->bcc;
+            $mail->from = Auth::user()->email;
+            $mail->subject = $request->subject;
+            $mail->content = $request->content;
+            $mail->status = $status;
+            $mail->save();
+            if($request->has('attachment'))
+            {
+
+                //update files
+            foreach($request->attachment as $file){
+                    $mail ->addMedia($file)
+                    ->toMediaCollection('attachment', 'attachment_file');
+                }
+            }
+
+            Mail::to($emailAddress)
+                ->cc($cc)
+                ->bcc($bcc)
+                ->send(new Compose($data,$email,$subject));
+
+            if(Mail::flushMacros()){
+                //don't save mail
+                //Send mail into draft
+                $mail = Mail::find($mail->id)->delete();
+                $message = "Something Went Wrong.";
+                return redirect()->route('mails.draft')->with('success',$message);
+            }else{
+                $message = "Email has been sent successfully.";
+            }
+
+        }else if($request->has('save_as_draft')){
+                
+                $status =  EMAIL::DRAFT;
+                $mail->to = $request->to;
+                $mail->cc = $request->cc;
+                $mail->bcc = $request->bcc;
+                $mail->from = Auth::user()->email;
+                $mail->subject = $request->subject;
+                $mail->content = $request->content;
+                $mail->status = $status;
+                $mail->save();
+                if($request->has('attachment'))
+                {
+                    //update files
+                foreach($request->attachment as $file){
+                        $mail ->addMedia($file)
+                        ->toMediaCollection('attachment', 'attachment_file');
+                    }
+                }
+                $message = "Email has been Updated as draft successfully.";
+                return redirect()->route('mails.draft')->with('success',$message);
+        }
+        dd('not');
+        return redirect()->route('mails.sent')->with('success',$message);
+    }
+
+    public function sendDraft($id){
+        // for sending emails from draft
+        // Sending mail
+        $message = '';
+        $mail = Email::findOrFail($id);
+        $emailAddress = $mail->to;
+        $cc = $mail->cc;
+        $bcc = $mail->bcc;
+        $email = [
+            'cc' => $cc,
+            'bcc' => $bcc,
+        ];
+
+        $subject = $mail->subject;
+        $data = [
+            "content" => $mail->content,
+            "attachment" => $mail->attachment
+        ];
+        $data['mail'] = $mail;
+
+        Mail::to($emailAddress)->cc($cc)->bcc($bcc)->send(new Compose($data,$email,$subject));
+        if(Mail::flushMacros()){
+            $message = 'Somthing went Wrong ';
+            return redirect(route('mails.draft'))->with('success',$message);
+        }else{
+            $message = "Mail Sent Successfully";
+            $status =  EMAIL::SENT;
+            $mail->status = $status;
+            $mail->save();
+        }
+        return redirect(route('mails.sent'))->with('success',$message);
+    }
+
+    public function draftview(){
+        return view('mails.draft');
+    }
+
+    public function sent()
+    {
+        return view('mails.sent');
+    }
+
+
+    public function destroy($id)
+    {
+        $mail = Email::findOrFail($id);
+        $mail->save();
+        $mail->delete();
+        return redirect()->route('mails.trash');
+    }
+    public function trash()
+    {
+        return view('mails.trash');
+    }
+    public function restore($id)
+    {
+        $mail = Email::withTrashed()->find($id);
+        if($mail->restore()){
+            if($mail->status==1){
+                return redirect(route('mails.sent'))->with('success','Mail Has Been Restore.');
+            }
+            if($mail->status==2){
+                return redirect(route('mails.draft'))->with('success','Mail Has Been Restore.');
+            }
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $mail = Email::withTrashed()->find($id);
+        foreach($mail->getMedia('attachment') as $media){
+            $media->delete();
+        }
+        $mail -> forceDelete();
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function deleteattachment($uuid){
+        $media = Media::where('uuid',$uuid)->first();
+        $media->delete();
+        return response()->json(true);
+    }
 }

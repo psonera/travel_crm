@@ -13,12 +13,15 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('quotation_items', function (Blueprint $table) {
+            $table->unsignedBigInteger('quotation_id')->after('id');
             $table
                 ->foreign('quotation_id')
                 ->references('id')
                 ->on('quotations')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+
+            $table->foreignId('product_id')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

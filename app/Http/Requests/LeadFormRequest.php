@@ -40,7 +40,7 @@ class LeadFormRequest extends FormRequest
             'accomodation_id' => 'required',
             'transport_id' => 'required',
             'expected_closed_date' => 'date|date_format:Y-m-d',
-        ];
+        ];  
 
         if($this->products){
             foreach($this->products as $key => $val)
@@ -49,6 +49,7 @@ class LeadFormRequest extends FormRequest
                 $rules['products.' . $key . '.price'] = 'required';
                 $rules['products.' . $key . '.quantity'] = 'required';
                 $rules['products.' . $key . '.id'] = 'required';
+                $rules['products.' . $key . '.amount'] = 'required';
             }
         }
 

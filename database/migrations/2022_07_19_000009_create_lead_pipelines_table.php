@@ -15,9 +15,8 @@ return new class extends Migration {
         Schema::create('lead_pipelines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->tinyInteger('is_default');
+            $table->tinyInteger('is_default')->default(0);
             $table->integer('rotten_days');
-
             $table->timestamps();
         });
     }

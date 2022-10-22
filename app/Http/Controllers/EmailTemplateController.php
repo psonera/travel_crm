@@ -15,9 +15,7 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        return view('settings.email_templates.index',[
-            'email_templates' => EmailTemplate::latest()->paginate(10)
-        ]);    
+        return view('settings.email_templates.index');    
     }
 
     /**
@@ -77,29 +75,33 @@ class EmailTemplateController extends Controller
      * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
-    public function update(EmailTemplateFormRequest $request,EmailTemplate $email_template)
+    public function update(EmailTemplateFormRequest $request, EmailTemplate $email_template)
     {
         $validated = $request->validated();
-        
+
         if($email_template){
             $email_template->update($validated);
             $email_template->save();
         }
-        return redirect()->route ('settings.email_templates.index')->with('success','Email Template Has Been updated successfully');
+        return redirect()->route('settings.email_templates.index')->with('success','Email Template Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  EmailTemplate $email_template
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(EmailTemplate $email_template)
     {
-        $email_template = EmailTemplate::findOrFail($id);
         $email_template->delete();  
+        
+        return response()->json(['success' => 'Email Template Deleted Successfully!']);
+    }
+
+    public function get(){
         return response()->json([
-            'success' => true,
+            'email_templates' => EmailTemplate::all()->toArray(),
         ]);
     }
 }

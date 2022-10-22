@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->tinyInteger('is_done')->default(0);
             $table->foreignId('user_id');
             $table->string('location');
-
             $table->timestamps();
         });
     }

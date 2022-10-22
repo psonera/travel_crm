@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lead;
 use App\Models\User;
 use App\Models\Activity;
+use App\Models\ActivityFile;
 use Illuminate\Http\Request;
+use App\Events\ActivityCreated;
+use App\Events\ActivityModified;
+use App\Models\ActivityParticipant;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ActivityFormRequest;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 class ActivityController extends Controller
 {
@@ -69,9 +77,46 @@ class ActivityController extends Controller
     {
         $validated = $request->validated();
 
-        Activity::create($validated);
+        $validated['is_done'] = $validated['type'] == 'note' ? 1 : 0;
+        $validated['user_id'] = Auth::user()->id;
+        $lead = Lead::findOrFail($validated['lead_id']);
 
-        return redirect()->route('activities.index')->with('success', 'Activity has been created successfully.');
+        $activity = Activity::create($validated);
+
+        if (request('participants')) {
+
+            if (is_array(request('participants.users'))) {
+                foreach (request('participants.users') as $userId) {
+                    $activity->activityParticipants()->create([
+                        'user_id' => $userId
+                    ]);
+                }
+            }
+
+            if (is_array(request('participants.lead_managers'))) {
+                foreach (request('participants.lead_managers') as $leadmanagerId) {
+                    $activity->activityParticipants()->create([
+                        'lead_manager_id' => $leadmanagerId,
+                    ]);
+                }
+            }
+        }
+
+        $lead->activities()->attach($activity);
+
+        $event_data = array();
+        $event_data['activity'] = $activity;
+        $event_data['lead_name'] = $lead->title; 
+
+        ActivityCreated::dispatch($event_data);
+
+        if($activity){
+            session()->flash('success', 'Activity has been created successfully.');
+            return redirect()->back();
+        } else {
+            session()->flash('error', 'Activity could not created successfully. Try again later!');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -108,10 +153,35 @@ class ActivityController extends Controller
         $validated = $request->validated();
         
         if($activity){
+            if (request('participants')) {
+                $activity->activityParticipants()->delete();
+    
+                if (is_array(request('participants.users'))) {
+                    foreach (request('participants.users') as $userId) {
+                        $activity->activityParticipants()->create([
+                            'user_id' => $userId
+                        ]);
+                    }
+                }
+    
+                if (is_array(request('participants.lead_managers'))) {
+                    foreach (request('participants.lead_managers') as $leadmanagerId) {
+                        $activity->activityParticipants()->create([
+                            'lead_manager_id' => $leadmanagerId,
+                        ]);
+                    }
+                }
+            }
             $activity->update($validated);
             $activity->save();
+
+            $event_data = array();
+            $event_data['activity'] = $activity;
+            $event_data['lead_name'] = $activity->leads[0]->title; 
+
+            ActivityModified::dispatch($event_data);
         }
-        return redirect()->route('activities.index')->with('success', 'Activity Has Been updated successfully');
+        return back()->with('success', 'Activity Has Been updated successfully');
     }
 
     /**
@@ -124,9 +194,21 @@ class ActivityController extends Controller
     {
         $activity = Activity::findOrFail($id);
         $activity->delete();  
-        return response()->json([
-            'success' => true,
-        ]);
+        return back()->with('success', 'Activity deleted successfully!');
+    }
 
+    public function download($id)
+    {
+        $file = ActivityFile::findOrFail($id);
+        $media = $file->getMedia('activity_file');
+        return MediaStream::create($media[0]->file_name)->addMedia($media);
+    }
+
+    public function mark_as_done($id){
+        $activity = Activity::findOrFail($id);
+        $activity->is_done = 1;
+        $activity->save();
+
+        return back()->with('success', 'Activity marked done successfully!');
     }
 }

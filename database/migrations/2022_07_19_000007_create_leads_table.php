@@ -26,14 +26,12 @@ return new class extends Migration {
             $table->foreignId('lead_manager_id');
             $table->foreignId('lead_source_id');
             $table->foreignId('lead_type_id');
-            $table->foreignId('lead_pipeline_id');
             $table->foreignId('lead_pipeline_stage_id');
             $table->foreignId('trip_id');
             $table->foreignId('trip_type_id');
             $table->foreignId('accomodation_id');
             $table->foreignId('transport_id');
             $table->date('expected_closed_date');
-
             $table->timestamps();
         });
     }

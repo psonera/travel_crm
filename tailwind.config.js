@@ -3,8 +3,12 @@ module.exports = {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+        './app/Http/Livewire/**/*Table.php',
+        './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
+        './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php',
+        './resources/views/mails/**/*.blade.php',
     ],
-    darkMode: false, // or 'media' or 'class'
+    darkMode: 'media', // or 'media' or 'class'
     theme: {
         extend: {},
     },
@@ -13,5 +17,7 @@ module.exports = {
             display: ["group-hover"],
         },
     },
-    plugins: [],
+    plugins: [
+        require("@tailwindcss/forms"),
+    ],
 }

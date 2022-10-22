@@ -7,55 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class ProfileController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return Response
      */
     public function edit(User $user)
@@ -68,45 +27,38 @@ class ProfileController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Support\Facades\Redirect
      */
-    public function update(Request $request, $userId)
+    public function update(Request $request, User $user)
     {
-        $user = User::find($userId);
-        
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required','regex:/(91)[0-9]{10}/','max:12','min:12'],
+            'profile_image'=>['sometimes','mimes:jpg,png','size:5000'],
         ]);
-
-        if($user)
-        {
+        if($user){
             $user->update([
                 'name' => $request->name ? $request->name : $user->name,
                 'email' => $request->email ? $request->email : $user->email,
-                'password' => $request->password ? Hash::make($request->password) : $user->password ,
-                'status' => $request->status ? $request->status : $user->status
+                'phone_number' => $request->phone,
             ]);
-            if($request->profile_image == true){
+
+            if($request->has('profile_image')){
+                if(count($user->getMedia('profile_image')) > 0){
+                    foreach($user->getMedia('profile_image') as $media){
+                        $media->delete();
+                    }
+                }
                 $user->addMedia($request->profile_image)
                     ->preservingOriginal()
                     ->toMediaCollection('profile_image');
+
+                $user->save();
             }
             $user->save();
         }
         
-        return redirect()->route('dashboard')->with('success','User has been updated successfully.'); 
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('profile.edit', $user)->with('success','Your profile has been updated successfully!'); 
     }
 }

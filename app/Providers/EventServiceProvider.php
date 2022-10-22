@@ -2,6 +2,16 @@
 
 namespace App\Providers;
 
+use App\Events\ActivityCreated;
+use App\Events\ActivityModified;
+use App\Events\AssignLead;
+use App\Events\NewLead;
+use App\Events\TransferOfLeads;
+use App\Listeners\ActivityCreatedListener;
+use App\Listeners\ActivityModifiedListener;
+use App\Listeners\AssignLeadListener;
+use App\Listeners\NewLeadListener;
+use App\Listeners\TransferOfLeadsListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +28,21 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ActivityCreated::class => [
+            ActivityCreatedListener::class
+        ],
+        ActivityModified::class => [
+            ActivityModifiedListener::class
+        ],
+        NewLead::class => [
+            NewLeadListener::class
+        ],
+        AssignLead::class => [
+            AssignLeadListener::class
+        ],
+        TransferOfLeads::class => [
+            TransferOfLeadsListener::class
+        ]
     ];
 
     /**

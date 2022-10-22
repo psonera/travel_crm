@@ -18,12 +18,6 @@
 
                         <div class="md:w-1/2 pr-4 pl-4">
                             <x-inputs.email name="email" value="{{ old('email') }}" required autocomplete="email" autofocus/>
-
-                            @error('email')
-                                <span class="hidden mt-1 text-sm text-red" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
 

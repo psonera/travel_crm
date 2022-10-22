@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Quotation extends Model
 {
@@ -24,6 +25,7 @@ class Quotation extends Model
         'grand_total',
         'lead_manager_id',
         'user_id',
+        'lead_id'
     ];
 
     protected $searchableFields = ['*'];
@@ -43,8 +45,8 @@ class Quotation extends Model
         return $this->belongsTo(LeadManager::class);
     }
 
-    public function leads()
+    public function lead():BelongsTo
     {
-        return $this->belongsToMany(Lead::class);
+        return $this->belongsTo(Lead::class);
     }
 }

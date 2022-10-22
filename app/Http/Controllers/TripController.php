@@ -15,9 +15,7 @@ class TripController extends Controller
      */
     public function index()
     {
-        return view('settings.trips.index',[
-            'trips' => Trip::latest()->paginate(10)
-        ]);
+        return view('settings.trips.index');
     }
 
     /**
@@ -41,7 +39,7 @@ class TripController extends Controller
         $validated = $request->validated();
         Trip::create($validated);
 
-        return redirect()->route('settings.trips.index')->with('Trip created successfully');
+        return redirect()->route('settings.trips.index')->with('success','Trip created successfully');
     }
 
     /**
@@ -80,7 +78,7 @@ class TripController extends Controller
             $trip->update($validated);
             $trip->save();
         }
-        return redirect()->route ('settings.trips.index')->with('success','Trip has been updated successfully.');;
+        return redirect()->route('settings.trips.index')->with('success','Trip has been updated successfully!');;
     }
 
     /**
@@ -89,12 +87,17 @@ class TripController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Trip $trip)
     {
-        $trip = Trip::findOrFail($id);
         $trip->delete();  
         return response()->json([
-            'success' => true,
+            'success' => 'Trip Deleted Successfully!',
+        ]);
+    }
+
+    public function get(){
+        return response()->json([
+            'trips' => Trip::all()->toArray(),
         ]);
     }
 }

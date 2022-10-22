@@ -1,331 +1,130 @@
 <x-app-layout>
-    <div class="flex flex-wrap -mx-3">
+    @if ($errors->any())
+        <div id="alert-2" class="flex p-4 mb-4 bg-red-100 rounded-lg dark:bg-red-200" role="alert">
+            <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">
+                You Might forgot Some Field
+            </div>
+        </div>
+    @endif
+    <div class="flex flex-wrap -mx-3" id="quo">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-xl font-bold">Create Quotation</h2>
+                    <h2 class="text-3xl font-bold">Edit Quotation</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
-                    <form role="form" method="POST" action="{{ route('quotation.update', ['id' => $quotation->id]) }}">
+                    <form role="form" method="POST" action="{{ route('quotations.update', ['id' => $quotation->id]) }}">
                         @csrf
-                        <fieldset class="border border-solid border-gray-300 p-6">
-                            <legend class="text-xl pl-4 pr-4">Quotation Information</legend>
-                            <div class="mb-4">
-                                <livewire:editselectmanager  manager="{{$quotation->user->name}}" />
-                            </div>
-                            @error('owner')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            <div class="mb-4">
-                                <x-Quotation.inputs.text name="subject" label="{{ __('Subject') }}"
-                                    value="{{ $quotation->subject }}" required autofocus />
-                            </div>
-                            @error('subject')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            <div class="mb-4">
-
-                                <x-Quotation.inputs.textarea name="description" label="{{__('Description')}}" value="" autofocus required>{{$quotation->description}}</x-Quotation.inputs.textarea>
-                            </div>
-                            @error('description')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            <div class="mb-4">
-                                <livewire:editsearchleadmanager lm="{{$quotation->leadManager->name}}" />
-                            </div>
-                            @error('person')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            <div class="mb-4">
-                                <livewire:editsearchlead ln="dammy" />
-                            </div>
-                            @error('Lead')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                            <div class="mb-4">
-                               <div class="container  ">
-                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Billing Address</h2>
-                                    <div class="columns-2 ">
-                                        <div >
-                                            <x-Quotation.inputs.textarea   name="billing_address"  autofocus required>{{$quotation->billing_address}}</x-Quotation.inputs.textarea >
-                                            @error('billing_address')
-                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                            @enderror
+                            <tabs>
+                                <tab name="Details" :selected="true">
+                                    <div class="p-4">
+                                        <div class="mb-4">
+                                            <manager
+                                                    :manager="String({{$quotation->user->id}})"
+                                                    :oldvalue="{{json_encode(old('owner'))}}"
+                                                    ></manager>
+                                                    <div>
+                                                        <span class="text text-red-700 text-lg">{{$errors->first('owner')}}</span>
+                                                    </div>
                                         </div>
-                                        <div>
-
-                                        <div>
-                                            <x-Quotation.inputs.select name="contry"  required  class="m-1">
-                                                <option value=1>india</option>
-                                            </x-Quotation.inputs.select>
-                                            <livewire:addstate />
-                                            <x-Quotation.inputs.select name="city"  required class="m-1">
-                                                <option value=1>dakor</option>
-                                            </x-Quotation.inputs.select>
-                                            <x-Quotation.inputs.select name="postcode"  required class="m-1">
-                                                <option value=1>388225</option>
-                                            </x-Quotation.inputs.select>
-                                        </div>
-                                    </div>
-                               </div>
-                            </div>
-                               <div class="mb-4">
-                                <div class="container">
-                                    <h2 style="font-weight: 600; margin-bottom:10px;  margin-top:10px;">Shipping Address</h2>
-                                <div class="columns-2 ">
-                                 <div >
-                                    <x-Quotation.inputs.textarea   name="shipping_address"  autofocus required>{{$quotation->shipping_address}}</x-Quotation.inputs.textarea >
-                                    @error('shipping_address')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                 </div>
-                                 <div>
-                                    <div>
-                                        <x-Quotation.inputs.select name="contry"  required  class="m-1">
-                                            <option value=1>india</option>
-                                        </x-Quotation.inputs.select>
-                                        <livewire:s-addstate />
-                                        <x-Quotation.inputs.select name="city"  required class="m-1">
-                                            <option value=1>dakor</option>
-                                        </x-Quotation.inputs.select>
-                                        <x-Quotation.inputs.select name="postcode"  required class="m-1">
-                                            <option value=1>388225</option>
-                                        </x-Quotation.inputs.select>
-                                    </div>
-                                 </div>
-                                </div>
-                                </div>
-                            </div>
-                               </div>
-                               </div>
-                            </div>
-                             <div class="mb-4 conatiner border border-black ">
-                                <span class="font-bold">Quotation Item</span>
-                                <div class="m-2">
-                                    <table class="table-auto">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Quntity</th>
-                                                <th>Price</th>
-                                                <th>Tot l</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($quotation->quotationItems as $item )
-                                            <tr class="itemrow">
-                                                <td class="itemsid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="itemid[]"></td>
-                                                <td class="qid" hidden><input hidden type="text"  value="{{$item->product_id}}"  name="qid[]"></td>
-                                                <td><input name="itemname[]" value="{{$item->name}}" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
-                                                <td class="itemquntity"><input type="text" value="{{$item->quantity}}" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
-                                                <td class="itemprice"><input name="itemprice[]" value="{{$item->price}}" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
-                                                <td class="itemtotal"><input  value="{{$item->total}}" name='total[]' type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td>
-                                                @if (!$loop->first)
-                                                    <td><span class="button  bg-red-600 deleteitem">delete</span></td>
-                                                @endif
-                                            </tr>
-                                            @empty
-                                                <tr class="itemrow">
-                                                    <td class="itemsid" hidden><input hidden type="text"
-                                                            name="itemid[]"></td>
-                                                    <td><input name="itemname[]" type="text"
-                                                            class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemquntity"><input type="text" name="itemquntity[]"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemprice"><input name="itemprice[]" type="text"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                    <td class="itemtotal"><input name='total[]' type="text"
-                                                            class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow">
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                    <span class="button" id="addmore">ADD</span>
-                                    <div class="flex flex-row-reverse">
-                                        <div class="cotainer w-34">
-                                            <div class="columns-2 mt-3">
-                                                sub Total -
-                                                <x-Quotation.inputs.text id="subtotal" name="subtotal"
-                                                    label="" value="{{ $quotation->sub_total }}" required />
-                                            </div>
-                                            <div class="columns-2 mt-3">
-                                                <div> Discount -</div>
-                                                <div>
-                                                    <x-Quotation.inputs.text id="discount" name="discount"
-                                                        label="" value="{{ $quotation->discount_amount }}"
-                                                        required />
-                                                </div>
-                                            </div>
-                                            <div class="columns-2 mt-3">
-                                                <div>Tax-</div>
-                                                <div>
-                                                    <x-Quotation.inputs.text id="tax" name="tax"
-                                                        label="" value="{{ $quotation->tax_amount }}"
-                                                        required />
-                                                </div>
-                                            </div>
-
-                                            <div class="columns-2 mt-3">
-                                                <div>GrandTotal -</div>
-                                                <div>
-                                                    <x-Quotation.inputs.text id="grandtotal" name="grandtotal"
-                                                        label="" value="{{ $quotation->grand_total }}"
-                                                        required />
-                                                </div>
+                                        <div class="mb-4">
+                                            @php
+                                                $sub = $quotation->subject
+                                            @endphp
+                                            <subject subject="{{$sub}}" :oldvalue='@json(old('subject'))'></subject>
+                                            <div>
+                                                <span class="text text-red-700 text-lg">{{$errors->first('subject')}}</span>
                                             </div>
                                         </div>
+                                        <div class="mb-4">
+                                            @php
+                                                $des = $quotation->description
+                                            @endphp
+                                            <description description="{{$des}}" :oldvalue='@json(old('description'))'></description>
+                                            <div>
+                                                <span class="text text-red-700 text-lg">{{$errors->first('description')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <leadmanager :oldvalue='@json(old())' leadmanagername="{{$quotation->leadManager->name}}"></leadmanager>
+                                            <div>
+                                                <span class="text text-red-700 text-lg">{{$errors->first('oldperson')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <leadname
+                                            :oldvalue="{{json_encode(old())}}"
+                                            leadname="{{$quotation->lead->title}}"
+                                                ></leadname>
+                                                <div>
+                                                    <span class="text text-red-700 text-lg">{{$errors->first('oldlead')}}</span>
+                                                </div>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </tab>
+                                <tab name="Address">
+                                    <div class="p-4">
+                                        <div class="mb-4">
+                                            <addressvue
+                                                       :address="Object({{$quotation->billing_address}})"
+                                                       title="Billing Address"
+                                                       addressname="billing_address"
+                                                       pinname="b_postcode"
+                                                       contryname="b_contry"
+                                                       statename="b_state"
+                                                       cityname="b_city"
+                                                       :oldvalue="{{json_encode(old())}}"
+                                                       :errors="{{$errors}}"
+                                                       ></addressvue>
+                                                                           </div>
+                                        
+                                                                           <div class="mb-4">
+                                            <addressvue
+                                                      :address="Object({{$quotation->shipping_address}})"
+                                                       title="Shipping Address"
+                                                       addressname="shipping_address"
+                                                       pinname="s_postcode"
+                                                       contryname="s_contry"
+                                                       statename="s_state"
+                                                       cityname="s_city"
+                                                       :oldvalue="{{json_encode(old())}}"
+                                                       :errors="{{$errors}}"
+                                                       ></addressvue>
+                                                                           </div>
+                                    </div>
+                                </tab>
+                                <tab name="Quotation Item">
+                                    <div class="p-4">
+                                        <div class="mb-4 ">
+                                            <div class="flex">
+                                                <quotaionitem
+                                                :oldvalue="{{json_encode(old())}}"
+                                                :discount="String({{$quotation->discount_amount}})"
+                                                :tax="String({{$quotation->tax_amount}})"
+                                                :items="{{$quotation->quotationItems}}"
+                                                :errors="{{$errors}}"
+                                                ></quotaionitem>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit"
+                                                class="inline-block px-6 py-3 mb-6 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">Update
+                                                Quotation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </tab>
+                            </tabs>
 
-                        </fieldset>
-
-                        <div class="text-center">
-                            <button type="submit"
-                                class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-black uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">update
-                                As Quotation
-                            </button>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
     @section('page_scripts')
-        <script>
-        $(document).ready(function(){
-
-
-                function final(d={{$quotation->discount_amount}},t={{$quotation->tax_amount}}){
-                    var alltotal = document.getElementsByName('total[]')
-                    var subtotal = 0;
-                    var discount = d;
-                    var tax = t;
-
-                    var grandtotal = Number(0);
-                    $("#discount").val(discount);
-                    $("#tax").val(tax);
-                    $("#grandtotal").val(Number(grandtotal));
-                    if (alltotal != "NaN") {
-                        for (var i = 0; i < alltotal.length; i++) {
-                            subtotal = Number(subtotal) + Number(alltotal[i].value);
-                        }
-                    }
-                    subtotal = parseFloat(subtotal);
-                    $("#subtotal").val(subtotal);
-                    discount = $("#discount").val();
-                    tax = $("#tax").val();
-
-
-
-
-                    if (discount != 0) {
-
-                        var dam = parseFloat(discount);
-
-                        subtotal = Number(subtotal) - (parseFloat(discount/100)*Number(subtotal))
-
-                        $("#grandtotal").val(Number(subtotal));
-                        subtotal = parseFloat(subtotal);
-                    }
-
-                    if (tax != 0) {
-                        subtotal = Number(subtotal) + (parseFloat(subtotal) * parseFloat(tax / 100))
-                        $("#grandtotal").val(Number(subtotal));
-                    }
-                    $("#grandtotal").val(Number(subtotal.toFixed(2)));
-                }
-                final();
-
-                $('#addmore').click(function(event) {
-                    event.preventDefault();
-                    $('tbody').append(
-                        '<tr class="itemrow"><td class="itemsid" hidden><input hidden type="text"  name="itemid[]"></td><td><input name="itemname[]" type="text" class=" itemname text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemquntity"><input type="text" name="itemquntity[]" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemprice"><input name="itemprice[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td class="itemtotal"><input  name="total[]" type="text" class="  text-size-md focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow"></td><td><span class="button  bg-red-600 deleteitem">delete</span></td></tr>'
-                        );
-                });
-
-                $(document).on('click', '.deleteitem', function(e) {
-                    e.preventDefault();
-                    $(this).parents('tr').remove();
-                    discount = $('#discount').val();
-                    tax = $("#tax").val();
-
-                    final(discount,tax);
-
-                });
-
-
-                $('#discount').keyup(function() {
-                    di = $(this).val();
-                    tax = $("#tax").val();
-                    final(di, tax);
-                });
-                $('#tax').keyup(function() {
-                    tax = $(this).val();
-                    di = $("#discount").val();
-                    final(di, tax);
-                });
-
-                $(document).on('keyup', '.itemquntity input', function() {
-                    var q = $(this).val();
-                    var p = $(this).parents('tr').find('.itemprice').find('input').val();
-                    $(this).parents('tr').find('.itemtotal').find('input').val(parseFloat(p) * parseFloat(q));
-                    tax = $("#tax").val();
-                    di = $("#discount").val();
-                    final(di, tax);
-                })
-
-                $(document).on("click", ".itemname", function() {
-                    var x = this;
-                    $(x).autocomplete({
-                        source: function(request, response) {
-                            var value = request.term;
-                            //
-                            // $.ajaxSetup({
-                            //     headers:
-                            //     { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-                            // });
-
-                            $.ajax({
-                                url: "/quotation/search",
-                                method: "get",
-                                data: {
-                                    value: value
-                                },
-                                dataType: "json",
-                                success: function(data) {
-
-                                    response(data);
-
-                                }
-
-                            })
-                        },
-
-                        select: function(event, ui) {
-                            $(x).val(ui.item.label);
-                            $(x).parents('tr').find('.itemquntity').find('input').val(ui.item.quntity)
-                            $(x).parents('tr').find('.itemprice').find('input').val(ui.item.price)
-                            $(x).parents('tr').find('.itemtotal').find('input').val(ui.item.total)
-                            $(x).parents('tr').find('.itemsid').find('input').val(ui.item.value)
-                            discount = $('#discount').val();
-                            tax = $("#tax").val();
-                            final(discount, tax);
-                            return false;
-                        }
-
-                    });
-                })
-            });
-        </script>
+        <script src="{{ mix('js/app.js') }}"></script>
     @endsection
 </x-app-layout>

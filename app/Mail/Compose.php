@@ -24,13 +24,12 @@ class Compose extends Mailable
 
 
     public function __construct($data,$email,$subject)
-    {   
-            $this->subject = $subject;
+    {
+        $this->subject = $subject;
         $this->email = $email;
         $this->data = $data;
-        $this->name = Auth::user()->name;  
+        $this->name = Auth::user()->name;
     }
-
     /**
      * Build the message.
      *
@@ -38,12 +37,17 @@ class Compose extends Mailable
      */
     public function build()
     {
-        return $this ->cc($this->email['cc'])
-                     ->bcc($this->email['bcc'])
-                     ->subject($this->subject)
-                     ->from(Auth::user()->email)
-                     ->markdown('mails.email-template',($this->data));
+        $this ->cc($this->email['cc'])->bcc($this->email['bcc'])->subject($this->subject)->from(Auth::user()->email);
+
+       if(count($this->data['mail']->getMedia('attachment'))>0){
+        foreach ($this->data['mail']->getMedia('attachment') as $file){
+            $path = 'app/public/attachment/'.$file->id.'/'.$file->file_name;
+            $this->attach(storage_path($path));
+        }
+       }
+
+        $this->markdown('mails.email-template',($this->data));
+        return $this;
     }
 
 }
-

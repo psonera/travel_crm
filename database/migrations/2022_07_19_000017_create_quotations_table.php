@@ -15,19 +15,14 @@ return new class extends Migration {
         Schema::create('quotations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('subject');
-            $table->text('description');
+            $table->string('description');
             $table->longText('billing_address');
             $table->longText('shipping_address');
-            $table->integer('discount_percent')->default(0);
-            $table->integer('discount_amount');
-            $table->integer('tax_amount');
-            $table->integer('adjustment_amount');
-            $table->integer('sub_total');
-            $table->integer('grand_total');
-            $table->foreignId('lead_manager_id');
-            $table->foreignId('user_id');
-
-            $table->timestamps();
+            $table->decimal('discount_percent',12,4)->default(0.000);
+            $table->integer('discount_amount')->nullable();
+            $table->integer('tax_amount')->nullable();
+            $table->integer('sub_total')->nullable();
+            $table->integer('grand_total')->nullable();
         });
     }
 

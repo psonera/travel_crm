@@ -23,7 +23,7 @@ return new class extends Migration {
             $table
                 ->foreign('lead_manager_id')
                 ->references('id')
-                ->on('lead_managers')
+                ->on('users')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
 
@@ -38,13 +38,6 @@ return new class extends Migration {
                 ->foreign('lead_type_id')
                 ->references('id')
                 ->on('lead_types')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-
-            $table
-                ->foreign('lead_pipeline_id')
-                ->references('id')
-                ->on('lead_pipelines')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
 
@@ -97,11 +90,9 @@ return new class extends Migration {
             $table->dropForeign(['lead_manager_id']);
             $table->dropForeign(['lead_source_id']);
             $table->dropForeign(['lead_type_id']);
-            $table->dropForeign(['lead_pipeline_id']);
-            $table->dropForeign(['lead_pipeline_stage_id']);
             $table->dropForeign(['trip_id']);
             $table->dropForeign(['trip_type_id']);
-            $table->dropForeign(['accomodation_id']);
+            // $table->dropForeign(['accomodation_id']);
             $table->dropForeign(['transport_id']);
         });
     }

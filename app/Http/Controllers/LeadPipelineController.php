@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\LeadPipeline;
 use Illuminate\Http\Request;
 use App\Http\Requests\LeadPipelineFormRequest;
+use App\Models\LeadPipelineStage;
+use App\Models\LeadStage;
 
 class LeadPipelineController extends Controller
 {
@@ -15,11 +17,16 @@ class LeadPipelineController extends Controller
      */
     public function index()
     {
+        // $this->authorize('lead pipelines',LeadPipeline::class);
         return view('settings.lead_pipelines.index',[
             'lead_pipelines' => LeadPipeline::latest()->paginate(50)
         ]);
     }
 
+    public function allpipeline(){
+        $pipeline = LeadPipeline::all();
+        return response()->json($pipeline);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -27,6 +34,7 @@ class LeadPipelineController extends Controller
      */
     public function create()
     {
+        // $this->authorize('create.lead pipelines',LeadPipeline::class);
        return view('settings.lead_pipelines.create');
     }
 
@@ -38,10 +46,28 @@ class LeadPipelineController extends Controller
      */
     public function store(LeadPipelineFormRequest $request)
     {
-        $validated = $request->validated();
-      
-        LeadPipeline::create($validated);
+        // $this->authorize('store.lead pipelines',LeadPipeline::class);
+        $pipeline = LeadPipeline::create([
+            "name"=>$request->name,
+            "is_default"=>$request->is_default,
+            'rotten_days'=>$request->rotten_days
+        ]);
+        $stages_names = $request->stagename;
+        $stage_prob = $request->stageper;
+        $objs = [];
 
+        $length = count($stages_names);
+        $k = 1;
+        for ($i=0; $i < $length; $i++) {
+            $lead_stage = new LeadPipelineStage();
+            $lead_stage->code = $stages_names[$i];
+            $lead_stage->name = $stages_names[$i];
+            $lead_stage->probability = $stage_prob[$i];
+            $lead_stage->sort_order = $k;
+            $k++;
+            array_push($objs,$lead_stage);
+        }
+        $pipeline->leadStages()->saveMany($objs);
         return redirect()->route('settings.lead_pipelines.index')->with('success','Lead Pipeline has been created successfully.');
     }
 
@@ -53,6 +79,7 @@ class LeadPipelineController extends Controller
      */
     public function show($id)
     {
+        // $this->authorize('view.lead pipelines',LeadPipeline::class);
         //
     }
 
@@ -64,6 +91,7 @@ class LeadPipelineController extends Controller
      */
     public function edit(LeadPipeline $lead_pipeline)
     {
+        // $this->authorize('update.lead pipelines',LeadPipeline::class);
         return view('settings.lead_pipelines.edit', compact('lead_pipeline'));
     }
 
@@ -76,25 +104,47 @@ class LeadPipelineController extends Controller
      */
     public function update(LeadPipelineFormRequest $request, LeadPipeline $lead_pipeline)
     {
-        $validated = $request->validated();
-        
-        if($lead_pipeline){
-            $lead_pipeline->update($validated);
-            $lead_pipeline->save();
+
+        $lead_pipeline->name =$request->name;
+        $lead_pipeline->is_default = $request->is_default;
+        $lead_pipeline->rotten_days = $request->rotten_days;
+        $lead_pipeline->save();
+
+        //delete old stages
+
+        $lead_pipeline->leadStages()->delete();
+
+        $stages_names = $request->stagename;
+        $stage_prob = $request->stageper;
+        $objs = [];
+
+        $length = count($stages_names);
+        $k = 1;
+        for ($i=0; $i < $length; $i++) {
+            $lead_stage = new LeadPipelineStage();
+            $lead_stage->code = $stages_names[$i];
+            $lead_stage->name = $stages_names[$i];
+            $lead_stage->probability = $stage_prob[$i];
+            $lead_stage->sort_order = $k;
+            $k++;
+            array_push($objs,$lead_stage);
         }
+        $lead_pipeline->leadStages()->saveMany($objs);
+
         return redirect()->route ('settings.lead_pipelines.index')->with('success','Lead Pipeline Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  LeadPipeline $lead_pipeline
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LeadPipeline $lead_pipeline)
     {
-        $lead_pipeline = LeadPipeline::findOrFail($id);
-        $lead_pipeline->delete();  
+        // $this->authorize('delete.lead pipelines',LeadPipeline::class);
+
+        $lead_pipeline->delete();
         return response()->json([
             'success' => true,
         ]);

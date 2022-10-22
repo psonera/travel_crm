@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Rolevalidation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -13,30 +15,35 @@ class RoleController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $this->authorize('list', Role::class);
+        $this->authorize('roles', Role::class);
 
-        $search = $request->get('search', '');
-        $roles = Role::where('name', 'like', "%{$search}%")->paginate(10);
-
-        return view('app.settings.roles.index')
-            ->with('roles', $roles)
-            ->with('search', $search);
+        return view('settings.roles.index');
     }
 
+    public function allrole(){
+         $role = [];
+         if(Auth::user()->hasRole('super-admin')){
+            $role = Role::all();
+         }
+
+         if(Auth::user()->hasRole('manager')){
+            $role = Role::where('name','lead-manager')->get();
+         }
+         return response()->json($role);
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() 
+    public function create()
     {
-        $this->authorize('create', Role::class);
-
+        $this->authorize('create.roles', Role::class);
         $permissions = Permission::all();
 
-        return view('app.settings.roles.create')->with('permissions', $permissions);
+        return view('settings.roles.create')->with('permissions', $permissions);
     }
 
     /**
@@ -45,10 +52,28 @@ class RoleController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Rolevalidation $request)
     {
+        $this->authorize('store.roles', Role::class);
 
-        $this->authorize('create', Role::class);
+        $role = Role::create(
+            [
+            'name'=>$request->name,
+            'guard_name'=>$request->guard_name
+            ]
+         );
+
+        if($request->has('permission')){
+            $permissions = Permission::find($request->permission);
+        }else{
+            $permissions = Permission::all();
+        }
+
+        $role->syncPermissions($permissions);
+        return redirect(route('settings.roles.index'));
+
+
+        // $this->authorize('create', Role::class);
 
         // $data = $this->validate($request, [
         //     'name' => 'required|unique:roles|max:32',
@@ -56,16 +81,16 @@ class RoleController extends Controller {
         // ]);
         // $role = Role::create($data);
 
-        $validated = $request->validated();
-        $role = Role::create($validated);
+        // $validated = $request->validated();
+        // $role = Role::create($validated);
 
 
-        $permissions = Permission::find($request->permissions);
-        $role->syncPermissions($permissions);
+        // $permissions = Permission::find($request->permissions);
+        // $role->syncPermissions($permissions);
 
-        return redirect()
-            ->route('settings.roles.edit', $role->id)
-            ->withSuccess(__('crud.common.created'));
+        // return redirect()
+        //     ->route('settings.roles.edit', $role->id)
+        //     ->withSuccess(__('crud.common.created'));
     }
 
     /**
@@ -74,9 +99,9 @@ class RoleController extends Controller {
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role) 
+    public function show(Role $role)
     {
-        $this->authorize('view', Role::class);
+        $this->authorize('view.roles', Role::class);
 
         return view('app.settings.roles.show')->with('role', $role);
     }
@@ -87,13 +112,13 @@ class RoleController extends Controller {
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role) 
+    public function edit(Role $role)
     {
-        $this->authorize('update', $role);
+        $this->authorize('update.roles', $role);
 
         $permissions = Permission::all();
 
-        return view('app.settings.roles.edit')
+        return view('settings.roles.edit')
             ->with('role', $role)
             ->with('permissions', $permissions);
     }
@@ -105,26 +130,22 @@ class RoleController extends Controller {
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role) 
+    public function update(Rolevalidation $request, Role $role)
     {
-        $this->authorize('update', $role);
 
-        // $data = $this->validate($request, [
-        //     'name' => 'required|max:32|unique:roles,name,'.$role->id,
-        //     'permissions' => 'array',
-        // ]);
-        
-        // $role->update($data);
-        
-        $validated = $request->validated();
-        
-        $role->update($validated);
-        
-        $permissions = Permission::find($request->permissions);
+        $role->name = $request->name;
+        $role->guard_name = $request->guard_name;
+        $role->save();
+        if($request->has('permission')){
+            $permissions = Permission::find($request->permission);
+        }else{
+            $permissions = Permission::all();
+        }
+
         $role->syncPermissions($permissions);
 
         return redirect()
-            ->route('settings.roles.edit', $role->id)
+            ->route('settings.roles.index')
             ->withSuccess(__('crud.common.saved'));
     }
 
@@ -136,10 +157,9 @@ class RoleController extends Controller {
      */
     public function destroy(Role $role)
     {
-        $this->authorize('delete', $role);
+        $this->authorize('delete.roles', $role);
 
         $role->delete();
-
         return redirect()
             ->route('settings.roles.index')
             ->withSuccess(__('crud.common.removed'));

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ActivityFile;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,11 @@ class Activity extends Model
     public function activityParticipants()
     {
         return $this->hasMany(ActivityParticipant::class);
+    }
+
+    public function file()
+    {
+        return $this->hasOne(ActivityFile::class, 'activity_id');
     }
 
     public function leads()

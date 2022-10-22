@@ -17,16 +17,13 @@ return new class extends Migration {
             $table->string('sku');
             $table->string('name');
             $table->integer('quantity')->default(0);
-            $table->integer('price')->default(0);
-            $table->string('coupon_code');
-            $table->decimal('discount_percent', 4)->default(0.0);
-            $table->decimal('discount_amount', 4)->default(0.0);
-            $table->decimal('tax_percent', 4)->default(0.0);
-            $table->decimal('tax_amount', 4)->default(0.0);
-            $table->decimal('total', 4)->default(0.0);
-            $table->foreignId('product_id');
-            $table->foreignId('quotation_id');
-
+            $table->decimal('price',12,4)->default(0.000);
+            $table->string('coupon_code')->nullable();
+            $table->decimal('discount_percent',12, 4)->default(0.0000)->nullable();
+            $table->decimal('discount_amount',12, 4)->default(0.0000)->nullable();
+            $table->decimal('tax_percent',12,4)->default(0.0000)->nullable();
+            $table->decimal('tax_amount',12,4)->default(0.0000)->nullable();
+            $table->decimal('total',12,4)->default(0.0000);
             $table->timestamps();
         });
     }

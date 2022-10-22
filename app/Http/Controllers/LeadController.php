@@ -6,33 +6,43 @@ use Carbon\Carbon;
 use App\Models\Lead;
 use App\Models\Trip;
 use App\Models\User;
+use App\Events\NewLead;
 use App\Models\Product;
 use App\Models\LeadType;
 use App\Models\TripType;
 use App\Models\Transport;
+use App\Events\AssignLead;
 use App\Models\LeadSource;
 use App\Models\LeadManager;
+use App\Models\LeadProduct;
 use App\Models\Accomodation;
 use App\Models\LeadPipeline;
 use Illuminate\Http\Request;
 use App\Models\LeadPipelineStage;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LeadFormRequest;
 
 class LeadController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        if(request('view_type')){
+        $request->validate([
+            'view_type' => 'string'
+        ]);
+        if($request->view_type == 'table'){
             return view('leads.index.table',[
                 'leads' => Lead::latest()->paginate(10),
             ]);
-        }else{
+        } else if($request->view_type == ''){
             return view('leads.index.kanban',[
                 'leads' => Lead::all(),
                 'stages' => LeadPipelineStage::all()
             ]);
+        } else {
+            return view('errors.404');
         }
+        
     }
 
     public function create(): View
@@ -52,7 +62,7 @@ class LeadController extends Controller
     public function view(Lead $lead): View
     {   
         return view('leads.view',[
-            'lead' => Lead::find($lead)
+            'lead' => Lead::with(['leadProducts', 'activities', 'quotations'])->where('id', $lead->id)->first()
         ]);
     }
 
@@ -60,21 +70,13 @@ class LeadController extends Controller
     {
         $data = $request->validated();
 
-        dd($data);
-
         $data['status'] = 1;
         $data['accomodation_id'] = $request->input('accomodation_id');
 
         if ($data['lead_pipeline_stage_id']) {
             $stage = LeadPipelineStage::findOrFail($data['lead_pipeline_stage_id']);
-
-            $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
         } else {
-            $pipeline = LeadPipeline::findOneByField('is_default', 52)->first();
-
-            $stage = $pipeline->leadStages->first();
-
-            $data['lead_pipeline_id'] = $pipeline->id;
+            $stage = LeadPipelineStage::where('code', '=', 'new')->get();
 
             $data['lead_pipeline_stage_id'] = $stage->id;
         }
@@ -87,19 +89,28 @@ class LeadController extends Controller
             $data['expected_closed_date'] = Carbon::parse($data['expected_closed_date']);
         }
 
-        
-
         if (in_array($stage->code, ['won', 'lost'])) {
             $data['closed_at'] = Carbon::now();
         }
 
         $lead = Lead::create($data);
 
-        // if($data['products']){
-        //     foreach($data['products'] as $){
+        if(isset($data['products'])){
+            foreach($data['products'] as $product){
+                $lead_product = array(
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price'],
+                    'amount' => $product['amount'],
+                    'lead_id' => $lead->id,
+                    'product_id' => $product['id']
+                );
+                LeadProduct::insert($lead_product);
+            }
+        }
 
-        //     }   
-        // }
+        if($lead){
+            NewLead::dispatch($lead);
+        }
 
         session()->flash('success', 'Lead Created Successfully!!');
 
@@ -109,13 +120,76 @@ class LeadController extends Controller
     public function edit(Lead $lead): View
     {
         return view('leads.edit',[
-            'lead' => Lead::find($lead)
+            'lead' => $lead,
+            'sources' => LeadSource::all(),
+            'types' => LeadType::all(),
+            'lead_managers' => LeadManager::all(),
+            'managers' => User::all(),
+            'trip_types' => TripType::all(),
+            'accomodations' => Accomodation::all(),
+            'transports' => Transport::all(),
+            'manager' => $lead->user->toArray()
         ]);
     }
 
-    public function update(Lead $lead, Request $request)
+    public function update(Lead $lead, LeadFormRequest $request)
     {
-        # code...
+        $data = $request->validated();
+
+        $data['accomodation_id'] = $request->input('accomodation_id');
+
+        if ($data['lead_pipeline_stage_id']) {
+            $stage = LeadPipelineStage::findOrFail($data['lead_pipeline_stage_id']);
+        } else {
+            $stage = LeadPipelineStage::where('code', '=', 'new')->get();
+
+            $data['lead_pipeline_stage_id'] = $stage->id;
+        }
+
+        if($stage->code == 'lost'){
+            $data['status'] = 0;
+        } else {
+            $data['status'] = 1;
+        }
+        
+        if($data['selected_trip_date']){
+            $data['selected_trip_date'] = Carbon::parse($data['selected_trip_date']);
+        }
+
+        if($data['expected_closed_date']){
+            $data['expected_closed_date'] = Carbon::parse($data['expected_closed_date']);
+        }
+
+        if (in_array($stage->code, ['won', 'lost'])) {
+            $data['closed_at'] = Carbon::now();
+        }
+
+        if($lead->lead_manager_id != $data['lead_manager_id']){
+            AssignLead::dispatch($lead);
+        }
+
+        $lead->update($data);
+
+        if(isset($data['products'])){
+            foreach($lead->leadProducts as $lead_prd){
+                $lead_prd->delete();
+            }
+            foreach($data['products'] as $product){
+                $lead_product = array(
+                    'name' => $product['name'],
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price'],
+                    'amount' => $product['amount'],
+                    'lead_id' => $lead->id,
+                    'product_id' => $product['id']
+                );
+                LeadProduct::insert($lead_product);
+            }
+        }
+
+        session()->flash('success', 'Lead Updated Successfully!!');
+
+        return redirect()->route('leads.index');
     }
 
     public function destroy(Lead $lead)
@@ -125,94 +199,59 @@ class LeadController extends Controller
         return back()->with('success', 'Your Lead Deleted Successfully!');
     }
 
-    public function add_product(Request $request)
-    {
-        $input = $request->only(['i']);
-
-        if(!empty($input)){
-            $html = view('forms.add_product', ['i' => $input['i']])->render();
-
-            return response()->json([
-                'html' => $html
-            ]);
-        }
-    }
-
     public function find_lm(Request $request)
     {
         $request->validate([
             'search' => 'string',
-            'user_id' => 'numeric',
-            'type' => 'numeric'
         ]);
         $search = $request->search;
-        $user_id = $request->user_id;
-        $type = $request->type;
-        $all_lead_managers = array();
 
-        if($type == 1){
-            $all_lead_managers = LeadManager::where('name', 'like', '%'.$search.'%')->get();
+        $all_lead_managers = LeadManager::where('name', 'like', '%'.$search.'%')->get();
+        
+        return response()->json($all_lead_managers);
+    }
 
-            return response()->json($all_lead_managers);
+    public function find_manager(Request $request)
+    {
+        $request->validate([
+            'search' => 'string',
+            'participant' => 'numeric'
+        ]);
+        $search = $request->search;
+        $participant = $request->participant;
+
+        if($participant != ''){
+            $res['users'] = User::where('name', 'like', '%'.$search.'%')->where('is_lead_manager', 0)->where('is_admin', 0)->where('is_manager', 0)->get();
+            $res['lead_managers'] = User::where('name', 'like', '%'.$search.'%')->where('is_lead_manager', 1)->get();
+            
+            return response()->json($res);
         }
 
-        if($type == 2){
-            $lead_manager = LeadManager::where('id', $user_id)->first();
+        $all_managers = User::where('name', 'like', '%'.$search.'%')->get();
 
-            return response()->json($lead_manager);
-        }
+        return response()->json($all_managers);
     }
 
     public function find_prd(Request $request)
     {
         $request->validate([
-            'search_prd' => 'string',
-            'prd_id' => 'numeric',
-            'type' => 'numeric',
+            'search' => 'string',
         ]);
-        $search_prd = $request->search_prd;
-        $prd_id = $request->prd_id;
-        $type = $request->type;
-        $all_prds = array();
+        $search = $request->search;
 
-        if($type == 1){
-            $all_prds = Product::where('name', 'like', '%'.$search_prd.'%')
-                                // ->whereNotIn('id', $selected)
-                                ->get();
+        $all_prds = Product::where('name', 'like', '%'.$search.'%')->get();
 
-            return response()->json($all_prds);
-        }
-
-        if($type == 2){
-            $product = Product::where('id', $prd_id)->first();
-
-            return response()->json($product);
-        }
+        return response()->json($all_prds);
     }
 
     public function find_trip(Request $request)
     {
         $request->validate([
-            'search_trip' => 'string',
-            'trip_id' => 'numeric',
-            'type' => 'numeric'
+            'search' => 'string',
         ]);
-        $search_trip = $request->search_trip;
-        $trip_id = $request->trip_id;
-        $type = $request->type;
-        $all_trips = array();
-
-        if($type == 1){
-            $all_trips = Trip::where('title', 'like', '%'.$search_trip.'%')->get();
-
-            return response()->json($all_trips);
-        }
-
-        if($type == 2){
-            $trip = Trip::where('id', $trip_id)->first();
-
-            return response()->json($trip);
-        }
+        $search = $request->search;
+        $all_trips = Trip::where('title', 'like', '%'.$search.'%')->get();
+        return response()->json($all_trips);
     }
 
     public function change_status(Request $request)
@@ -238,5 +277,53 @@ class LeadController extends Controller
         }
 
         return response()->json($res);
+    }
+
+    public function get(){
+        $where = array();
+        if(auth()->user()->hasRole('lead-manager')){
+            $where['status'] = 1;
+            $where['lead_manager_id'] = auth()->user()->id;
+        } else if(auth()->user()->hasRole('manager')){
+            $where['status'] = 1;
+            $where['user_id'] = auth()->user()->id;
+        } else {
+            $where['status'] = 1;
+        }
+        return response()->json([
+            'stages' => LeadPipelineStage::with(['leads' => function($query)  use ($where) { $query->with(['leadManager'])->where($where); } ])->orderBy('id', 'ASC')->get(['id', 'name'])->toArray(),
+        ]);
+    }
+
+    public function remove_stage(Request $request){
+        $request->validate([
+            'stage_id' => 'numeric',
+        ]);
+        $response = array();
+        $stage_id = $request->stage_id;
+        $stage = LeadPipelineStage::where('id', $stage_id)->first();
+        if($stage->code != 'new' || $stage->code != 'won' || $stage->code != 'lost'){
+            $leads = Lead::where('lead_pipeline_stage_id', $stage_id)->get();
+
+            if($stage && $leads){
+                foreach($leads as $lead){
+                    $lead->lead_pipeline_stage_id = 1;
+                    $lead->save();
+                }
+
+                $stage->delete();
+                $response['success'] = '"'. $stage->name .'" stage is deleted successfully, and all leads are moved to NEW!!';
+            } else {
+                $response['error'] = '"'. $stage->name .'" stage could not be deleted. Try again later';
+            }
+        } else {
+            $response['error'] = '"'. $stage->name .'" stage can not be deleted. It is permanent!!';
+        }
+        return response()->json($response);
+    }
+
+    public function get_stages(){
+        $stages = LeadPipelineStage::all();
+        return response()->json($stages);
     }
 }

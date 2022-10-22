@@ -16,9 +16,7 @@ class TripTypeController extends Controller
      */
     public function index()
     {
-        return view('settings.trip_types.index',[
-            'trip_types' => TripType::latest()->paginate(10)
-        ]); 
+        return view('settings.trip_types.index'); 
     }
 
     /**
@@ -82,21 +80,26 @@ class TripTypeController extends Controller
             $trip_type->update($validated);
             $trip_type->save();
         }
-        return redirect()->route ('settings.trip_types.index')->with('success','Trip Type Has Been updated successfully');
+        return redirect()->route('settings.trip_types.index')->with('success','Trip Type Has Been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  TripType $trip_type
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TripType $trip_type)
     {
-        $trip_type = TripType::findOrFail($id);
         $trip_type->delete();  
         return response()->json([
-            'success' => true,
+            'success' => 'Trip Type Deleted Successfully!',
         ]);    
+    }
+
+    public function get(){
+        return response()->json([
+            'trip_types' => TripType::all()->toArray(),
+        ]);
     }
 }

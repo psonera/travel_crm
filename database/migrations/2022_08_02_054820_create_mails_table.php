@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('subject');
             $table->longText('content');
             $table->tinyInteger('status')->nullable();
+            $table->unsignedBigInteger('lead_id')->nullable();
+            $table->foreign('lead_id')->references('id')->on('leads')->nullOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

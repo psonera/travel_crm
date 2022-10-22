@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,10 +19,11 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use HasFactory;
     use Searchable;
+    use HasPermissions;
     use HasApiTokens;
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'email', 'password', 'status'];
+    protected $fillable = ['name', 'email', 'phone_number','is_admin','is_manager','is_lead_manager','lead_source_id','password', 'status'];
 
     protected $searchableFields = ['*'];
 
@@ -46,9 +48,22 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Activity::class);
     }
 
+    // public function activityParticipants(){
+    //     return $this->belongsToMany(ActivityParticipant::class);
+    // }
+
     public function groups()
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function leadSource()
+    {
+        return $this->belongsTo(LeadSource::class);
+    }
+
+    public function email(){
+        return $this->hasMany(Email::class);
     }
 
     public function isSuperAdmin()

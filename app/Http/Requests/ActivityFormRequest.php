@@ -19,21 +19,21 @@ class ActivityFormRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
-        return [
-            'title'=> 'required|max:30|string',
-            'type'=> 'required|boolean',
-            'comment'=> 'required|max:200|string',
-            'schedule_from' => 'required|date',
-            'schedule_to' => 'required|after:schedule_from',
-            'is_done' => 'required|boolean',
-            'user_id' => 'required',
-            'location'=> 'required|max:200|string', 
-           
+        $rules = [
+            'title'=> 'required_unless:type,note',
+            'type'=> 'required',
+            'comment'=> 'required_if:type,note',
+            'schedule_from' => 'required_unless:type,note|date',
+            'schedule_to' => 'required_unless:type,note|after:schedule_from',
+            'location' => 'sometimes',
+            'lead_id' => 'numeric'
         ];
+
+        return $rules;
     }
     public function messages()
     {
@@ -42,10 +42,8 @@ class ActivityFormRequest extends FormRequest
             'type' => 'Type is required!',
             'comment' => 'Comment is required!',
             'schedule_from' => 'Schedule From is required!',
-            'schedule_to' => 'Schedule To is required!',
-            'is_done' => 'Is Done is required!',
-            'user_id' => 'User ID is required!',
-            'location' => 'Location is required!',
+            'schedule_to' => 'Schedule To is required!'
         ];
+
     }
 }

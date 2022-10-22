@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->decimal('amount', 4);
             $table->foreignId('lead_id');
             $table->foreignId('product_id');
-
             $table->timestamps();
         });
     }
