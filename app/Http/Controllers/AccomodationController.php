@@ -15,6 +15,7 @@ class AccomodationController extends Controller
      */
     public function index()
     {
+        $this->authorize('accomodations',Accomodation::class);
         return view('settings.accomodations.index');
     }
 
@@ -25,6 +26,7 @@ class AccomodationController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.accomodations',Accomodation::class);
         return view('settings.accomodations.create');
     }
 
@@ -36,6 +38,7 @@ class AccomodationController extends Controller
      */
     public function store(AccomodationFormRequest $request)
     {
+        $this->authorize('store.accomodations',Accomodation::class);
         $validated = $request->validated();
 
         Accomodation::create($validated);
@@ -62,6 +65,7 @@ class AccomodationController extends Controller
      */
     public function edit(Accomodation $accomodation)
     {
+        $this->authorize('update.accomodations',Accomodation::class);
         return view('settings.accomodations.edit', compact('accomodation'));
     }
 
@@ -74,6 +78,7 @@ class AccomodationController extends Controller
      */
     public function update(AccomodationFormRequest $request, Accomodation $accomodation)
     {
+        $this->authorize('update.accomodations',Accomodation::class);
         $validated = $request->validated();
         
         if($accomodation){
@@ -91,6 +96,7 @@ class AccomodationController extends Controller
      */
     public function destroy(Request $request)
     {
+        $this->authorize('delete.accomodations',Accomodation::class);
         $accomodation = Accomodation::findOrFail($request->id);
         $accomodation->delete();  
         return response()->json([

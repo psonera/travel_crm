@@ -132,7 +132,7 @@ class RoleController extends Controller {
      */
     public function update(Rolevalidation $request, Role $role)
     {
-
+        $this->authorize('update.roles', Role::class);
         $role->name = $request->name;
         $role->guard_name = $request->guard_name;
         $role->save();

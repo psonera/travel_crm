@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Edit Quotation')
     @if ($errors->any())
         <div id="alert-2" class="flex p-4 mb-4 bg-red-100 rounded-lg dark:bg-red-200" role="alert">
             <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">

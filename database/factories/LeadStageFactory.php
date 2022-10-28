@@ -26,7 +26,6 @@ class LeadStageFactory extends Factory
             'code' => $this->faker->text(255),
             'name' => $this->faker->name,
             'is_user_defined' => $this->faker->numberBetween(0, 127),
-            'lead_pipeline_id' => \App\Models\LeadPipeline::factory(),
         ];
     }
 }

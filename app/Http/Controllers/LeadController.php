@@ -16,7 +16,6 @@ use App\Models\LeadSource;
 use App\Models\LeadManager;
 use App\Models\LeadProduct;
 use App\Models\Accomodation;
-use App\Models\LeadPipeline;
 use Illuminate\Http\Request;
 use App\Models\LeadPipelineStage;
 use Illuminate\Contracts\View\View;
@@ -27,6 +26,7 @@ class LeadController extends Controller
 {
     public function index(Request $request): View
     {
+        $this->authorize('leads',Lead::class);
         $request->validate([
             'view_type' => 'string'
         ]);
@@ -47,6 +47,7 @@ class LeadController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create.leads',Lead::class);
         return view('leads.create',[
             'leads' => Lead::all(),
             'sources' => LeadSource::all(),
@@ -61,6 +62,7 @@ class LeadController extends Controller
 
     public function view(Lead $lead): View
     {   
+        $this->authorize('view.leads',Lead::class);
         return view('leads.view',[
             'lead' => Lead::with(['leadProducts', 'activities', 'quotations'])->where('id', $lead->id)->first()
         ]);
@@ -68,6 +70,7 @@ class LeadController extends Controller
 
     public function store(LeadFormRequest $request)
     {
+        $this->authorize('store.leads',Lead::class);
         $data = $request->validated();
 
         $data['status'] = 1;
@@ -98,6 +101,7 @@ class LeadController extends Controller
         if(isset($data['products'])){
             foreach($data['products'] as $product){
                 $lead_product = array(
+                    'name' => $product['name'],
                     'quantity' => $product['quantity'],
                     'price' => $product['price'],
                     'amount' => $product['amount'],
@@ -105,6 +109,10 @@ class LeadController extends Controller
                     'product_id' => $product['id']
                 );
                 LeadProduct::insert($lead_product);
+                $update_product = Product::where('id', $product['id'])->first();
+                $change_qty = $update_product->quantity - $product['quantity'];
+                $update_product->quantity = $change_qty;
+                $update_product->save();
             }
         }
 
@@ -119,6 +127,7 @@ class LeadController extends Controller
 
     public function edit(Lead $lead): View
     {
+        $this->authorize('update.leads',Lead::class);
         return view('leads.edit',[
             'lead' => $lead,
             'sources' => LeadSource::all(),
@@ -134,6 +143,7 @@ class LeadController extends Controller
 
     public function update(Lead $lead, LeadFormRequest $request)
     {
+        $this->authorize('update.leads',Lead::class);
         $data = $request->validated();
 
         $data['accomodation_id'] = $request->input('accomodation_id');
@@ -164,11 +174,18 @@ class LeadController extends Controller
             $data['closed_at'] = Carbon::now();
         }
 
-        if($lead->lead_manager_id != $data['lead_manager_id']){
-            AssignLead::dispatch($lead);
-        }
+        $old_LM_id = $lead->lead_manager_id;
+        $old_M_id = $lead->user_id;
 
         $lead->update($data);
+
+        if($lead->lead_manager_id != $old_LM_id){
+            AssignLead::dispatch($lead, true);
+        }
+
+        if($lead->user_id != $old_M_id){
+            AssignLead::dispatch($lead, false);
+        }
 
         if(isset($data['products'])){
             foreach($lead->leadProducts as $lead_prd){
@@ -184,6 +201,14 @@ class LeadController extends Controller
                     'product_id' => $product['id']
                 );
                 LeadProduct::insert($lead_product);
+                $update_product = Product::where('id', $product['id'])->first();
+                $change_qty = $update_product->quantity - $product['quantity'];
+                $update_product->quantity = $change_qty;
+                $update_product->save();
+            }
+        } else {
+            foreach($lead->leadProducts as $lead_prd){
+                $lead_prd->delete();
             }
         }
 
@@ -194,6 +219,7 @@ class LeadController extends Controller
 
     public function destroy(Lead $lead)
     {
+        $this->authorize('delete.leads',Lead::class);
         $lead->delete();
 
         return back()->with('success', 'Your Lead Deleted Successfully!');
@@ -256,6 +282,7 @@ class LeadController extends Controller
 
     public function change_status(Request $request)
     {
+        $this->authorize('update.leads',Lead::class);
         $request->validate([
             'stage_id' => 'numeric',
             'lead_id' => 'numeric'
@@ -270,6 +297,9 @@ class LeadController extends Controller
         if($lead_id && $stage_id){
             $lead = Lead::findOrFail($lead_id);
             $lead->lead_pipeline_stage_id = $stage_id;
+            if($stage->code == 'won' || $stage->code == 'lost'){
+                $lead->closed_at = Carbon::now();
+            }
             $lead->save();
             $res['success'] = 'Lead status changed successfully to "'. $stage->name .'"!!';
         } else {
@@ -296,6 +326,7 @@ class LeadController extends Controller
     }
 
     public function remove_stage(Request $request){
+        $this->authorize('update.leads',Lead::class);
         $request->validate([
             'stage_id' => 'numeric',
         ]);

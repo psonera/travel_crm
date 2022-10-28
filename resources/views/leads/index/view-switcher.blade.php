@@ -1,3 +1,4 @@
+@section('title', 'Leads')
 <div class="{{ request('view_type') ? 'inline-flex w-full' : 'm-auto'}} ">
     <div class="{{ request('view_type') ? 'ml-auto' : 'mr-2'}}">
         @if (request('view_type'))

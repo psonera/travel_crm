@@ -288,8 +288,8 @@ class UserController extends Controller
                     $lead->user_id = $super_admin->id;
                     $lead->save();
                 }
-                $data['lead_manager_name'] = $user->name;
-                $data['manager_name'] = $super_admin->name;
+                $data['manager'] = $user;
+                $data['new_manager'] = $super_admin;
                 TransferOfLeads::dispatch($data);
             }
         }
@@ -303,8 +303,8 @@ class UserController extends Controller
                     $lead->lead_manager_id = $manager->id;
                     $lead->save();
                 }
-                $data['lead_manager_name'] = $user->name;
-                $data['manager_name'] = $manager->name;
+                $data['lead_manager'] = $user;
+                $data['new_manager'] = $manager;
                 TransferOfLeads::dispatch($data);
             }
         }

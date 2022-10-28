@@ -145,14 +145,14 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="absolute group-hover:opacity-100 left-[210px] opacity-0 top-3">
+                                    <div class="absolute group-hover:opacity-100 w-full h-full group-hover:top-0 group-hover:flex justify-center items-center opacity-0">
                                         <span class="text-xl text-black font-bold leading-relaxed font-sans">Click to Mark as Read</span> 
                                     </div>
                                 </a>
                                 
                             </li>
                         @endforeach
-                        <div class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50">
+                        <div class="block relative py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50">
                             <a href="{{ route('notifications.markallread') }}">Mark All As Read</a>
                         </div>
                     </ul>

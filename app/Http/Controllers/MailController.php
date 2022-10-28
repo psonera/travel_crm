@@ -10,7 +10,6 @@ use Exception;
 use App\Mail\Compose;
 use App\Models\Email;
 use Illuminate\Http\Request;
-use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Spatie\MediaLibrary\Support\MediaStream;
@@ -21,9 +20,8 @@ class MailController extends Controller
 
     public function compose()
     {
-        $this->authorize('composer',Mail::class);
-        $templates = EmailTemplate::all();
-        return view('mails.compose',compact('templates'));
+        $this->authorize('compose.mails',Mail::class);
+        return view('mails.compose');
     }
 
     public function index()
@@ -33,6 +31,7 @@ class MailController extends Controller
 
     public function store(EmailRequest $request)
     {
+        $this->authorize('compose.mails',Mail::class);
         $message = '';
         if($request->has('save')){
 
@@ -87,6 +86,7 @@ class MailController extends Controller
 
         }else if($request->has('save_as_draft')){
             
+            $this->authorize('draft.mails',Mail::class);
             $status =  EMAIL::DRAFT;
             $mail = Email::Create([
                 'to' => $request->to,
@@ -113,12 +113,14 @@ class MailController extends Controller
     }
 
     public function edit($id){
-        
+        $this->authorize('compose.mails',Mail::class);
         $mail = Email::find($id);
         return view('mails.editdraft',compact('mail'));
     }
 
     public function update(Request $request, $id){
+        $this->authorize('update.mails',Mail::class);
+
         $mail = Email::find($id);    
         $message = '';
         if($request->has('save')){
@@ -198,6 +200,8 @@ class MailController extends Controller
     }
 
     public function sendDraft($id){
+        $this->authorize('sent.mails',Mail::class);
+
         // for sending emails from draft
         // Sending mail
         $message = '';
@@ -231,17 +235,20 @@ class MailController extends Controller
     }
 
     public function draftview(){
+        $this->authorize('draft.mails',Mail::class);
         return view('mails.draft');
     }
 
     public function sent()
     {
+        $this->authorize('sent.mails',Mail::class);
         return view('mails.sent');
     }
 
 
     public function destroy($id)
     {
+        $this->authorize('delete.mails',Mail::class);
         $mail = Email::findOrFail($id);
         $mail->save();
         $mail->delete();
@@ -249,10 +256,12 @@ class MailController extends Controller
     }
     public function trash()
     {
+        $this->authorize('trash.mails',Mail::class);
         return view('mails.trash');
     }
     public function restore($id)
     {
+        $this->authorize('update.mails',Mail::class);
         $mail = Email::withTrashed()->find($id);
         if($mail->restore()){
             if($mail->status==1){
@@ -266,6 +275,7 @@ class MailController extends Controller
 
     public function forceDelete($id)
     {
+        $this->authorize('delete.mails',Mail::class);
         $mail = Email::withTrashed()->find($id);
         foreach($mail->getMedia('attachment') as $media){
             $media->delete();

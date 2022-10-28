@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Settings')
     <section class="flex-wrap -mx-3">
         @if(auth()->user()->hasAnyPermission(['users', 'roles']))
         {{-- User Section --}}

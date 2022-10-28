@@ -2950,8 +2950,20 @@ select {
   outline-offset: 2px;
 }
 
+.group:hover .group-hover\:top-3 {
+  top: 0.75rem;
+}
+
+.group:hover .group-hover\:top-0 {
+  top: 0px;
+}
+
 .group:hover .group-hover\:block {
   display: block;
+}
+
+.group:hover .group-hover\:flex {
+  display: flex;
 }
 
 .group:hover .group-hover\:pt-0 {

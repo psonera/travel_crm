@@ -15,8 +15,7 @@ class PermissionController extends Controller
     */
     public function index(Request $request)
     {
-        $this->authorize('list', Permission::class);
-
+        $this->authorize('permissions', Permission::class);
         $search = $request->get('search', '');
         $permissions = Permission::where('name', 'like', "%{$search}%")->paginate(10);
 
@@ -32,7 +31,7 @@ class PermissionController extends Controller
     */
     public function create()
     {
-        $this->authorize('create', Permission::class);
+        $this->authorize('create.permissions', Permission::class);
 
         $roles = Role::all();
         return view('app.permissions.create')->with('roles', $roles);
@@ -47,7 +46,8 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
 
-        $this->authorize('create', Permission::class);
+        $this->authorize('store.permissions', Permission::class);
+
 
         // $data = $this->validate($request, [
         //     'name' => 'required|max:64',
@@ -75,7 +75,7 @@ class PermissionController extends Controller
     */
     public function show(Permission $permission)
     {
-        $this->authorize('view', Permission::class);
+        $this->authorize('view.permissions', Permission::class);
 
         return view('app.permissions.show')->with('permission', $permission);
     }
@@ -88,7 +88,8 @@ class PermissionController extends Controller
     */
     public function edit(Permission $permission)
     {
-        $this->authorize('update', $permission);
+        $this->authorize('update.permissions', Permission::class);
+
 
         $roles = Role::get();
 
@@ -106,7 +107,7 @@ class PermissionController extends Controller
     */
     public function update(Request $request, Permission $permission)
     {
-        $this->authorize('update', $permission);
+        $this->authorize('update.permissions', Permission::class);
 
         // $data = $this->validate($request, [
         //     'name' => 'required|max:40',
@@ -133,7 +134,7 @@ class PermissionController extends Controller
     */
     public function destroy(Permission $permission)
     {
-        $this->authorize('delete', $permission);
+        $this->authorize('delete.permissions', Permission::class);
 
         $permission->delete();
 

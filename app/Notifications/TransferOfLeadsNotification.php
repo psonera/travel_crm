@@ -11,14 +11,20 @@ class TransferOfLeadsNotification extends Notification
 {
     use Queueable;
 
+    public $auth_person;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        if($data->manager){
+            $this->auth_person = $data->manager;
+        }else {
+            $this->auth_person = $data->lead_manager;
+        }
     }
 
     /**
@@ -29,7 +35,7 @@ class TransferOfLeadsNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -40,22 +46,26 @@ class TransferOfLeadsNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $from = auth()->user()->email;
+        $line_one = "The person under you have been removed! So all the leads have been assigned to you! Please Check!";
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->from($from)
+                    ->subject('Leads Transfer')
+                    ->line($line_one)
+                    ->line('Thank you');
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the database representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+     * @return 
+    */
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            'subject'=> 'lead',
+            'message' => 'The person under you have been removed! So all the leads have been assigned to you! Please Check!'
         ];
     }
 }

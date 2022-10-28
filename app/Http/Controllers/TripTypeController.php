@@ -16,6 +16,7 @@ class TripTypeController extends Controller
      */
     public function index()
     {
+        $this->authorize('trip-types', TripType::class);
         return view('settings.trip_types.index'); 
     }
 
@@ -26,6 +27,7 @@ class TripTypeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.trip-types', TripType::class);
         return view('settings.trip_types.create');
     }
 
@@ -37,6 +39,7 @@ class TripTypeController extends Controller
      */
     public function store(TripTypeFormRequest $request)
     {
+        $this->authorize('store.trip-types', TripType::class);
         $validated = $request->validated();
         TripType::create($validated);
 
@@ -62,6 +65,7 @@ class TripTypeController extends Controller
      */
     public function edit(TripType $trip_type)
     {
+        $this->authorize('update.trip-types', TripType::class);
         return view('settings.trip_types.edit', compact('trip_type'));
     }
 
@@ -74,6 +78,7 @@ class TripTypeController extends Controller
      */
     public function update(TripTypeFormRequest $request, TripType $trip_type)
     {
+        $this->authorize('update.trip-types', TripType::class);
         $validated = $request->validated();
         
         if($trip_type){
@@ -91,6 +96,7 @@ class TripTypeController extends Controller
      */
     public function destroy(TripType $trip_type)
     {
+        $this->authorize('delete.trip-types', TripType::class);
         $trip_type->delete();  
         return response()->json([
             'success' => 'Trip Type Deleted Successfully!',

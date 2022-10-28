@@ -38,6 +38,7 @@ class ActivityFileController extends Controller
      */
     public function store(ActivityFileRequest $request)
     {
+        $this->authorize('store.activities',Activity::class);
         $validated = $request->validated();
         $validated['is_done'] = $validated['type'] == 'file' ? 1 : 0;
         $activity = Activity::create($validated);

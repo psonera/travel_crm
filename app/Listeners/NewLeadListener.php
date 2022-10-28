@@ -29,13 +29,10 @@ class NewLeadListener
     public function handle(NewLead $lead)
     {
         $new_lead = $lead->lead;
-        $super_admin = User::role('super-admin')->first();
         $manager = User::where('id', $new_lead->user_id)->first();
         $lead_manager = User::where('id', $new_lead->lead_manager_id)->first();
 
-        $super_admin->notify(new NewLeadNotification($new_lead));
         $manager->notify(new NewLeadNotification($new_lead));
         $lead_manager->notify(new NewLeadNotification($new_lead));
-        
     }
 }

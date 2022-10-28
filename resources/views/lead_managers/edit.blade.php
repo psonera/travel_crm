@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Edit Lead Manager')
     @section('page_styles')
         <style>
             img.userimg {

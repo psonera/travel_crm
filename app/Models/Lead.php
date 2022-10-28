@@ -17,7 +17,6 @@ class Lead extends Model
         'description',
         'lead_value',
         'status',
-        'lost_reason',
         'traveler_count',
         'selected_trip_date',
         'closed_at',

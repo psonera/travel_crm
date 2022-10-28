@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Dashboard')
     {{-- Overview Cards --}}
     <div class="flex flex-wrap -mx-3">
         <!-- card1 -->
@@ -348,7 +349,7 @@
 
         <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
             <div
-                class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+                class="border-black/12.5 shadow-soft-xl relative flex h-auto min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                 <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
                     <h6>Lead Sources Overview</h6>
                 </div>

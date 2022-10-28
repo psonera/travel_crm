@@ -7,7 +7,6 @@ use App\Models\Email;
 use App\Models\Activity;
 use App\Models\LeadType;
 use App\Models\Transport;
-use App\Models\EmailTemplate;
 use App\Models\LeadPipelineStage;
 use Spatie\Permission\Models\Role;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -120,27 +119,6 @@ Breadcrumbs::for('settings.lead_sources.edit', function (BreadcrumbTrail $trail,
 });
 
 
-
-// Settings / Lead Pipeline
-Breadcrumbs::for('settings.lead_pipelines.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('settings.index');
-    $trail->push('Lead Pipeline', route('settings.lead_pipelines.index'));
-});
-
-// Settings / Lead Pipelines / Create Lead Pipeline
-Breadcrumbs::for('settings.lead_pipelines.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('settings.lead_pipelines.index');
-    $trail->push('Create Lead Pipeline', route('settings.lead_pipelines.create'));
-});
-
-// Settings / Lead Pipelines / Edit Lead Pipeline
-Breadcrumbs::for('settings.lead_pipelines.edit', function (BreadcrumbTrail $trail, $lead_pipeline) {
-    $trail->parent('settings.lead_pipelines.index');
-    $trail->push('Edit Lead Pipeline', route('settings.lead_pipelines.edit',$lead_pipeline));
-});
-
-
-
 // Settings / Lead type
 Breadcrumbs::for('settings.lead_types.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
@@ -176,25 +154,6 @@ Breadcrumbs::for('settings.lead_pipeline_stages.edit', function (BreadcrumbTrail
     $trail->parent('settings.lead_pipeline_stages.index');
     $trail->push('Edit Lead Pipeline Stage', route('settings.lead_pipeline_stages.edit',$lead_pipeline_stage));
 });
-
-// Settings / Email Templates
-Breadcrumbs::for('settings.email_templates.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('settings.index');
-    $trail->push('Email Templates', route('settings.email_templates.index'));
-});
-
-// Settings / Email Templates / Create Email Templates
-Breadcrumbs::for('settings.email_templates.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('settings.email_templates.index');
-    $trail->push('Create Email Templates', route('settings.email_templates.create'));
-});
-
-// Settings / Email Templates / Edit Email Template
-Breadcrumbs::for('settings.email_templates.edit', function (BreadcrumbTrail $trail,EmailTemplate $email_template) {
-    $trail->parent('settings.email_templates.index');
-    $trail->push('Edit Email Templates', route('settings.email_templates.edit',$email_template));
-});
-
 
 
 // Settings / Trip

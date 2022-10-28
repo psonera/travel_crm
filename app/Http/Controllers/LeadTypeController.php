@@ -15,7 +15,7 @@ class LeadTypeController extends Controller
      */
     public function index()
     {
-        // $this->authorize('lead-types',LeadType::class);
+        $this->authorize('lead-types',LeadType::class);
         return view('settings.lead_types.index',[
             'lead_types' => LeadType::latest()->paginate(10)
         ]);
@@ -34,7 +34,7 @@ class LeadTypeController extends Controller
      */
     public function create()
     {
-        // $this->authorize('create.lead-types',LeadType::class);
+        $this->authorize('create.lead-types',LeadType::class);
         return view('settings.lead_types.create');
     }
 
@@ -46,7 +46,7 @@ class LeadTypeController extends Controller
      */
     public function store(LeadTypeFormRequest $request)
     {
-        // $this->authorize('store.lead-types',LeadType::class);
+        $this->authorize('store.lead-types',LeadType::class);
         $validated = $request->validated();
         LeadType::create($validated);
 
@@ -73,7 +73,7 @@ class LeadTypeController extends Controller
      */
     public function edit(LeadType $lead_type)
     {
-        // $this->authorize('update.lead-types',LeadType::class);
+        $this->authorize('update.lead-types',LeadType::class);
         return view('settings.lead_types.edit', compact('lead_type'));
     }
 
@@ -86,6 +86,7 @@ class LeadTypeController extends Controller
      */
     public function update(LeadTypeFormRequest $request, LeadType $lead_type)
     {
+        $this->authorize('update.lead-types',LeadType::class);
         $validated = $request->validated();
 
         if($lead_type){

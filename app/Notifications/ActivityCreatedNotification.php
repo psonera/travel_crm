@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Mail\ActivityMail;
-use App\Models\EmailTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Notifications\Notification;

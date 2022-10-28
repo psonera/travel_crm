@@ -34,7 +34,6 @@ use App\Http\Controllers\AccomodationController;
 use App\Http\Controllers\ActivityFileController;
 use App\Http\Controllers\LeadPipelineController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\LeadPipelineStageController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\CheckPermissionController;
@@ -90,7 +89,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('create', 'create')->name('create');
             Route::post('store', 'store')->name('store');
             Route::get('edit/{lead}', 'edit')->name('edit');
-            Route::post('delete/{id}', 'destroy')->name('delete');
+            Route::post('delete/{lead}', 'destroy')->name('delete');
             Route::post('update/{lead}', 'update')->name('update');
             Route::post('add_product', 'add_product')->name('add_product');
             Route::post('find_lm', 'find_lm')->name('find_lm');
@@ -268,21 +267,6 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::get('edit/{lead_pipeline_stage}','edit')->name('edit');
                 Route::post('update/{lead_pipeline_stage}','update')->name('update');
                 Route::post('delete/{lead_pipeline_stage}','destroy')->name('delete');
-        });
-
-        // Email Routes
-        Route::name('email_templates.')
-            ->prefix('email_templates')
-            ->controller(EmailTemplateController::class)
-            ->group(function(){
-                Route::get('/', 'index')->name('index');
-                Route::get('view/{email_template}', 'view')->name('view');
-                Route::get('create', 'create')->name('create');
-                Route::post('store', 'store')->name('store');
-                Route::get('edit/{email_template}', 'edit')->name('edit');
-                Route::post('delete/{email_template}', 'destroy')->name('delete');
-                Route::post('update/{email_template}', 'update')->name('update');
-                Route::get('get', 'get')->name('getAll');
         });
 
         // Trip Routes

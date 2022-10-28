@@ -18,7 +18,7 @@ class LeadManagerController extends Controller
      */
     public function index()
     {
-        // $this->authorize('lead managers',LeadManager::class);
+        $this->authorize('lead-managers',LeadManager::class);
         return view('lead_managers.index',[
             'lead_managers' => LeadManager::where('is_lead_manager','1')->latest()->paginate(10)
         ]);
@@ -31,7 +31,7 @@ class LeadManagerController extends Controller
      */
     public function create()
     {
-        // $this->authorize('create.lead managers',LeadManager::class);
+        $this->authorize('create.lead-managers',LeadManager::class);
         $leadsources = LeadSource::all();
         return view('lead_managers.create',['leadsources'=>$leadsources]);
     }
@@ -45,7 +45,7 @@ class LeadManagerController extends Controller
     public function store(LeadManagerFormRequest $request)
     {
 
-        // $this->authorize('store.lead managers',LeadManager::class);
+        $this->authorize('store.lead-managers',LeadManager::class);
 
         $user = new LeadManager();
         $user->name = $request->name;
@@ -86,7 +86,7 @@ class LeadManagerController extends Controller
      */
     public function edit(LeadManager $lead_manager)
     {
-        // $this->authorize('update.lead managers',LeadManager::class);
+        $this->authorize('update.lead-managers',LeadManager::class);
         $leadsources = LeadSource::all();
         return view('lead_managers.edit', ['lead_manager'=>$lead_manager,'leadsources'=>$leadsources]);
     }
@@ -100,8 +100,7 @@ class LeadManagerController extends Controller
      */
     public function update(LeadManagerFormRequest $request, LeadManager $lead_manager)
     {
-        // // dd('in controller');
-        // dd($lead_manager);
+        $this->authorize('update.lead-managers',LeadManager::class);
         $user = $lead_manager;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -135,7 +134,7 @@ class LeadManagerController extends Controller
      */
     public function destroy(LeadManager $lead_manager)
     {
-        // $this->authorize('delete.lead managers',LeadManager::class);
+        $this->authorize('delete.lead-managers',LeadManager::class);
 
         if(count($lead_manager->getMedia('media')) > 0){
             foreach($lead_manager->getMedia('media') as $media){

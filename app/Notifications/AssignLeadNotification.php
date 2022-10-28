@@ -11,14 +11,16 @@ class AssignLeadNotification extends Notification
 {
     use Queueable;
 
+    public $assign_lead;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($assign_lead)
     {
-        //
+        $this->assign_lead = $assign_lead;
     }
 
     /**
@@ -29,7 +31,7 @@ class AssignLeadNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -40,22 +42,27 @@ class AssignLeadNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $from = auth()->user()->email;
+        $line_one = "There is a new lead under you! Please Check!";
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->from($from)
+                    ->subject('New Lead Assigned To You')
+                    ->line($line_one)
+                    ->line('Thank you');
     }
 
-    /**
-     * Get the array representation of the notification.
+     /**
+     * Get the database representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return array
+     * @return 
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            'subject'=> 'lead',
+            'message' => 'A lead is assigned to you! Please Check!',
+            'lead_id' => $this->assign_lead->id
         ];
     }
 }

@@ -24,6 +24,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
+        $this->authorize('activities',Activity::class);
         return view('activities.index', [
             'activities' => Activity::latest()->paginate(10)
         ]);
@@ -35,6 +36,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.activities',Activity::class);
         return view('activities.create');
     }
 
@@ -75,6 +77,7 @@ class ActivityController extends Controller
      */
     public function store(ActivityFormRequest $request)
     {
+        $this->authorize('store.activities',Activity::class);
         $validated = $request->validated();
 
         $validated['is_done'] = $validated['type'] == 'note' ? 1 : 0;
@@ -138,6 +141,7 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
+        $this->authorize('update.activities',Activity::class);
         return view('activities.edit', compact('activity'));
     }
 
@@ -150,6 +154,7 @@ class ActivityController extends Controller
      */
     public function update(ActivityFormRequest $request, Activity $activity)
     {
+        $this->authorize('update.activities',Activity::class);
         $validated = $request->validated();
         
         if($activity){
@@ -192,6 +197,7 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete.activities',Activity::class);
         $activity = Activity::findOrFail($id);
         $activity->delete();  
         return back()->with('success', 'Activity deleted successfully!');
@@ -205,6 +211,7 @@ class ActivityController extends Controller
     }
 
     public function mark_as_done($id){
+        $this->authorize('update.activities',Activity::class);
         $activity = Activity::findOrFail($id);
         $activity->is_done = 1;
         $activity->save();

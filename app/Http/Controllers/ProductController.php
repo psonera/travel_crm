@@ -84,6 +84,7 @@ class ProductController extends Controller
      */
     public function update(ProductFormRequest $request,Product $product)
     {
+        $this->authorize("update.products",Product::class);
         $validated = $request->validated();
 
         if($product){

@@ -35,8 +35,10 @@ class ActivityCreatedListener
             $to_manager = $manager->email;
             $manager->notify(new ActivityCreatedNotification($data,$to_manager));
             $admin = User::role('super-admin')->first();
-            $to_admin = $admin->email;
-            $admin->notify(new ActivityCreatedNotification($data,$to_admin));
+            if($manager->id != $admin->id){
+                $to_admin = $admin->email;
+                $admin->notify(new ActivityCreatedNotification($data,$to_admin));
+            }
         }elseif(auth()->user()->hasRole('manager')){
             $admin = User::role('super-admin')->first();
             $to_admin = $admin->email;

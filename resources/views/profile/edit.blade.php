@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'My Profile')
     @section('page_styles')
         <style>
         img.userimg {

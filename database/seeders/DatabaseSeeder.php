@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LeadTypeSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(AccomodationSeeder::class);
-        $this->call(EmailTemplateSeeder::class);
         $this->call(TripTypeSeeder::class);
         $this->call(TransportSeeder::class);
         $this->call(TripSeeder::class);

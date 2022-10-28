@@ -15,6 +15,7 @@ class TransportController extends Controller
      */
     public function index()
     {
+        $this->authorize('transports', Transport::class);
         return view('settings.transports.index'); 
     }
 
@@ -25,6 +26,7 @@ class TransportController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.transports', Transport::class);
         return view('settings.transports.create');
     }
 
@@ -36,6 +38,7 @@ class TransportController extends Controller
      */
     public function store(TransportFormRequest $request)
     {
+        $this->authorize('store.transports', Transport::class);
         $validated = $request->validated();
         Transport::create($validated);
 
@@ -61,6 +64,7 @@ class TransportController extends Controller
      */
     public function edit(Transport $transport)
     {
+        $this->authorize('update.transports', Transport::class);
         return view('settings.transports.edit', compact('transport'));
     }
 
@@ -73,6 +77,7 @@ class TransportController extends Controller
      */
     public function update(TransportFormRequest $request, Transport $transport)
     {
+        $this->authorize('update.transports', Transport::class);
         $validated = $request->validated();
         
         if($transport){
@@ -90,6 +95,7 @@ class TransportController extends Controller
      */
     public function destroy(Request $request)
     {
+        $this->authorize('delete.transports', Transport::class);
         $transport = Transport::findOrFail($request->id);
         $transport->delete();  
         return response()->json([

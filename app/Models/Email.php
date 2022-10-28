@@ -29,9 +29,4 @@ class Email extends Model implements HasMedia
         self::DRAFT => 'Draft',
         self::TRASH => 'Trash',
     ];
-
-    public function template()
-    {
-        return $this->hasOne(EmailTemplate::class);
-    }
 }

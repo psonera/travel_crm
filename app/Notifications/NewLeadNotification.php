@@ -61,7 +61,7 @@ class NewLeadNotification extends Notification
     {
         return [
             'subject'=> 'lead',
-            'message' => 'New Lead under you!',
+            'message' => 'There is a new Lead under you! Please Check!',
             'lead_id' => $this->new_lead->id
         ];
     }

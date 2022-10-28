@@ -15,6 +15,7 @@ class TripController extends Controller
      */
     public function index()
     {
+        $this->authorize('trips', Trip::class);
         return view('settings.trips.index');
     }
 
@@ -25,6 +26,7 @@ class TripController extends Controller
      */
     public function create()
     {
+        $this->authorize('create.trips', Trip::class);
         return view('settings.trips.create');
     }
 
@@ -36,6 +38,7 @@ class TripController extends Controller
      */
     public function store(TripFormRequest $request)
     {
+        $this->authorize('store.trips', Trip::class);
         $validated = $request->validated();
         Trip::create($validated);
 
@@ -61,6 +64,7 @@ class TripController extends Controller
      */
     public function edit(Trip $trip)
     { 
+        $this->authorize('update.trips', Trip::class);
         return view('settings.trips.edit', compact('trip'));
     }
 
@@ -73,6 +77,7 @@ class TripController extends Controller
      */
     public function update(TripFormRequest $request, Trip $trip)
     {   
+        $this->authorize('update.trips', Trip::class);
         $validated = $request->validated();
         if($trip){
             $trip->update($validated);
@@ -89,6 +94,7 @@ class TripController extends Controller
      */
     public function destroy(Trip $trip)
     {
+        $this->authorize('delete.trips', Trip::class);
         $trip->delete();  
         return response()->json([
             'success' => 'Trip Deleted Successfully!',

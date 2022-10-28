@@ -93,23 +93,21 @@ final class LeadTable extends PowerGridComponent
                 return strtolower(e($model->title));
             })
 
-            ->addColumn('description')
+            ->addColumn('description', fn (Lead $model) => \Str::limit($model->description, 12, $end='...'))
             ->addColumn('lead_value')
-            ->addColumn('status')
-            ->addColumn('lost_reason')
+            ->addColumn('status', fn (Lead $model) => ($model->status == 1) ? 'Active' : 'Inactive')
             ->addColumn('traveler_count')
             ->addColumn('selected_trip_date_formatted', fn (Lead $model) => Carbon::parse($model->selected_trip_date)->format('d/m/Y'))
             ->addColumn('closed_at_formatted', fn (Lead $model) => Carbon::parse($model->closed_at)->format('d/m/Y H:i:s'))
-            ->addColumn('user_id')
-            ->addColumn('lead_manager_id')
-            ->addColumn('lead_source_id')
-            ->addColumn('lead_type_id')
-            ->addColumn('lead_pipeline_id')
-            ->addColumn('lead_pipeline_stage_id')
-            ->addColumn('trip_id')
-            ->addColumn('trip_type_id')
-            ->addColumn('accomodation_id')
-            ->addColumn('transport_id')
+            ->addColumn('user_id', fn (Lead $model) => $model->user->name)
+            ->addColumn('lead_manager_id', fn (Lead $model) => $model->leadManager->name)
+            ->addColumn('lead_source_id', fn (Lead $model) => $model->leadSource->name)
+            ->addColumn('lead_type_id', fn (Lead $model) => $model->leadType->name)
+            ->addColumn('lead_pipeline_stage_id', fn (Lead $model) => $model->leadPipelineStage->name)
+            ->addColumn('trip_id', fn (Lead $model) => \Str::limit($model->trip->title, 12, $end='...'))
+            ->addColumn('trip_type_id', fn (Lead $model) => $model->tripType->name)
+            ->addColumn('accomodation_id', fn (Lead $model) => $model->accomodation->name)
+            ->addColumn('transport_id', fn (Lead $model) => $model->transport->name)
             ->addColumn('expected_closed_date_formatted', fn (Lead $model) => Carbon::parse($model->expected_closed_date)->format('d/m/Y'))
             ->addColumn('created_at_formatted', fn (Lead $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
             ->addColumn('updated_at_formatted', fn (Lead $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
@@ -135,79 +133,62 @@ final class LeadTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->makeInputRange(),
 
-            Column::make('TITLE', 'title')
+            Column::make('Title', 'title')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('DESCRIPTION', 'description')
+            Column::make('Description', 'description')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('LEAD VALUE', 'lead_value')
+            Column::make('Lead Value', 'lead_value')
                 ->makeInputRange(),
 
-            Column::make('STATUS', 'status')
-                ->toggleable(),
+            Column::make('Status', 'status'),
 
-            Column::make('LOST REASON', 'lost_reason')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('TRAVELER COUNT', 'traveler_count')
+            Column::make('Traveler Count', 'traveler_count')
                 ->makeInputRange(),
 
-            Column::make('SELECTED TRIP DATE', 'selected_trip_date_formatted', 'selected_trip_date')
+            Column::make('Selected Trip Date', 'selected_trip_date_formatted', 'selected_trip_date')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('CLOSED AT', 'closed_at_formatted', 'closed_at')
+            Column::make('Closed at', 'closed_at_formatted', 'closed_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('USER ID', 'user_id')
-                ->makeInputRange(),
+            Column::make('Manager', 'user_id'),
 
-            Column::make('LEAD MANAGER ID', 'lead_manager_id')
-                ->makeInputRange(),
+            Column::make('Lead Manager', 'lead_manager_id'),
 
-            Column::make('LEAD SOURCE ID', 'lead_source_id')
-                ->makeInputRange(),
+            Column::make('Source', 'lead_source_id'),
 
-            Column::make('LEAD TYPE ID', 'lead_type_id')
-                ->makeInputRange(),
+            Column::make('Type', 'lead_type_id'),
 
-            Column::make('LEAD PIPELINE ID', 'lead_pipeline_id')
-                ->makeInputRange(),
+            Column::make('Stage', 'lead_pipeline_stage_id'),
 
-            Column::make('LEAD PIPELINE STAGE ID', 'lead_pipeline_stage_id')
-                ->makeInputRange(),
+            Column::make('Trip', 'trip_id'),
 
-            Column::make('TRIP ID', 'trip_id')
-                ->makeInputRange(),
+            Column::make('Trip Type', 'trip_type_id'),
 
-            Column::make('TRIP TYPE ID', 'trip_type_id')
-                ->makeInputRange(),
+            Column::make('Accomodation', 'accomodation_id'),
 
-            Column::make('ACCOMODATION ID', 'accomodation_id')
-                ->makeInputRange(),
+            Column::make('Transport', 'transport_id'),
 
-            Column::make('TRANSPORT ID', 'transport_id')
-                ->makeInputRange(),
-
-            Column::make('EXPECTED CLOSED DATE', 'expected_closed_date_formatted', 'expected_closed_date')
+            Column::make('Expected Closed Date', 'expected_closed_date_formatted', 'expected_closed_date')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
+            Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
+            Column::make('Updated at', 'updated_at_formatted', 'updated_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
@@ -230,21 +211,20 @@ final class LeadTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
-    public function actions(): array
-    {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('lead.edit', ['lead' => 'id']),
+    // public function actions(): array
+    // {
+    //    return [
+    //        Button::make('edit', 'Edit')
+    //            ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+    //            ->route('leads.edit', ['lead' => 'id']),
 
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('lead.destroy', ['lead' => 'id'])
-               ->method('delete')
-        ];
-    }
-    */
+    //        Button::make('destroy', 'Delete')
+    //            ->target('')
+    //            ->method('post')
+    //            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+    //            ->route('leads.delete', ['lead' => 'id'])
+    //     ];
+    // }
 
     /*
     |--------------------------------------------------------------------------

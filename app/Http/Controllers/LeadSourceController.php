@@ -15,7 +15,7 @@ class LeadSourceController extends Controller
      */
     public function index()
     {
-        // $this->authorize('lead sources',LeadSource::class);
+        $this->authorize('lead-sources',LeadSource::class);
         return view('settings.lead_sources.index',[
             'lead_sources' => LeadSource::latest()->paginate(10)
         ]);
@@ -33,7 +33,7 @@ class LeadSourceController extends Controller
      */
     public function create()
     {
-        // $this->authorize('create.lead sources',LeadSource::class);
+        $this->authorize('create.lead-sources',LeadSource::class);
         return view('settings.lead_sources.create');
     }
 
@@ -45,7 +45,7 @@ class LeadSourceController extends Controller
      */
     public function store(LeadSourceFormRequest $request)
     {
-        // $this->authorize('store.lead sources',LeadSource::class);
+        $this->authorize('store.lead-sources',LeadSource::class);
          $validated = $request->validated();
         LeadSource::create($validated);
 
@@ -72,7 +72,7 @@ class LeadSourceController extends Controller
      */
     public function edit(LeadSource $lead_source)
     {
-        // $this->authorize('update.lead sources',LeadSource::class);
+        $this->authorize('update.lead-sources',LeadSource::class);
         return view('settings.lead_sources.edit', compact('lead_source'));
     }
 
@@ -85,6 +85,7 @@ class LeadSourceController extends Controller
      */
     public function update(LeadSourceFormRequest $request, LeadSource $lead_source)
     {
+        $this->authorize('update.lead-sources',LeadSource::class);
         $validated = $request->validated();
 
         if($lead_source){
@@ -102,7 +103,7 @@ class LeadSourceController extends Controller
      */
     public function destroy(LeadSource $lead_source)
     {
-        // $this->authorize('delete.lead sources',LeadSource::class);
+        $this->authorize('delete.lead-sources',LeadSource::class);
         $lead_source->delete();
         return response()->json([
             'success' => 'Lead Source has been deleted successfully.',

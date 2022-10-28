@@ -1,5 +1,6 @@
 <x-app-layout>
-  @can('update leads')
+  @section('title', 'View Lead')
+  @can('update.leads')
   <div class="inline-flex mb-4 w-full">
     <div class="ml-auto block">
         <a href="{{ route('leads.edit', $lead) }}"><button class="active:opacity-85 align-middle bg-black border-0 cursor-pointer ease-soft-in font-bold hover:bg-slate-700 hover:border-slate-700 hover:scale-102 hover:shadow-soft-xs hover:text-white leading-pro mb-2 px-8 py-4 rounded-lg shadow-soft-md text-center text-sm text-white tracking-tight-soft transition-all uppercase">Edit</button></a>

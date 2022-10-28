@@ -14,16 +14,17 @@ class AssignLead
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $lead;
+    public $lead, $toLm;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($lead)
+    public function __construct($lead, $toLm)
     {
         $this->lead = $lead;
+        $this->toLm = $toLm;
     }
 
     /**

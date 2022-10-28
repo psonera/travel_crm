@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Create User')
     @section('page_styles')
         <style>
         img.userimg {

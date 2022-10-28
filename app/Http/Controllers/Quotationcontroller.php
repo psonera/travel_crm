@@ -153,7 +153,7 @@ class Quotationcontroller extends Controller
      */
     public function update(RequestsQuotation $request, $id)
     {
-
+        $this->authorize('update.quotations',Quotation::class);
         $quotation = Quotation::find($id);
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;

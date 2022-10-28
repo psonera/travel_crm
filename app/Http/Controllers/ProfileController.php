@@ -19,6 +19,7 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize("update.users",User::class);
        return view('profile.edit',compact('user'));
     }
 
@@ -31,6 +32,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize("update.users",User::class);
         $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255'],

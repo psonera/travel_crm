@@ -14,11 +14,13 @@ return new class extends Migration {
     {
         Schema::create('lead_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('quantity');
-            $table->integer('price');
-            $table->decimal('amount', 4);
+            $table->string('name');
+            $table->integer('quantity')->default(0);
+            $table->decimal('price' ,12, 4)->nullable();
+            $table->decimal('amount', 12, 4)->nullable();
             $table->foreignId('lead_id');
             $table->foreignId('product_id');
+
             $table->timestamps();
         });
     }

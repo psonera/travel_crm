@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Compose Mail')
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
