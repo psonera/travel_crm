@@ -1,4 +1,5 @@
 <tabs>
+    @if(auth()->user()->hasAnyPermission(['mails', 'activities', 'quotations']))
     <tab name="All" :selected="true">
         <div class="p-8">
             <div class="mb-8">
@@ -168,6 +169,8 @@
             </div>
         </div>
     </tab>
+    @endif
+    @if(auth()->user()->hasAnyPermission(['view.activities', 'delete.activities', 'update.activities']))
     <tab name="Notes">
         <div class="p-8">            
             <div class="mb-4">
@@ -204,6 +207,7 @@
             </div>
         </div>
     </tab>
+
     <tab name="Calls">
         <div class="p-8">
             <div class="mb-8">
@@ -284,6 +288,7 @@
             </div>
         </div>
     </tab>
+
     <tab name="Meetings">
         <div class="p-8">
             <div class="mb-8">
@@ -364,6 +369,7 @@
             </div>
         </div>
     </tab>
+
     <tab name="Files">
         <div class="p-8">            
             <div class="mb-4">
@@ -406,8 +412,11 @@
             </div>
         </div>
     </tab>
+    @endif
+
+    @can('update.mails')
     <tab name="Emails">
-        {{-- <div class="p-8">            
+        <div class="p-8">            
             <div class="mb-4">
                 @forelse ($lead->emails->where('lead_id', $lead->id)  as $email)
                     <div class="p-4">
@@ -440,8 +449,11 @@
                     </div>
                 @endforelse
             </div>
-        </div> --}}
+        </div>
     </tab>
+    @endcan
+
+    @can('view.quotations')
     <tab name="Quotations">
         <div class="overflow-x-auto relative p-6">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -500,4 +512,5 @@
             </table>
         </div>
     </tab>
+    @endcan
 </tabs>

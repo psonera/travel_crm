@@ -163,12 +163,14 @@
       </div>
       <div class="col-start-3 col-end-10">
           <progress-bar :lead_id="{{ $lead->id }}" :current_lead_stage="{{ $lead->lead_pipeline_stage_id }}"></progress-bar>
-          <div class="mt-10 w-full h-auto bg-white rounded-lg">
-              @include('leads.view.activity-action')
-          </div>  
-          <div class="mt-10 w-full h-auto bg-white rounded-lg">
-            @include('leads.view.activities-list')
-          </div>
+          @if(auth()->user()->hasAnyPermission(['mails', 'activities', 'quotations']))
+            <div class="mt-10 w-full h-auto bg-white rounded-lg">
+                @include('leads.view.activity-action')
+            </div>  
+            <div class="mt-10 w-full h-auto bg-white rounded-lg">
+              @include('leads.view.activities-list')
+            </div>
+          @endif
       </div>
   </div>    
   @section('page_scripts')
