@@ -35,10 +35,10 @@
 
                 <div v-if="this.errors!=null">
                     <div v-if="Object.keys(this.errors).some(key => key === 'oldname.'+index)">
-                        <span class="text text-red-700 text-lg">You Might Have done One Of This</span> <br/>
-                        <span class="text text-red-700 text-lg">Item Must selected from suggestions</span> <br/>
-                        <span class="text text-red-700 text-lg">You May Have Enter More Quantity</span> <br/>
-                        <span class="text text-red-700 text-lg">You May Have Enter Zero Quantity</span> <br/>
+                        <span class="text text-red-300 text-lg">You Might Have done One Of This</span> <br/>
+                        <span class="text text-red-700 text-lg"><strong>Item Must selected from suggestions</strong></span> <br/>
+                        <span class="text text-red-700 text-lg"><strong>You May Have Enter Wrong Quantity</strong></span> <br/>
+
                     </div>
                 </div>
             </div>
@@ -58,9 +58,8 @@
                     v-model="product.quantity"
                     class=" w-full rounded p-1" />
                     <span class="bg-gray-500 text-white  font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-0.5 mt-0.5 ease-linear transition-all duration-150" type="button">
-                        {{totalQuantity-product.quantity <= 0 ? 0 : totalQuantity-product.quantity}}
+                        {{totalQuantity-product.quantity <= 0 ? 0 : totalQuantity}}
                         </span>
-
             </div>
                     <div v-if="upper_limit">
                         <span class="text text-red-700 text-lg">Product Not Available</span>
@@ -103,6 +102,7 @@ data(){
         upper_limit:false,
         lower_limit:false,
         has_product:false,
+
     }
 
 },
@@ -118,7 +118,6 @@ props:{
         default:''
     }
 },
-
 computed: {
         amount(){
             return this.product.price * this.product.quantity;
@@ -126,7 +125,7 @@ computed: {
         totalQuantity(){
 
            if(this.product.id!=null){
-             axios.get('/quotations/totalquntity',{params: {id: this.product.id}}).
+            axios.get('/quotations/totalquntity',{params: {id: this.product.id}}).
                 then(response => {
                  this.total = response.data.quantity;
             })
@@ -150,7 +149,6 @@ methods:{
                  });
                 self.products = response.data;
                 if(self.products.length==0){
-                    console.log('no data');
                     self.has_product = true;
                 }else{
                     self.has_product = false;
@@ -181,7 +179,6 @@ methods:{
     removeProduct(){
         // alert(index);
         this.$emit('onRemoveProduct', this.product);
-
     },
     quntitychange(){
 
@@ -228,14 +225,15 @@ methods:{
     }
 },
 mounted(){
-           if(this.item.length > 0){
-                this.state = 'old'
-                this.product.product_id = this.item[0].id;
-                this.product.id = this.item[0].id;
-                this.product.name = this.item[0].name;
-                this.product.price = this.item[0].price;
-                this.product.quantity = this.item.quantity;
-           }
+
+    if(this.item.length > 0){
+        this.state = 'old'
+        this.product.product_id = this.item[0].id;
+        this.product.id = this.item[0].id;
+        this.product.name = this.item[0].name;
+        this.product.price = this.item[0].price;
+        this.product.quantity = this.item.quantity;
+    }
 
     },
 

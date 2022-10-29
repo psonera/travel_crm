@@ -8,13 +8,15 @@
             }
         </style>
     @endsection
+    
     <div class="flex flex-wrap -mx-3">
+
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-3xl font-bold">Create User</h2>
+                    <h2 class="text-3xl font-bold">Create Lead Manager</h2>
 
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
@@ -24,9 +26,12 @@
                         <div class="mb-4">
                             <imageupload></imageupload>
                         </div>
+                        @error('profile_image')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                         <div class="mb-4">
                             <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}"
-                                required autocomplete="name" autofocus />
+                                required autocomplete="name" autofocus  />
                         </div>
 
                         <div class="mb-4">
@@ -38,7 +43,16 @@
                             <x-inputs.text name="phone" label="{{ __('Phone') }}" value="{{ old('phone') }}"
                                 required autofocus />
                         </div>
-
+                        
+                        @if (auth()->user()->hasRole('super-admin'))
+                            <usermanager></usermanager>
+                            @error('manager')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            @error('r_manager')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        @endif
                         <div class="mb-4">
                             <label for="" class="label label-required pb-2 font-medium text-gray-700">Lead
                                 Source</label>
@@ -50,7 +64,9 @@
                                 @endforeach
                             </select>
                         </div>
+
                         @error('leadsource')
+                            
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                         <div class="mb-4">

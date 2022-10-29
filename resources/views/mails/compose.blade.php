@@ -12,6 +12,9 @@
                     <form role="form" method="POST" action="{{ route('mails.store') }}" enctype="multipart/form-data">
                         @csrf
                         <mailto></mailto>
+                        @error('to')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                         @error('cc')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -26,14 +29,15 @@
 
                         <div class="mb-4">
                             <x-inputs.textarea name="content" id='content' label="{{ __('Content') }}"
-                                value="{{ old('content') }}" required autocomplete="content" autofocus>
+                                value="{{ old('content') }}"  autocomplete="content" >
                             </x-inputs.textarea>
                         </div>
+                      
                         <div class="mb-4">
                             <label class="p-2 font-semibold text-gray-700">Attachments</label>
                             <attachment></attachment>
                         </div>
-                        @error('attachment')
+                        @error('attachment.*')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
 

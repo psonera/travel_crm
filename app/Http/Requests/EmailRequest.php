@@ -29,7 +29,7 @@ class EmailRequest extends FormRequest
             'bcc' => 'email',
             'subject' => 'required',
             'content' => 'required',
-            'attachment.*' => 'mimes:png,jpg,pdf,jpeg|max:5000'
+            'attachment.*' => 'mimes:png,jpg,pdf,jpeg,txt|max:5000'
         ];
     }
 }

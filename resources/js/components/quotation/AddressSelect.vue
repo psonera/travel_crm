@@ -18,25 +18,6 @@
 
                     >{{item.name}} </option>
         </select>
-
-             <!-- <div v-if="'b_contry' in errors">
-                <span class="text text-red-700 text-lg">{{errors.b_contry[0]}}</span>
-             </div>
-            </div>
-             <div v-if="errors!=null">
-             <div v-if="'b_state' in errors">
-                <span class="text text-red-700 text-lg">{{errors.b_state[0]}}</span>
-             </div>
-            </div>
-             <div v-if="errors!=null">
-             <div v-if="'b_city' in errors">
-                <span class="text text-red-700 text-lg">{{errors.b_city[0]}}</span>
-             </div>
-            </div> -->
-
-
-
-
     </div>
 
 </template>

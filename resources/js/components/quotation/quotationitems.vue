@@ -55,7 +55,7 @@
                     <td class="text-gray-500 font-bold">-</td>
                     <td>
                         <div class="form-group">
-                            <input  class="border border-slate-700 w-full rounded p-1" type="number" name="discount"
+                            <input  class="border border-slate-700 w-full rounded p-1" type="number" step=any name="discount"
                             v-model="discountAmount" >
                         </div>
                     </td>
@@ -66,7 +66,7 @@
                     <td class="text-gray-500 font-bold">-</td>
                     <td>
                         <div class="form-group">
-                            <input class="border border-slate-700 w-full rounded p-1"  type="number" name="tax"  v-model="taxAmount" >
+                            <input class="border border-slate-700 w-full rounded p-1"  type="number" name="tax"  step=any  v-model="taxAmount" >
                         </div>
                     </td>
                 </tr>
@@ -193,7 +193,7 @@ export default {
                 this.totalquantity = response.data.quantity;
         })
     }
-    
+
 
     },mounted(){
 

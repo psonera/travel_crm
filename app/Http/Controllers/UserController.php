@@ -45,29 +45,10 @@ class UserController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserFormRequest $request)
     {
-
+       
         $this->authorize('store.users',User::class);
-        $request->validate
-        ([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required','regex:/(91)[0-9]{10}/','max:12','min:12'],
-            'password' => ['required', 'string', 'confirmed'],
-            'status'=> ['required'],
-            'profile_image'=>['sometimes','mimes:jpg,png','size:max:5000'],
-        ]);
-        if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('Manager')){
-                $request->validate(['role'=>'required']);
-        }
-        if(auth()->user()->hasRole('super-admin')){
-           if($request->has('manager')){
-                $request->validate(['manager'=>'required']);
-                $request->validate(['r_manager'=>'required']);
-           }
-        }
-        // dd($request->all());
         $is_admin = 0;
         $is_manager= 0;
         $is_lead_manager = 0;
@@ -107,10 +88,7 @@ class UserController extends Controller
         if($request->has('source')){
             $user->lead_source_id = $request->source;
         }
-        if(Auth::user()->hasRole('Lead Manager')){
-            $is_exist = 0;
-            $user->is_existing = $is_exist;
-        }
+        $user->is_existing = $is_exist;
         $user->save();
         if($request->has('role')){
             $role  = Role::find($request->role);
@@ -118,6 +96,7 @@ class UserController extends Controller
             $user->syncRoles([$role]);
         }
         if($request->has('profile_image')){
+            
             $user->addMedia($request->profile_image)
                 ->toMediaCollection('media','media_file');
         }
@@ -159,33 +138,9 @@ class UserController extends Controller
      * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user)
+    public function update(UserFormRequest $request,User $user)
     {
-
-        $request->validate
-        ([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'phone' => ['required','regex:/(91)[0-9]{10}/','max:12','min:12'],
-            'status'=> ['required'],
-            'profile_image'=>['sometimes','mimes:jpg,png','size:max:5000']
-        ]);
-        if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('manager')){
-            if($user->hasAnyRole(Role::all())){
-                $request->validate(['role'=>'required']);
-            }
-            if($request->has('lead_manager')){
-
-                $request->validate(['lead_manager'=>'required']);
-                $request->validate(['r_lead_manager'=>'required']);
-            }
-        }
-        if(auth()->user()->hasRole('super-admin')){
-            if($request->has('manager')){
-                $request->validate(['r_manager'=>'required']);
-                 $request->validate(['manager'=>'required']);
-            }
-        }
+    
         $is_admin = 0;
         $is_manager= 0;
         $is_lead_manager = 0;
@@ -226,15 +181,10 @@ class UserController extends Controller
             if($request->has('source')){
                 $user->lead_source_id = $request->source;
             }
-            if(Auth::user()->hasRole('lead-manager')){
-                $is_exist = 0;
-                $user->is_existing = $is_exist;
-            }
-
+            $user->is_existing = $is_exist;
             $user->save();
             if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('manager') ){
                 if($request->has('role')){
-
                     $role = Role::find($request->role);
                     $user->syncRoles([$role]);
                 }
@@ -249,12 +199,6 @@ class UserController extends Controller
                 //insert image
                 $user->addMedia($request->profile_image)
                     ->toMediaCollection('media','media_file');
-            }elseif(!$request->has('profile_image')){
-                if(count($user->getMedia('media')) > 0){
-                    foreach($user->getMedia('media') as $media){
-                        $media->delete();
-                    }
-                }
             }
         }
         return redirect()->route('settings.users.index')->with('success','User has been updated successfully.');
@@ -273,7 +217,6 @@ class UserController extends Controller
         $all_leads = Lead::where('user_id',$user->id)->get();
         //assign all manager's lead_managers and Leads to super_admin
         $all_lead_managers = User::where('authorize_person',$user->id)->get();
-        // dd($all_lead_managers);
         if($user->is_manager==1){
 
             if(count($all_lead_managers) > 0){

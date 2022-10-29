@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Email;
+use Illuminate\Support\Str;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role;
@@ -133,7 +134,9 @@ final class EmailTable extends PowerGridComponent
             ->addColumn('cc')
             ->addColumn('bcc')
             ->addColumn('subject')
-            ->addColumn('content')
+            ->addColumn('content',function(Email $model){
+                return Str::limit(html_entity_decode($model->content), 20, '...');
+            })
             ->addColumn('status',function(Email $email){
                 if($email->status==1){
                     return "sent";
@@ -163,50 +166,46 @@ final class EmailTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
-            Column::make('TO', 'to')
+            Column::make('To', 'to')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('FROM', 'from')
+            Column::make('From', 'from')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('CC', 'cc')
+            Column::make('Cc', 'cc')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('BCC', 'bcc')
+            Column::make('Bcc', 'bcc')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('SUBJECT', 'subject')
+            Column::make('Subject', 'subject')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('CONTENT', 'content')
+            Column::make('Content', 'content')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('STATUS', 'status'),
+            Column::make('Status', 'status'),
 
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
+            Column::make('Created At', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
+            
         ]
 ;
     }
@@ -263,7 +262,7 @@ final class EmailTable extends PowerGridComponent
             ->target('')
             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             ->route('mails.forceDelete', ['id' => 'id'])
-            ->method('get')
+            ->method('post')
         ];
 
         if(request()->is('mails')){

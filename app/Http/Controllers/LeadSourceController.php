@@ -105,8 +105,6 @@ class LeadSourceController extends Controller
     {
         $this->authorize('delete.lead-sources',LeadSource::class);
         $lead_source->delete();
-        return response()->json([
-            'success' => 'Lead Source has been deleted successfully.',
-        ]);    
+        return redirect(route('settings.lead_sources.index'))->with('success',"Source Deleted Successfully ");
     }
 }

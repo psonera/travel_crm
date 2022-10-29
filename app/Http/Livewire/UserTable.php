@@ -108,28 +108,28 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id'),
-            Column::make('NAME', 'name','users.name')
+            Column::make('Id', 'id'),
+            Column::make('Name', 'name','users.name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
-            Column::make('EMAIL', 'email','users.email')
+            Column::make('Email', 'email','users.email')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
-            Column::make('PHONE NUMBER', 'phone_number','users.phone_number')
+            Column::make('Phone Number', 'phone_number','users.phone_number')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
-            Column::make('STATUS', 'status'),
-            Column::make('IS ADMIN', 'is_admin'),
-            Column::make('IS MANAGER', 'is_manager' ),
-            Column::make('IS LEAD MANAGER', 'is_lead_manager'),
-            Column::make('LEAD SOURCE ID', 'lead_source_id'),
-            Column::make('AUTHORIZE PERSON', 'authorize_person','auth_person.authorize_person')
+            Column::make('Status', 'status'),
+            Column::make('Is Admin', 'is_admin'),
+            Column::make('Is Manager', 'is_manager' ),
+            Column::make('Is Lead Manager', 'is_lead_manager'),
+            Column::make('Lead Source Id', 'lead_source_id'),
+            Column::make('Authorize Person', 'authorize_person','auth_person.authorize_person')
                 ->searchable()
                 ->makeInputText(),
-            Column::make('CREATED AT', 'created_at_formatted', 'users.created_at')
+            Column::make('Created At', 'created_at_formatted', 'users.created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
@@ -150,7 +150,7 @@ final class UserTable extends PowerGridComponent
                ->target('')
                ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
                ->route('settings.users.destroy', ['user' => 'id'])
-               ->method('get')
+               ->method('delete')
         ];
     }
 }

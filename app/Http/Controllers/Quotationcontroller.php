@@ -34,10 +34,19 @@ class Quotationcontroller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $this->authorize('create.quotations',Quotation::class);
-        return view('quotation.create');
+
+        $lead = null;
+        if($request->has('lead_id')){
+            if(Lead::find($request->lead_id)->exists()){
+                $lead = Lead::find($request->lead_id);
+            }else{
+                $lead = null;
+            }
+        }
+        return view('quotation.create',['lead'=>$lead]);
     }
 
     /**
@@ -48,6 +57,7 @@ class Quotationcontroller extends Controller
      */
     public function store(RequestsQuotation $request)
     {
+
         $this->authorize('store.quotations',Quotation::class);
         $quotation = new Quotation;
         $quotation->subject = $request->subject;
@@ -104,17 +114,24 @@ class Quotationcontroller extends Controller
                 $quotationitem->save();
             }
         }
-        return redirect(route('quotations.index'));
+        return redirect(route('quotations.index'))->with('success','Quotation Created Successfully');;
 
     }
     public function update_product_quantity($item_quantity,$product){
         $product_quantity = $product->quantity;
-        $remaining_quantity = $product_quantity - $item_quantity;
-        if($remaining_quantity <= 0){
-            $remaining_quantity = 0;
+        if($product_quantity > 0){
+            $remaining_quantity = $product_quantity - $item_quantity;
+            if($remaining_quantity <= 0){
+                $remaining_quantity = 0;
+            }
+            $product->quantity = $remaining_quantity;
+            $product->save();
+        }else if($product_quantity < 0 ){
+            $remaining_quantity = $product_quantity - ($item_quantity) ;
+            $product->quantity = $remaining_quantity;
+            $product->save();
         }
-        $product->quantity = $remaining_quantity;
-        $product->save();
+
     }
 
     /**
@@ -151,9 +168,8 @@ class Quotationcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RequestsQuotation $request, $id)
-    {
-        $this->authorize('update.quotations',Quotation::class);
+    public function update(RequestsQuotation $request, $id){
+
         $quotation = Quotation::find($id);
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;
@@ -190,40 +206,88 @@ class Quotationcontroller extends Controller
 
         //quotation items
         if($request->has('name')){
+
             $itemid = $request->id;
             $item_name = $request->name;
             $item_quantity = $request->quntity;
             $item_price = $request->price;
             $total_of_items = $request->amount;
+
+            //deleting old items
+            $quotation_items_Array = [];
+            foreach($quotation->quotationItems as $item){
+                if(in_array($item->product_id,$itemid)){
+                    //nothing to delete
+                    $item_id =$item->id;
+                    array_push($quotation_items_Array,$item_id);
+                }else{
+                    $product = Product::find($item->product_id);
+                    $current_product_quantity =$product->quantity;
+                    $current_item_quantity = $item->quantity;
+                    $product->quantity = $current_product_quantity + $current_item_quantity;
+                    $product->save();
+                    //delete quotation item
+                    $item->delete();
+                }
+            }
+            //end
+
+            $has_quotation_item = count($quotation->quotationItems) > 0 ? true: false;
+            if($has_quotation_item){
+                for ($i=0; $i < count($quotation_items_Array); $i++) {
+                        $item = QuotationItem::find($quotation_items_Array[$i]);
+                        $product_id_for_remove = $item->product_id;
+                        $search_id = array_search($product_id_for_remove, $itemid);
+                        $old_quantity = $item->quantity;
+                        $new_quantity = $item_quantity[$search_id];
+                        $diff = $new_quantity - $old_quantity;
+                        $product = Product::find($product_id_for_remove);
+                        $item->sku = $product->sku;
+                        $item->name = $item_name[$search_id];
+                        if($diff==0){
+                            //no change in quantity
+                        }else{
+                            $item->quantity = $item_quantity[$search_id];
+                            $this->update_product_quantity($diff,$product);
+                        }
+                        $item->total = $total_of_items[$search_id];
+                        $item->coupon_code = "AFSD-DHFG-HSYD";
+                        $item->quotation()->associate($quotation);
+                        $item->save();
+
+                        unset($itemid[$search_id]);
+                        unset($item_name[$search_id]);
+                        unset($item_quantity[$search_id]);
+                        unset($item_price[$search_id]);
+                        unset($total_of_items[$search_id]);
+                }
+            }
+
+            $itemid = array_values($itemid);
+            $item_name = array_values($item_name);
+            $item_quantity = array_values($item_quantity);
+            $item_price = array_values($item_price);
+            $total_of_items = array_values($total_of_items);
             $size = count($total_of_items);
+            for($i=0;$i<$size;$i++){
+                $quotationitem = new QuotationItem();
+                $product = Product::find((integer)$itemid[$i]);
+                $quotationitem->sku = $product->sku;
+                $quotationitem->name = $item_name[$i];
+                $quotationitem->quantity = $item_quantity[$i];
+                $this->update_product_quantity($item_quantity[$i],$product);
+                $quotationitem->price = $item_price[$i];
+                $quotationitem->total = $total_of_items[$i];
+                $quotationitem->coupon_code = "AFSD-DHFG-HSYD";
+                $quotationitem->product_id = Product::find($itemid[$i])->id;
+                $quotationitem->quotation()->associate($quotation);
+                $quotationitem->save();
+            }
+          }
 
-                //deleting old items
-                foreach($quotation->quotationItems as $item){
-                        $item->delete();
-                }
-                // dd(["id"=>$request->id,"name"=>$request->name,"qunity"=>$request->quntity,"price"=>$request->price,"amount"=>$request->amount]);
+        return redirect(route('quotations.index'))->with('success','Quotation Updated Successfully');
+}
 
-                //end
-                for($i=0;$i<$size;$i++){
-                    $quotationitem = new QuotationItem();
-                    $product = Product::find((integer)$itemid[$i]);
-                    $quotationitem->sku = $product->sku;
-                    $quotationitem->name = $item_name[$i];
-                    $quotationitem->quantity = $item_quantity[$i];
-                    $this->update_product_quantity($item_quantity[$i],$product);
-                    $quotationitem->price = $item_price[$i];
-                    $quotationitem->total = $total_of_items[$i];
-                    $quotationitem->coupon_code = "AFSD-DHFG-HSYD";
-                    $quotationitem->product_id = Product::find($itemid[$i])->id;
-                    $quotationitem->quotation()->associate($quotation);
-                    $quotationitem->save();
-                }
-
-        }
-
-        return redirect(route('quotations.index'));
-
-    }
 
     /**
      * Remove the specifsied resource from storage.
@@ -242,7 +306,7 @@ class Quotationcontroller extends Controller
             $q_item->delete();
         }
         $quotation->delete();
-         return  true;
+        return redirect(route('quotations.index'))->with('success','Quotation Deleted Successfully');
     }
 
     //api

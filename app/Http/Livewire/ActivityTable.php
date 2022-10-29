@@ -121,53 +121,50 @@ final class ActivityTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
-            Column::make('TITLE', 'title')
+            Column::make('Title', 'title')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('TYPE', 'type')
+            Column::make('Type', 'type')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('COMMENT', 'comment')
+            Column::make('Comment', 'comment')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('SCHEDULE FROM', 'schedule_from_formatted', 'schedule_from')
+            Column::make('Schedule from', 'schedule_from_formatted', 'schedule_from')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('SCHEDULE TO', 'schedule_to_formatted', 'schedule_to')
+            Column::make('Schedule to', 'schedule_to_formatted', 'schedule_to')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('IS DONE', 'is_done')
+            Column::make('Is Done', 'is_done')
                 ->toggleable(),
 
-            Column::make('USER ID', 'user_id')
+            Column::make('User Id', 'user_id')
                 ->makeInputRange(),
 
-            Column::make('LOCATION', 'location')
+            Column::make('Location', 'location')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
+            Column::make('Created At', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
+            
 
         ]
 ;

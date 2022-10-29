@@ -106,7 +106,7 @@ class LeadTypeController extends Controller
     {
         $this->authorize('delete.lead-types',LeadType::class);
         $lead_type->delete();
-        return back()->with('success','Lead Pipeline Stage has been deleted successfully!');
+        return back()->with('success','Lead Type has been deleted successfully!');
     }
 
 }

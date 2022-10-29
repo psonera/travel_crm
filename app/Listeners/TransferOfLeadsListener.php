@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class TransferOfLeadsListener
 {
+    
     /**
      * Create the event listener.
      *
@@ -26,14 +27,14 @@ class TransferOfLeadsListener
      * @return void
      */
     public function handle(TransferOfLeads $event)
-    {
-        if($event->manager != ''){
-            $manager = $event->manager;
+    {   
+        if(array_key_exists('manager',$event->data)){
+            $manager = $event->data['manager'];
         }else{
-            $lead_manager = $event->lead_manager;
+            $lead_manager = $event->data['lead_manager'];
         }
-        $new_manager = $event->new_manager;
-        if($manager){
+        $new_manager = $event->data['new_manager'];
+        if(array_key_exists('manager',$event->data)){
             $new_manager->notify(new TransferOfLeadsNotification($manager));
         }else if($lead_manager){
             $new_manager->notify(new TransferOfLeadsNotification($lead_manager));

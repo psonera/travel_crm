@@ -252,7 +252,7 @@ class MailController extends Controller
         $mail = Email::findOrFail($id);
         $mail->save();
         $mail->delete();
-        return redirect()->route('mails.trash');
+        return redirect(route('mails.trash'))->with('success','Mail Moved To Trashed successfully');
     }
     public function trash()
     {
@@ -281,9 +281,7 @@ class MailController extends Controller
             $media->delete();
         }
         $mail -> forceDelete();
-        return response()->json([
-            'success' => true,
-        ]);
+        return response(route('mails.trash'))->with('success','Mail Deleted successfully');
     }
 
     public function deleteattachment($uuid){

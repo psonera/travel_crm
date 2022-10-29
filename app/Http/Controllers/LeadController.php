@@ -42,7 +42,7 @@ class LeadController extends Controller
         } else {
             return view('errors.404');
         }
-        
+
     }
 
     public function create(): View
@@ -61,7 +61,7 @@ class LeadController extends Controller
     }
 
     public function view(Lead $lead): View
-    {   
+    {
         $this->authorize('view.leads',Lead::class);
         return view('leads.view',[
             'lead' => Lead::with(['leadProducts', 'activities', 'quotations'])->where('id', $lead->id)->first()
@@ -83,7 +83,7 @@ class LeadController extends Controller
 
             $data['lead_pipeline_stage_id'] = $stage->id;
         }
-        
+
         if($data['selected_trip_date']){
             $data['selected_trip_date'] = Carbon::parse($data['selected_trip_date']);
         }
@@ -161,7 +161,7 @@ class LeadController extends Controller
         } else {
             $data['status'] = 1;
         }
-        
+
         if($data['selected_trip_date']){
             $data['selected_trip_date'] = Carbon::parse($data['selected_trip_date']);
         }
@@ -233,7 +233,7 @@ class LeadController extends Controller
         $search = $request->search;
 
         $all_lead_managers = LeadManager::where('name', 'like', '%'.$search.'%')->get();
-        
+
         return response()->json($all_lead_managers);
     }
 
@@ -249,7 +249,7 @@ class LeadController extends Controller
         if($participant != ''){
             $res['users'] = User::where('name', 'like', '%'.$search.'%')->where('is_lead_manager', 0)->where('is_admin', 0)->where('is_manager', 0)->get();
             $res['lead_managers'] = User::where('name', 'like', '%'.$search.'%')->where('is_lead_manager', 1)->get();
-            
+
             return response()->json($res);
         }
 

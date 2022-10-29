@@ -10,6 +10,7 @@
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('products.update',$product) }}">
+                        @method('put')
                         @csrf   
                         <div class="mb-4">
                             <x-inputs.text name="sku" label="{{ __('Sku') }}" value="{{ $product->sku }}"  autocomplete="sku" autofocus />

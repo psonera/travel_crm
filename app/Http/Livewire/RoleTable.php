@@ -114,23 +114,20 @@ final class RoleTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
-            Column::make('NAME', 'name')
+            Column::make('Name', 'name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
+            Column::make('Created At', 'created_at_formatted', 'created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
+          
 
         ]
 ;
@@ -154,6 +151,7 @@ final class RoleTable extends PowerGridComponent
     {
        return [
            Button::make('edit', 'Edit')
+           ->target('')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                ->route('settings.roles.edit', ['role' => 'id']),
 
@@ -161,6 +159,7 @@ final class RoleTable extends PowerGridComponent
                 ->target('')
                 ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
                 ->route('settings.roles.destroy', ['role' => 'id'])
+                ->method('delete'),
         ];
     }
 

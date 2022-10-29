@@ -148,7 +148,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post('/store','store')->name('store');
             Route::get('/{product}/edit','edit')->name('edit');
             Route::put('/{product}','update')->name('update');
-            Route::post('/delete/{product}','destroy')->name('destroy');
+            Route::delete('/delete/{product}','destroy')->name('destroy');
             Route::get('/getproducts','getproducts')->name('getproducts');
     });
 
@@ -188,7 +188,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post('delete/{id}', 'destroy')->name('delete');
             Route::post('update/{id}', 'update')->name('update');
         });
-    
+
         // Profile Routes
     Route::name('profile.')
         ->prefix('profile')
@@ -208,10 +208,10 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('create', 'create')->name('create');
             Route::post('store', 'store')->name('store');
             Route::get('edit/{lead_manager}', 'edit')->name('edit');
-            Route::post('delete/{lead_manager}', 'destroy')->name('destroy');
+            Route::delete('delete/{lead_manager}', 'destroy')->name('destroy');
             Route::post('update/{lead_manager}', 'update')->name('update');
         });
-    
+
     Route::name('notifications.')
            ->prefix('notifications')
            ->controller(NotificationController::class)
@@ -234,10 +234,7 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::post('/store','store')->name('store');
                 Route::get('/edit/{lead_source}','edit')->name('edit');
                 Route::put('/{lead_source}','update')->name('update');
-                Route::get('/delete/{lead_source}','destroy')->name('destroy');
-
-                //api
-                Route::get('getleadsources','allleadsources');
+                Route::delete('/delete/{lead_source}','destroy')->name('destroy');
         });
 
         // Lead Type Routes
@@ -250,7 +247,7 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::post('/store','store')->name('store');
                 Route::get('/edit/{lead_type}','edit')->name('edit');
                 Route::put('/{lead_type}','update')->name('update');
-                Route::get('/delete/{lead_type}','destroy')->name('destroy');
+                Route::delete('/delete/{lead_type}','destroy')->name('destroy');
 
                 //api
                 Route::get('getleadtype','allleadtype');
@@ -338,7 +335,7 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::post('/store','store')->name('store');
                 Route::get('/edit/{role}','edit')->name('edit');
                 Route::put('/{role}','update')->name('update');
-                Route::post('/delete/{role}','destroy')->name('destroy');
+                Route::delete('/delete/{role}','destroy')->name('destroy');
 
                 //api
                 Route::get('getroles','allrole');
@@ -354,10 +351,14 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::get('create', 'create')->name('create');
                 Route::post('store', 'store')->name('store');
                 Route::get('edit/{user}', 'edit')->name('edit');
-                Route::post('delete/{user}', 'destroy')->name('destroy');
                 Route::post('update/{user}', 'update')->name('update');
+                Route::delete('delete/{user}', 'destroy')->name('destroy');
                 //api
-                Route::get('getusers','alluser');
+                Route::get('getusers/{number}',[UserController::class,'alluser']);
+                Route::get('getSources',[UserController::class,'getSources']);
+                Route::get('isLeadManager/{id}',[UserController::class,'isLeadManager']);
+                Route::get('is_super-admin',[UserController::class,'isAdmin']);
+                Route::get('managers/{query}',[UserController::class,'managers']);
             });
     });
 
@@ -371,6 +372,8 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/edit/{id}','edit')->name('edit');
             Route::post('/update/{id}','update')->name('update');
             Route::delete('/delete/{id}','destroy')->name('delete');
+
+            //api
             Route::get('/names',"getNames")->name('leadmanagernames');
             Route::get('/leadnames',"getLeadNames")->name('leadnames');
             Route::get('/managers','getManagers')->name('managers');

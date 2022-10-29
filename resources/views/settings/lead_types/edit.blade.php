@@ -10,6 +10,7 @@
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('settings.lead_types.update',$lead_type) }}">
+                        @method('put')
                         @csrf   
                         <div class="mb-4">
                             <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ $lead_type->name }}" autocomplete="name" autofocus />

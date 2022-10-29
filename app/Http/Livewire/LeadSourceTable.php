@@ -114,7 +114,7 @@ final class LeadSourceTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
             Column::make('Name', 'name')
@@ -127,10 +127,7 @@ final class LeadSourceTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('Updated at', 'updated_at_formatted', 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
+            
 
         ]
 ;
@@ -150,21 +147,23 @@ final class LeadSourceTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
+    
     public function actions(): array
     {
        return [
            Button::make('edit', 'Edit')
+           ->target('')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('lead-source.edit', ['lead-source' => 'id']),
+               ->route('settings.lead_sources.edit', ['lead_source' => 'id']),
 
            Button::make('destroy', 'Delete')
+           ->target('')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('lead-source.destroy', ['lead-source' => 'id'])
+               ->route('settings.lead_sources.destroy', ['lead_source' => 'id'])
                ->method('delete')
         ];
     }
-    */
+    
 
     /*
     |--------------------------------------------------------------------------

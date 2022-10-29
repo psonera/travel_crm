@@ -57,7 +57,7 @@ final class LeadManagerTable extends PowerGridComponent
             return LeadManager::query()
             ->where('is_lead_manager',1);
 
-        }else if(auth()->user()->hasRole('manager')){
+        }else if(auth()->user()->hasAnyRole(Role::all())){
             return LeadManager::query()
             ->where('is_lead_manager',1)
             ->where('authorize_person',auth()->user()->id);
@@ -137,30 +137,30 @@ final class LeadManagerTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id'),
+            Column::make('Id', 'id'),
 
-            Column::make('NAME', 'name','users.name')
+            Column::make('Name', 'name','users.name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('EMAIL', 'email','users.email')
+            Column::make('Email', 'email','users.email')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('PHONE NUMBER', 'phone_number','users.phone_number')
+            Column::make('Phone Number', 'phone_number','users.phone_number')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('LEAD SOURCE ', 'lead_source'),
+            Column::make('Lead Source ', 'lead_source'),
 
-            Column::make('AUTHORIZE PERSON', 'authorize_person'),
+            Column::make('Authorize Person', 'authorize_person'),
 
-            Column::make('STATUS', 'status'),
+            Column::make('Status', 'status'),
 
-            Column::make('CREATED AT', 'created_at_formatted', 'users.created_at')
+            Column::make('Created At', 'created_at_formatted', 'users.created_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
@@ -197,6 +197,7 @@ final class LeadManagerTable extends PowerGridComponent
                 ->target(' ')
                ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
                ->route('lead_managers.destroy', ['lead_manager' => 'id'])
+               ->method('delete')
         ];
     }
 

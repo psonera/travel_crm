@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Country;
 use App\Models\Quotation;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class QuotationTable extends PowerGridComponent
@@ -89,21 +89,16 @@ final class QuotationTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('subject')
 
-           /** Example of custom column using a closure **/
-            ->addColumn('subject_lower', function (Quotation $model) {
-                return strtolower(e($model->subject));
-            })
-
             ->addColumn('description')
             ->addColumn('billing_address',function(Quotation $model){
                 $json_address = json_decode($model->billing_address);
                 $address = $json_address->address." , ".$json_address->city_name.",".$json_address->postcode.",".$json_address->state_name.",".$json_address->country_name;
-                return $address;
+                return Str::limit($address, 12, '...') ;
             })
             ->addColumn('shipping_address',function(Quotation $model){
                 $json_address = json_decode($model->shipping_address);
                 $address = $json_address->address." , ".$json_address->city_name.",".$json_address->postcode.",".$json_address->state_name.",".$json_address->country_name;
-                return $address;
+                return Str::limit($address, 12, '...') ;
             })
             ->addColumn('discount_percent')
             ->addColumn('discount_amount')
@@ -149,36 +144,41 @@ final class QuotationTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id'),
+            Column::make('Id', 'id')
+                ->makeInputRange(),
 
-            Column::make('SUBJECT', 'subject'),
+            Column::make('Subject', 'subject'),
 
-            Column::make('DESCRIPTION', 'description'),
+            Column::make('Description', 'description'),
 
-            Column::make('BILLING ADDRESS', 'billing_address'),
-            Column::make('SHIPPING ADDRESS', 'shipping_address'),
+            Column::make('Billing Address', 'billing_address'),
 
-            Column::make('DISCOUNT PERCENT', 'discount_percent')
+            Column::make('Shipping Address', 'shipping_address'),
+
+            Column::make('Discount Percent', 'discount_percent')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('DISCOUNT AMOUNT', 'discount_amount')
+            Column::make('Discount Amount', 'discount_amount')
                 ->makeInputRange(),
 
-            Column::make('TAX AMOUNT', 'tax_amount')
+            Column::make('Tax Amount', 'tax_amount')
                 ->makeInputRange(),
-            Column::make('SUB TOTAL', 'sub_total')
+
+            Column::make('Sub Total', 'sub_total')
                 ->makeInputRange(),
-            Column::make('GRAND TOTAL', 'grand_total')
+
+            Column::make('Grand Total', 'grand_total')
                 ->makeInputRange(),
-            Column::make('LEAD MANAGER ', 'lead_manager_id'),
-            Column::make('MANAGER ', 'user_id'),
-            Column::make('LEAD ', 'lead_id'),
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
+            Column::make('Created At', 'created_at_formatted', 'created_at')
                 ->searchable()
+                ->sortable()
                 ->makeInputDatePicker(),
 
-        ];
+           
+
+        ]
+;
     }
 
     /*
@@ -195,21 +195,23 @@ final class QuotationTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-
+    
     public function actions(): array
     {
        return [
            Button::make('edit', 'Edit')
+                ->target('')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                ->route('quotations.edit', ['id' => 'id']),
 
            Button::make('destroy', 'Delete')
+                ->target('')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
                ->route('quotations.delete', ['id' => 'id'])
                ->method('delete')
         ];
     }
-
+    
 
     /*
     |--------------------------------------------------------------------------

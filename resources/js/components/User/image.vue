@@ -10,7 +10,7 @@
                     <i class="fa fa-image fa-4x p-2" v-if="previewUrl==''"></i>
                 </div>
             </label>
-            <input type="file" name="profile_image" ref="inputFile"   @change="getImage" hidden id="selectimage" accept=".png,.jpg">
+            <input type="file" max="5000" name="profile_image" ref="inputFile"   @change="getImage" hidden id="selectimage" accept=".png,.jpg">
         </div>
     </div>
 </template>

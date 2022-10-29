@@ -23,7 +23,7 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens;
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'email', 'phone_number','is_admin','is_manager','is_lead_manager','lead_source_id','password', 'status'];
+    protected $fillable = ['name', 'email', 'phone_number','is_admin','is_manager','is_lead_manager','lead_source_id','authorize_person','password', 'status'];
 
     protected $searchableFields = ['*'];
 

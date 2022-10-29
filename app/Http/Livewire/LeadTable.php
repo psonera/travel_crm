@@ -130,7 +130,7 @@ final class LeadTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
             Column::make('Title', 'title')
@@ -155,7 +155,7 @@ final class LeadTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('Closed at', 'closed_at_formatted', 'closed_at')
+            Column::make('Closed At', 'closed_at_formatted', 'closed_at')
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
@@ -211,20 +211,20 @@ final class LeadTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    // public function actions(): array
-    // {
-    //    return [
-    //        Button::make('edit', 'Edit')
-    //            ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-    //            ->route('leads.edit', ['lead' => 'id']),
+    public function actions(): array
+    {
+       return [
+           Button::make('edit', 'Edit')
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+               ->route('leads.edit', ['lead' => 'id']),
 
-    //        Button::make('destroy', 'Delete')
-    //            ->target('')
-    //            ->method('post')
-    //            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-    //            ->route('leads.delete', ['lead' => 'id'])
-    //     ];
-    // }
+           Button::make('destroy', 'Delete')
+               ->target('')
+               ->method('post')
+               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+               ->route('leads.delete', ['lead' => 'id'])
+        ];
+    }
 
     /*
     |--------------------------------------------------------------------------

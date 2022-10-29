@@ -55,14 +55,14 @@
                                     <div class="text-sm font-medium text-gray-900">Leads</div>
                                 </a>
                                 @endcan
-                                @can('create.quotations')            
+                                @can('create.quotations')
                                 <a href="{{ route('quotations.create') }}"
                                     class="block p-4 text-center rounded-2xl hover:bg-gray-100 cursor-pointer">
                                     <i class="fas fa-file-invoice-dollar fa-2x mb-1" aria-hidden="true"></i>
                                     <div class="text-sm font-medium text-gray-900">Quotations</div>
                                 </a>
                                 @endcan
-                                @can('compose.mails') 
+                                @can('compose.mails')
                                 <a href="{{ route('mails.compose') }}"
                                     class="block p-4 text-center rounded-2xl hover:bg-gray-100 cursor-pointer">
                                     <i class="fa fa-envelope fa-2x mb-1" aria-hidden="true"></i>
@@ -83,13 +83,13 @@
                                     <div class="text-sm font-medium text-gray-900">Managers</div>
                                 </a>
                                 @endcan
-                                
+
                                 <a href="{{ route('settings.index') }}"
                                     class="block p-4 text-center rounded-2xl hover:bg-gray-100 cursor-pointer">
                                     <i class="fa fa-cog fa-2x mb-1" aria-hidden="true"></i>
                                     <div class="text-sm font-medium text-gray-900">Settings</div>
                                 </a>
-                                
+
                                 @can('create.products')
                                 <a href="{{ route('products.create') }}"
                                     class="block p-4 text-center rounded-2xl hover:bg-gray-100 cursor-pointer">
@@ -146,10 +146,10 @@
                                         </div>
                                     </div>
                                     <div class="absolute group-hover:opacity-100 w-full h-full group-hover:top-0 group-hover:flex justify-center items-center opacity-0">
-                                        <span class="text-xl text-black font-bold leading-relaxed font-sans">Click to Mark as Read</span> 
+                                        <span class="text-xl text-black font-bold leading-relaxed font-sans">Click to Mark as Read</span>
                                     </div>
                                 </a>
-                                
+
                             </li>
                         @endforeach
                         <div class="block relative py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50">
@@ -161,7 +161,7 @@
                 {{-- profile --}}
                 <li class="relative flex items-center pr-2">
                     <div class="ml-3">
-                        <button type="button" 
+                        <button type="button"
                             class="flex text-sm bg-gray-200 rounded-full focus:ring-4 focus:ring-gray-300"
                                 aria-expanded="false" dropdown-trigger>
                             <span class="sr-only">Open user menu</span>

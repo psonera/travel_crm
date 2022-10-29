@@ -117,10 +117,10 @@ final class ProductTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Id', 'id')
                 ->makeInputRange(),
 
-            Column::make('SKU', 'sku')
+            Column::make('Sku', 'sku')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
@@ -169,6 +169,7 @@ final class ProductTable extends PowerGridComponent
     {
        return [
            Button::make('edit', 'Edit')
+                ->target('')
                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                ->route('products.edit', ['product' => 'id']),
 
@@ -176,7 +177,7 @@ final class ProductTable extends PowerGridComponent
                 ->target('')
                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
                ->route('products.destroy', ['product' => 'id'])
-               ->method('post')
+               ->method('delete')
         ];
     }
     

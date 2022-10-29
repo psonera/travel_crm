@@ -19,10 +19,10 @@ return new class extends Migration {
             $table->longText('billing_address');
             $table->longText('shipping_address');
             $table->decimal('discount_percent',12,4)->default(0.000);
-            $table->integer('discount_amount')->nullable();
-            $table->integer('tax_amount')->nullable();
-            $table->integer('sub_total')->nullable();
-            $table->integer('grand_total')->nullable();
+            $table->decimal('discount_amount',12,4)->nullable();
+            $table->decimal('tax_amount',12,4)->nullable();
+            $table->decimal('sub_total',12,4)->nullable();
+            $table->decimal('grand_total',12,4)->nullable();
         });
     }
 

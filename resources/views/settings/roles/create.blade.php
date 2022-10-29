@@ -41,4 +41,7 @@
             </div>
         </div>
     </div>
+    @section('page_scripts')
+        <script src="{{ mix('js/app.js') }}"></script>
+    @endsection
 </x-app-layout>

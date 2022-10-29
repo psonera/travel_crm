@@ -10,7 +10,6 @@
                             :data="contry"
                             geography="contry"
                             @selectstatus="states"
-
                         ></addressselect>
                         <div>
                             <div v-if="contryname=='b_contry'">
@@ -99,8 +98,8 @@ export default {
     components:{addressselect,addresslocal},
      props:{
         address:{
-            type:String,
-            default:''
+            type:Object,
+            default:null
         },
         title:String,
         addressname:String,
@@ -120,10 +119,7 @@ export default {
     },
 
     created(){
-        if(this.oldvalue!=null){
 
-            this.localoldvalue = this.oldvalue;
-        }
 
     },
     data(){
@@ -164,7 +160,7 @@ export default {
     },
      mounted(){
         this.contries()
-        if(this.address!='')
+        if(this.address)
         {
             if(this.oldvalue==''){
 

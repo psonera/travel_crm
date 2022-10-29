@@ -1,13 +1,14 @@
 <template>
-         <label class="p-2 font-semibold text-gray-700">Description<span class="text-red-500">*</span></label>
-        <textarea
-        name="description"
-        rows="6"
-        :class="css"
-        v-model="data"
-        autofocus>
-        <slot></slot>
-        </textarea>
+        <div>
+            <label class="p-2 font-semibold text-gray-700">Description<span class="text-red-500">*</span></label>
+            <textarea
+            name="description"
+            rows="6"
+            :class="css"
+            v-model="data"
+            autofocus>
+            </textarea>
+        </div>
 </template>
 
 <script>
@@ -15,10 +16,11 @@
         props:{
             description:{
                 type:String,
-                default:""
+                default:''
             },
-            oldvalue:{
-                type:Object
+            old_value:{
+                type:String,
+                default:''
             }
         },
         data(){
@@ -29,19 +31,17 @@
         },
         mounted(){
             if(this.description!=''){
-                if(this.oldvalue==null){
-
-                    this.data = this.description;
+                if(this.old_value){
+                    this.data = this.old_value;
                 }else{
-                    this.data = this.oldvalue;
+                    this.data = this.description;
+                }
+            }else{
+                if(this.old_value){
+                    this.data = this.old_value;
                 }
             }
         },
-        created(){
-            if(this.oldvalue != ''){
-                this.data = this.oldvalue;
-            }
-        }
     }
 </script>
 

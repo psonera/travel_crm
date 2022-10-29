@@ -104,7 +104,6 @@ class ProductController extends Controller
     {
         $this->authorize("delete.products",Product::class);
         $product->delete();
-        session()->flash('success', 'Product Deleted Successfully!!');
-        return redirect()->back();
+        return redirect(route('products.index'))->with('success', 'Product Deleted Successfully!!');
     }
 }

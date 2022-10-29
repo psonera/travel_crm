@@ -19,7 +19,7 @@
                          <span>{{file.name}}</span>
                    </div>
                 </div>
-                <input  type="file" name="attachment[]" :ref="'inputFile'+index" :id="'attachment'+index" @change="change('inputFile'+index)" hidden class="h-full w-full opacity-0" accept=".png,.pdf,.jpg,.txt,">
+                <input  type="file" name="attachment[]" :ref="'inputFile'+index" :id="'attachment'+index" @change="change('inputFile'+index)" class="opacity-0 h-full w-full opacity-0" accept=".png,.pdf,.jpg,.txt," required>
             </label>
         </section>
         <section v-if="file.oldfile">

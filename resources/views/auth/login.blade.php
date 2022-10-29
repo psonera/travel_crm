@@ -17,13 +17,19 @@
                                     @csrf
                                     <div class="mb-4">
                                         <x-inputs.email name="email" label="Email" required autofocus />
+                                        @error('email')
+                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="mb-4">
                                         <x-inputs.password name="password" label="Password" required autofocus />
+                                        @error('password')
+                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="text-center">
                                         <button type="submit"
-                                            class="bg-gradient-cyan ml-auto bg-success block p-2 rounded-xl text-white w-full">Sign
+                                            class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-black uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white bg-blue-500">Sign
                                             in</button>
                                     </div>
                                 </form>

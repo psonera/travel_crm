@@ -15,8 +15,8 @@
                 default:''
             },
             oldvalue:{
-                type:Object,
-                default:null
+                type:String,
+                default:''
             }
         },
         data(){
@@ -26,20 +26,18 @@
            }
         },mounted(){
               if(this.subject!=''){
-                if(this.oldvalue==null){
-                    this.data = this.subject;
+                if(this.oldvalue){
+                    console.log('in');
+                    this.data = this.oldvalue;
                 }else{
-                     this.data = this.oldvalue;
+                    this.data = this.subject;
+                }
+              }else{
+                if(this.oldvalue){
+                    this.data = this.oldvalue;
                 }
               }
         },
-        created(){
-            if(this.oldvalue != null){
-                this.data = this.oldvalue;
-            }
-
-        }
-
 
     }
 </script>
