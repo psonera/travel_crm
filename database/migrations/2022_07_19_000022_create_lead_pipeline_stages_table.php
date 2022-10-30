@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('name')->unique()->nullable();
             $table->integer('probability');
             $table->integer('sort_order');
-            // $table->foreignId('lead_pipeline_id')->constrained('users')->onDelete('cascade');
 
             $table->timestamps();
         });

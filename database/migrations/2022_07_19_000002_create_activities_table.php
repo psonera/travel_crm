@@ -14,14 +14,14 @@ return new class extends Migration {
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('type');
             $table->text('comment');
-            $table->dateTime('schedule_from');
-            $table->dateTime('schedule_to');
+            $table->dateTime('schedule_from')->nullable();
+            $table->dateTime('schedule_to')->nullable();
             $table->tinyInteger('is_done')->default(0);
             $table->foreignId('user_id');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }

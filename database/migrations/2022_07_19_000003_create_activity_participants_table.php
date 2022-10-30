@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('activity_participants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('activity_id');
-            $table->foreignId('user_id');
-            $table->foreignId('lead_manager_id');
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('lead_manager_id')->nullable();
         });
     }
 

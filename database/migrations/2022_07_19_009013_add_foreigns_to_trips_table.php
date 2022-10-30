@@ -17,8 +17,7 @@ return new class extends Migration {
                 ->foreign('trip_type_id')
                 ->references('id')
                 ->on('trip_types')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
         });
     }
 

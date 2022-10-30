@@ -17,64 +17,55 @@ return new class extends Migration {
                 ->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('lead_manager_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('lead_source_id')
                 ->references('id')
                 ->on('lead_sources')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('lead_type_id')
                 ->references('id')
                 ->on('lead_types')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('lead_pipeline_stage_id')
                 ->references('id')
                 ->on('lead_pipeline_stages')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('trip_id')
                 ->references('id')
                 ->on('trips')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('trip_type_id')
                 ->references('id')
                 ->on('trip_types')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('accomodation_id')
                 ->references('id')
                 ->on('accomodations')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
 
             $table
                 ->foreign('transport_id')
                 ->references('id')
                 ->on('transports')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->nullOnDelete();
         });
     }
 
@@ -92,7 +83,7 @@ return new class extends Migration {
             $table->dropForeign(['lead_type_id']);
             $table->dropForeign(['trip_id']);
             $table->dropForeign(['trip_type_id']);
-            // $table->dropForeign(['accomodation_id']);
+            $table->dropForeign(['accomodation_id']);
             $table->dropForeign(['transport_id']);
         });
     }

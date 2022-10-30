@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('trips', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('location');
             $table->dateTimeTz('start_date');
             $table->dateTimeTz('end_date');

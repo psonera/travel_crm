@@ -187,10 +187,39 @@ class LeadController extends Controller
             AssignLead::dispatch($lead, false);
         }
 
-        if(isset($data['products'])){
+        if(count($lead->leadProducts) > 0 && isset($data['products'])){
             foreach($lead->leadProducts as $lead_prd){
-                $lead_prd->delete();
+                foreach($data['products'] as $product){
+                    if($lead_prd->product_id == $product['id']){
+                        $qty = $lead_prd->quantity - $product['quantity'];
+                        $lead_prd->name = $product['name'];
+                        $lead_prd->quantity = $product['quantity'];
+                        $lead_prd->price = $product['price'];
+                        $lead_prd->lead_id = $lead->id;
+                        $lead_prd->product_id = $product['id'];
+                        $lead_prd->save();
+
+                        if($qty < 0){
+                            $update_product = Product::where('id', $product['id'])->first();
+                            $change_qty = $update_product->quantity - abs($qty);
+                            $update_product->quantity = $change_qty;
+                            $update_product->save();
+                        }else{
+                            $update_product = Product::where('id', $product['id'])->first();
+                            $change_qty = $update_product->quantity + abs($qty);
+                            $update_product->quantity = $change_qty;
+                            $update_product->save();
+                        }
+                    }else{
+                        $update_product = Product::where('id', $lead_prd->product_id)->first();
+                        $change_qty = $update_product->quantity + $lead_prd->quantity;
+                        $update_product->quantity = $change_qty;
+                        $update_product->save();
+                        $lead_prd->delete();
+                    }
+                }
             }
+        }else if(count($lead->leadProducts) == 0  && isset($data['products'])){
             foreach($data['products'] as $product){
                 $lead_product = array(
                     'name' => $product['name'],
@@ -208,6 +237,10 @@ class LeadController extends Controller
             }
         } else {
             foreach($lead->leadProducts as $lead_prd){
+                $update_product = Product::where('id', $lead_prd->product_id)->first();
+                $change_qty = $update_product->quantity + $lead_prd->quantity;
+                $update_product->quantity = $change_qty;
+                $update_product->save();
                 $lead_prd->delete();
             }
         }
