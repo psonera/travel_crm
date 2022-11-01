@@ -127,7 +127,7 @@ final class LeadSourceTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            
+
 
         ]
 ;
@@ -147,23 +147,27 @@ final class LeadSourceTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-           ->target('')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.lead_sources.edit', ['lead_source' => 'id']),
-
-           Button::make('destroy', 'Delete')
-           ->target('')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.lead_sources.destroy', ['lead_source' => 'id'])
-               ->method('delete')
-        ];
+       $action = [];
+       if(auth()->user()->can('update.lead-sources')){
+            array_push($action,Button::make('edit', 'Edit')
+            ->target('')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('settings.lead_sources.edit', ['lead_source' => 'id']));
+       }
+       if(auth()->user()->can('delete.lead-sources')){
+            array_push($action,
+            Button::make('destroy', 'Delete')
+            ->target('')
+                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+                ->route('settings.lead_sources.destroy', ['lead_source' => 'id'])
+                ->method('delete'));
+        }
+       return $action;
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------

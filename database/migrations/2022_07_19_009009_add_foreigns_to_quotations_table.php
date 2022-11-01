@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('lead_manager_id')->after('tax_amount')->nullable();
             $table->foreign('lead_manager_id')->references('id')->on('users')->nullOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('lead_id')->nullable()->constrained('leads')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('lead_id')->nullable()->constrained('leads')->nullOnDelete();
             $table->timestamps();
         });
     }

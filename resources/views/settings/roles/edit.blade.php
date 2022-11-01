@@ -1,5 +1,6 @@
 <x-app-layout>
     @section('title', 'Edit Role')
+
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
@@ -8,6 +9,7 @@
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
                     <h2 class="text-3xl font-bold">Edit Role</h2>
                 </div>
+
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('settings.roles.update',$role) }}">
                         @method('put')

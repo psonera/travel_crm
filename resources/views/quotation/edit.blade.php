@@ -13,13 +13,17 @@
                 class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                 <div
                     class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid inline-flex pb-2 rounded-t-2xl border-b-transparent">
-                    <h2 class="text-xl font-bold">Create Quotation</h2>
+                    <h2 class="text-3xl font-bold">Create Quotation</h2>
                 </div>
                 <div class="flex-auto p-6" role="tabpanel">
                     <form role="form" method="POST" action="{{ route('quotations.update', ['id' => $quotation->id]) }}">
                         @csrf
                             <Tabs>
                                 <Tab name="Quotation Detail" >
+                                    <div class="p-4">
+                                    @if (auth()->user()->hasRole('manager'))
+
+                                    @else
                                     <div class="mb-4">
                                         @if ($quotation->user_id==null)
                                         <manager :old_value="{{json_encode(old('owner'))}}"></manager>
@@ -36,6 +40,8 @@
                                             </div>
                                         @endif
                                     </div>
+                                    @endif
+
                                     <div class="mb-4">
                                         @php
                                             $sub = $quotation->subject
@@ -56,24 +62,28 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-4">
-                                        @if ($quotation->lead_manager_id==null)
-                                            <leadmanager :oldvalue='@json(old())'></leadmanager>
-                                        @else
-                                            <leadmanager :oldvalue='@json(old())' lead_manager="{{$quotation->leadManager}}"></leadmanager>
+                                    @if (auth()->user()->hasRole('lead-manager'))
+                                    @else
+                                        <div class="mb-4">
+                                            @if ($quotation->lead_manager_id==null)
+                                                <leadmanager :oldvalue='@json(old())'></leadmanager>
+                                            @else
+                                                <leadmanager :oldvalue='@json(old())' lead_manager="{{$quotation->leadManager}}"></leadmanager>
+                                            @endif
+                                            @if ($errors->has('lead_manager'))
+                                                <div class="text-red-500">Lead Manager Required</div>
                                         @endif
-                                        @if ($errors->has('lead_manager'))
-                                            <div class="text-red-500">Lead Manager Required</div>
-                                       @endif
-                                       @if ($errors->has('r_lead_manager'))
-                                            <div class="text-red-500"><strong>Only Search and Select</strong>  </div>
-                                       @endif
-                                    </div>
+                                        @if ($errors->has('r_lead_manager'))
+                                                <div class="text-red-500"><strong>Only Search and Select</strong>  </div>
+                                        @endif
+                                        </div>
+                                    @endif
+
                                     <div class="mb-4">
                                         @if ($quotation->lead_id==null)
                                             <leadname :oldvalue="Object({{json_encode(old())}})"></leadname>
                                         @else
-                                            <leadname :oldvalue="{{json_encode(old())}}" lead="{{$quotation->lead}}"></leadname>
+                                            <leadname :oldvalue="{{json_encode(old())}}" :edit="true" lead="{{$quotation->lead}}"></leadname>
                                         @endif
                                         @if ($errors->has('lead'))
                                             <div class="text-red-500">Lead  Required</div>
@@ -82,8 +92,10 @@
                                             <div class="text-red-500"><strong>Only Search and Select</strong>  </div>
                                         @endif
                                     </div>
+                                </div>
                                 </Tab>
                                 <Tab name="Address">
+                                    <div class="p-4">
                                     <div class="mb-4">
                                         <addressvue
                                                    :address="{{$quotation->billing_address}}"
@@ -110,8 +122,10 @@
                                                    :errors="{{$errors}}">
                                         </addressvue>
                                    </div>
+                                </div>
                                 </Tab>
                                 <Tab name="Quotation Item">
+                                    <div class="p-4">
                                     <div class="mb-4 ">
                                         <div class="flex">
                                             <quotaionitem
@@ -123,11 +137,11 @@
                                             </quotaionitem>
                                         </div>
                                     </div>
-
+                                </div>
                                 </Tab>
                                 <div class="text-center">
                                     <button type="submit"
-                                        class="inline-block px-6 py-3 mt-6 mb-2 font-bold text-center text-black uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">update
+                                        class="inline-block px-6 py-3 mb-6 font-bold text-center text-white uppercase align-middle transition-all bg-black border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-dark-gray hover:border-slate-700 hover:bg-slate-700 hover:text-white">update
                                         As Quotation
                                     </button>
                                 </div>

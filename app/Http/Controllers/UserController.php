@@ -47,14 +47,14 @@ class UserController extends Controller
      */
     public function store(UserFormRequest $request)
     {
-       
+
         $this->authorize('store.users',User::class);
         $is_admin = 0;
         $is_manager= 0;
         $is_lead_manager = 0;
         $is_exist = 1;
 
-
+        $super_Admin = Role::where('name','super-admin')->first();
         if($request->has('role')){
             if(strtolower(str_replace(' ','',Role::where('id',$request->role)->first()->name))=='superadmin'){
                 $is_admin = 1;
@@ -69,6 +69,7 @@ class UserController extends Controller
 
         $user = new User();
         $user->name = $request->name;
+        $user->created_by = auth()->user()->id;
         $user->email = $request->email;
         $user->phone_number = $request->phone;
         $user->password = Hash::make($request->password);
@@ -76,15 +77,15 @@ class UserController extends Controller
         $user->is_admin = $is_admin;
         $user->is_manager = $is_manager;
         $user->is_lead_manager = $is_lead_manager;
-       if(auth()->user()->hasRole('super-admin')) {
+        if(auth()->user()->hasRole('manager')){
+             $user->authorize_person = auth()->user()->id;
+        }else if(auth()->user()->hasAnyRole(Role::all())){
             if($request->has('manager')){
                 $user->authorize_person = $request->r_manager;
             }else{
-                $user->authorize_person = auth()->user()->id;
+                $user->authorize_person = $super_Admin->id;
             }
-       }else{
-            $user->authorize_person = auth()->user()->id;
-       }
+        }
         if($request->has('source')){
             $user->lead_source_id = $request->source;
         }
@@ -96,7 +97,7 @@ class UserController extends Controller
             $user->syncRoles([$role]);
         }
         if($request->has('profile_image')){
-            
+
             $user->addMedia($request->profile_image)
                 ->toMediaCollection('media','media_file');
         }
@@ -140,11 +141,12 @@ class UserController extends Controller
      */
     public function update(UserFormRequest $request,User $user)
     {
-    
+
         $is_admin = 0;
         $is_manager= 0;
         $is_lead_manager = 0;
         $is_exist = 1;
+        $super_Admin = Role::where('name','super-admin')->first();
         if($request->has('role')){
             if(strtolower(str_replace('-','',Role::where('id',$request->role)->first()->name))=='superadmin'){
                 $is_admin = 1;
@@ -161,23 +163,21 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone_number = $request->phone;
-            $user->password = Hash::make($request->password);
             $user->status = $request->status;
             $user->is_admin = $is_admin;
             $user->is_manager = $is_manager;
             $user->is_lead_manager = $is_lead_manager;
-            if($user->hasAnyRole(Role::all())){
-                if(auth()->user()->hasRole('super-admin')) {
-                    if($request->has('manager')){
-                        $user->authorize_person = $request->r_manager;
-                    }
+
+            if(auth()->user()->hasRole('manager')){
+                $user->authorize_person = auth()->user()->id;
+            }else if(auth()->user()->hasAnyRole(Role::all())){
+               if($request->has('manager')){
+                   $user->authorize_person = $request->r_manager;
                }else{
-                    $user->authorize_person = auth()->user()->id;
+                   $user->authorize_person = $super_Admin->id;
                }
-            }else{
-                // Assign New Lead-Manager to Lead
-                $user->authorize_person = $request->r_lead_manager;
-            }
+           }
+
             if($request->has('source')){
                 $user->lead_source_id = $request->source;
             }
@@ -283,6 +283,15 @@ class UserController extends Controller
             $isadmin=true;
         }
         return response()->json($isadmin);
+    }
+    public function checkManager(){
+        $isManager = false;
+        if(auth()->user()->hasRole('manager')){
+            $isManager = true;
+        }
+
+        return response()->json($isManager);
+
     }
     public function managers($query){
         $managers = User::select("id","name")->where('is_manager',"1")->where('name','like',"%".$query."%")->get();

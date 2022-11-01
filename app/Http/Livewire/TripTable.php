@@ -152,7 +152,7 @@ final class TripTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-         
+
 
         ]
 ;
@@ -172,21 +172,25 @@ final class TripTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.trips.edit', ['trip' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.trips.delete', ['trip' => 'id'])
-               ->method('post')
-        ];
+        $action = [];
+       if(auth()->user()->can('update.trips')){
+            array_push($action,  Button::make('edit', 'Edit')
+            ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+            ->route('settings.trips.edit', ['trip' => 'id']));
+       }
+       if(auth()->user()->can('delete.trips')){
+            array_push($action,
+            Button::make('destroy', 'Delete')
+            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('settings.trips.delete', ['trip' => 'id'])
+            ->method('post'));
+        }
+       return $action;
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -202,7 +206,7 @@ final class TripTable extends PowerGridComponent
      * @return array<int, RuleActions>
      */
 
-    
+
     // public function actionRules(): array
     // {
     //    return [
@@ -213,5 +217,5 @@ final class TripTable extends PowerGridComponent
     //             ->hide(),
     //     ];
     // }
-    
+
 }

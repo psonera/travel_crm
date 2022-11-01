@@ -50,8 +50,10 @@ class LeadManagerController extends Controller
 
         $this->authorize('store.lead-managers',LeadManager::class);
 
+
         $user = LeadManager::create([
             'name'=>$request->name,
+            "created_by"=>auth()->user()->id,
             "email"=>$request->email,
             "phone_number" => $request->phone,
             "password"=>Hash::make($request->password),

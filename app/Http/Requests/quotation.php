@@ -23,12 +23,9 @@ class quotation extends FormRequest
      */
     public function rules()
     {
-        return [
-            'owner'=>'required|not_in:0',
+        $rule = [
             'subject'=>'required',
             'description'=>'required',
-            'lead_manager'=>'required',
-            'r_lead_manager'=>'required',
             'lead'=>'required',
             'r_lead'=>'required',
             'billing_address'=>'required',
@@ -51,5 +48,16 @@ class quotation extends FormRequest
             'tax'=>'required|numeric',
             'grandtotal'=>'required|numeric',
         ];
+
+        if($this->has('owner')){
+            $rule['owner'] = 'required|not_in:0';
+        }
+
+        if($this->has('lead_manager')){
+            $rule['lead_manager'] = 'required';
+            $rule['r_lead']= 'required';
+        }
+
+        return $rule;
     }
 }

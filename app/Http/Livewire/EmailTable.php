@@ -52,7 +52,7 @@ final class EmailTable extends PowerGridComponent
     * @return Builder<\App\Models\Email>
     */
     public function datasource(): Builder
-    {   
+    {
         $roles = Role::where('name','!=','super-admin')->get();
         if(request()->is('mails')){
             if(auth()->user()->is_admin==1){
@@ -205,7 +205,7 @@ final class EmailTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            
+
         ]
 ;
     }
@@ -227,43 +227,59 @@ final class EmailTable extends PowerGridComponent
 
     public function actions(): array
     {
+        $sent = [];
+        $draft = [];
+        $trash = [];
+        if(auth()->user()->can('sent.mails')){
 
-        $sent = [
-            Button::make('destroy', 'Move To Trash')
-            ->target('')
-            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-            ->route('mails.destroy', ['id' => 'id'])
-            ->method('get')
-        ];
-        $draft = [
-            Button::make('sent', 'Sent')
+            //draft
+            array_push($draft, Button::make('sent', 'Sent')
             ->target('')
             ->class('bg-green-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             ->route('mails.sendDraft', ['id' => 'id'])
-            ->method('get'),
-            Button::make('edit', 'Edit')
+            ->method('get'));
+
+        }
+
+        if(auth()->user()->can('update.mails')){
+            array_push($draft, Button::make('edit', 'Edit')
             ->target('')
             ->class('bg-yellow-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             ->route('mails.editdraft', ['email' => 'id'])
-            ->method('get'),
-            Button::make('restore', 'Move To Trash')
+            ->method('get'));
+        }
+
+        if(auth()->user()->can('delete.mails')){
+            array_push($draft, Button::make('Move To Trash', 'Move To Trash')
             ->target('')
             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             ->route('mails.destroy', ['id' => 'id'])
-            ->method('get'),
-        ];
-        $trash = [
-            Button::make('restore', 'Restore')
+            ->method('get'));
+
+            array_push($sent,Button::make('destroy', 'Move To Trash')
             ->target('')
-            ->class('bg-green-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-            ->route('mails.restore', ['id' => 'id'])
-            ->method('get'),
-            Button::make('destroy', 'Delete')
+            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('mails.destroy', ['id' => 'id'])
+            ->method('get'));
+
+        }
+
+        if(auth()->user()->can('forceDelete.mails')){
+            array_push($trash,  Button::make('destroy', 'Delete')
             ->target('')
             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
             ->route('mails.forceDelete', ['id' => 'id'])
-            ->method('post')
-        ];
+            ->method('post'));
+        }
+
+        if(auth()->user()->can('restore.mails')){
+            array_push($trash, Button::make('restore', 'Restore')
+            ->target('')
+            ->class('bg-green-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('mails.restore', ['id' => 'id'])
+            ->method('get'));
+        }
+
 
         if(request()->is('mails')){
             return $sent;

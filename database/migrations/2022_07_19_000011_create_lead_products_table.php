@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->integer('quantity')->default(0);
             $table->decimal('price' ,12, 4)->nullable();
             $table->decimal('amount', 12, 4)->nullable();
-            $table->foreignId('lead_id');
-            $table->foreignId('product_id');
+            $table->foreignId('lead_id')->nullable();
+            $table->foreignId('product_id')->nullable();
 
             $table->timestamps();
         });

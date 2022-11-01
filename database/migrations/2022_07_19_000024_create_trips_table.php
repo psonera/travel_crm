@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->dateTimeTz('end_date');
             $table->integer('batch_size');
             $table->integer('price');
-            $table->foreignId('trip_type_id');
+            $table->foreignId('trip_type_id')->nullable();
 
             $table->timestamps();
         });

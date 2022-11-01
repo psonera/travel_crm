@@ -14,6 +14,7 @@ class Quotation extends Model
 
     protected $fillable = [
         'subject',
+        'created_by',
         'description',
         'billing_address',
         'shipping_address',

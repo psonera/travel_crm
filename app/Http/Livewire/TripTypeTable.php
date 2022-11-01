@@ -152,16 +152,19 @@ final class TripTypeTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.trip_types.edit', ['trip_type' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.trip_types.delete', ['trip_type' => 'id'])
-               ->method('post')
-        ];
+        $action = [];
+        if(auth()->user()->can('update.trip-types')){
+             array_push($action, Button::make('edit', 'Edit')
+             ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+             ->route('settings.trip_types.edit', ['trip_type' => 'id']));
+        }
+        if(auth()->user()->can('delete.trip-types')){
+             array_push($action,Button::make('destroy', 'Delete')
+           ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+           ->route('settings.trip_types.delete', ['trip_type' => 'id'])
+           ->method('post'));
+         }
+        return $action;
     }
 
 

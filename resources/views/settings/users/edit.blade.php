@@ -33,9 +33,6 @@
                             <div class="mb-4">
                                 <x-inputs.email name="email" label="{{ __('Email Address') }}" value="{{ $user->email }}" autofocus readonly="true"/>
                             </div>
-
-                            @if(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('manager'))
-                                @if ($user->hasAnyRole($roles))
                                     <div class="mb-4">
                                         <label class="label label-required pb-2 font-medium text-gray-700">Roles<span class="text-red-500">*</span></label>
                                         <selectrole
@@ -45,16 +42,6 @@
                                         oldvalue="{{json_encode(old('role'))}}"
                                         error="{{$errors->first('r_manager')}}" error2="{{$errors->first('manager')}}"></selectrole>
                                     </div>
-                                @else
-                                    {{-- <leadmanager label="Assign Lead Manager" :oldvalue='@json(old())' lead_manager="{{App\Models\User::where('id',$user->authorize_person)->first()}}"></leadmanager>
-                                    @if ($errors->has('lead_manager'))
-                                        <span class="text-red-500">Please Assign Lead Manager To Lead</span>
-                                    @endif
-                                    @if ($errors->has('r_lead_manager'))
-                                        <span class="text-red-500">Please Assign <strong>Only Selected</strong> Lead Manager To Lead</span>
-                                    @endif --}}
-                                @endif
-                            @endif
                             @error('role')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror

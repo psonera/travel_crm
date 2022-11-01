@@ -164,22 +164,26 @@ final class LeadPipelineStageTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.lead_pipeline_stages.edit', ['lead_pipeline_stage' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->target('')
-               ->method('post')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.lead_pipeline_stages.delete', ['lead_pipeline_stage' => 'id'])
-        ];
+        $action = [];
+       if(auth()->user()->can('update.lead-pipeline-stages')){
+            array_push($action,Button::make('edit', 'Edit')
+            ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('settings.lead_pipeline_stages.edit', ['lead_pipeline_stage' => 'id']));
+       }
+       if(auth()->user()->can('delete.lead-pipeline-stages')){
+            array_push($action,
+            Button::make('destroy', 'Delete')
+            ->target('')
+            ->method('post')
+            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('settings.lead_pipeline_stages.delete', ['lead_pipeline_stage' => 'id']));
+        }
+       return $action;
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------

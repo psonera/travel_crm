@@ -37,7 +37,7 @@ class ProfileController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required','regex:/(91)[0-9]{10}/','max:12','min:12'],
-            'profile_image'=>['sometimes','mimes:jpg,png','size:5000'],
+            'profile_image'=>['sometimes','mimes:jpg,png','max:5000'],
         ]);
         if($user){
             $user->update([
@@ -60,7 +60,7 @@ class ProfileController extends Controller
             }
             $user->save();
         }
-        
-        return redirect()->route('profile.edit', $user)->with('success','Your profile has been updated successfully!'); 
+
+        return redirect()->route('profile.edit', $user)->with('success','Your profile has been updated successfully!');
     }
 }

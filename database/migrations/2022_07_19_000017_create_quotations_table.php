@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->String('created_by')->nullable();
             $table->string('subject');
             $table->string('description');
             $table->longText('billing_address');

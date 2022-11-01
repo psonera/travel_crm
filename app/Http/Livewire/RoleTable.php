@@ -127,7 +127,7 @@ final class RoleTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-          
+
 
         ]
 ;
@@ -149,18 +149,21 @@ final class RoleTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-           ->target('')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.roles.edit', ['role' => 'id']),
-
-           Button::make('destroy', 'Delete')
-                ->target('')
-                ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-                ->route('settings.roles.destroy', ['role' => 'id'])
-                ->method('delete'),
-        ];
+        $action = [];
+        if(auth()->user()->can('update.roles')){
+            array_push($action,Button::make('edit', 'Edit')
+            ->target('')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('settings.roles.edit', ['role' => 'id']));
+        }
+        if(auth()->user()->can('delete.roles')){
+            array_push($action,   Button::make('destroy', 'Delete')
+            ->target('')
+            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('settings.roles.destroy', ['role' => 'id'])
+            ->method('delete'));
+        }
+       return $action;
     }
 
     /*
@@ -176,16 +179,22 @@ final class RoleTable extends PowerGridComponent
      * @return array<int, RuleActions>
      */
 
-    /*
+
     public function actionRules(): array
     {
        return [
-
-           //Hide button edit for ID 1
-            Rule::button('edit')
+            Rule::button('destroy')
                 ->when(fn($role) => $role->id === 1)
+                ->hide(),
+
+               Rule::button('destroy')
+                ->when(fn($role) => $role->id === 2)
+                ->hide(),
+
+               Rule::button('destroy')
+                ->when(fn($role) => $role->id === 3)
                 ->hide(),
         ];
     }
-    */
+
 }

@@ -42,7 +42,7 @@ class LoginController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required'
@@ -52,7 +52,7 @@ class LoginController extends Controller
 
             return redirect()->intended(route('dashboard'));
         }
-        return back()->withInput($request->only('email', 'remember_me'));
+        return back()->withErrors(['password'=>"please check your credentials!"]);
     }
 
     public function logout(){

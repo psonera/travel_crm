@@ -152,16 +152,20 @@ final class AccomodationTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.accomodations.edit', ['accomodation' => 'id']),
+        $action = [];
+        if(auth()->user()->can('update.accomodations')){
+             array_push($action,   Button::make('edit', 'Edit')
+             ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+             ->route('settings.accomodations.edit', ['accomodation' => 'id']));
+        }
+        if(auth()->user()->can('delete.accomodations')){
+             array_push($action, Button::make('destroy', 'Delete')
+             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+             ->route('settings.accomodations.delete', ['accomodation' => 'id'])
+             ->method('post'));
+         }
+        return $action;
 
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.accomodations.delete', ['accomodation' => 'id'])
-               ->method('post')
-        ];
     }
 
     /*

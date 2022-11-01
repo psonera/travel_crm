@@ -356,6 +356,7 @@ Route::group(['middleware' => ['auth']], function(){
                 Route::get('getSources',[UserController::class,'getSources']);
                 Route::get('isLeadManager/{id}',[UserController::class,'isLeadManager']);
                 Route::get('is_super-admin',[UserController::class,'isAdmin']);
+                Route::get('check_manager',[UserController::class,'checkManager']);
                 Route::get('managers/{query}',[UserController::class,'managers']);
             });
     });
@@ -370,7 +371,6 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/edit/{id}','edit')->name('edit');
             Route::post('/update/{id}','update')->name('update');
             Route::delete('/delete/{id}','destroy')->name('delete');
-
             //api
             Route::get('/names',"getNames")->name('leadmanagernames');
             Route::get('/leadnames',"getLeadNames")->name('leadnames');

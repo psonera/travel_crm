@@ -26,10 +26,14 @@ class RoleController extends Controller {
          $role = [];
          if(Auth::user()->hasRole('super-admin')){
             $role = Role::all();
-         }
-
-         if(Auth::user()->hasRole('manager')){
+         }else if(Auth::user()->hasRole('manager')){
             $role = Role::where('name','lead-manager')->get();
+         }else if(auth()->user()->hasAnyRole(Role::all())){
+             $current_user_role = auth()->user()->roles[0];
+             $role = Role::where('id','!=',$current_user_role->id)
+                                ->where('id','!=',Role::where('name','super-admin')->first()->id)
+                                ->get();
+
          }
          return response()->json($role);
     }

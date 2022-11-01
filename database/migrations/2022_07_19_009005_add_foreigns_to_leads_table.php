@@ -13,6 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('leads', function (Blueprint $table) {
+
             $table
                 ->foreign('user_id')
                 ->references('id')
@@ -81,6 +82,7 @@ return new class extends Migration {
             $table->dropForeign(['lead_manager_id']);
             $table->dropForeign(['lead_source_id']);
             $table->dropForeign(['lead_type_id']);
+            $table->dropForeign(['lead_pipeline_stage_id']);
             $table->dropForeign(['trip_id']);
             $table->dropForeign(['trip_type_id']);
             $table->dropForeign(['accomodation_id']);

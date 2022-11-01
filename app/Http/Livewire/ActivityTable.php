@@ -97,8 +97,17 @@ final class ActivityTable extends PowerGridComponent
             ->addColumn('comment')
             ->addColumn('schedule_from_formatted', fn (Activity $model) => Carbon::parse($model->schedule_from)->format('d/m/Y H:i:s'))
             ->addColumn('schedule_to_formatted', fn (Activity $model) => Carbon::parse($model->schedule_to)->format('d/m/Y H:i:s'))
-            ->addColumn('is_done')
-            ->addColumn('user_id')
+            ->addColumn('is_done',function(Activity $model){
+                return $model->is_done==0 ? "No": "Yes";
+            })
+            ->addColumn('user_id',function(Activity $model){
+                if($model->user_id==null){
+                    return null;
+                }else{
+                    return $model->user->name;
+                }
+
+            })
             ->addColumn('location')
             ->addColumn('created_at_formatted', fn (Activity $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
             ->addColumn('updated_at_formatted', fn (Activity $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
@@ -148,11 +157,9 @@ final class ActivityTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            Column::make('Is Done', 'is_done')
-                ->toggleable(),
+            Column::make('Is Done', 'is_done'),
 
-            Column::make('User Id', 'user_id')
-                ->makeInputRange(),
+            Column::make('User Id', 'user_id'),
 
             Column::make('Location', 'location')
                 ->sortable()
@@ -164,7 +171,7 @@ final class ActivityTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-            
+
 
         ]
 ;
@@ -184,21 +191,26 @@ final class ActivityTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('activity.edit', ['activity' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('activity.destroy', ['activity' => 'id'])
-               ->method('delete')
-        ];
+        $action = [];
+        if(auth()->user()->can('update.activities')){
+            array_push($action,  Button::make('edit', 'Edit')
+            ->target('')
+           ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+           ->route('activities.edit', ['activity' => 'id']));
+        }
+        if(auth()->user()->can('delete.activities')){
+            array_push($action,  Button::make('destroy', 'Delete')
+            ->target('')
+           ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+           ->route('activities.delete', ['id' => 'id'])
+           ->method('delete'));
+        }
+       return $action;
     }
-    */
+
 
     /*
     |--------------------------------------------------------------------------

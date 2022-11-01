@@ -4,9 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Lead;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
+use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
 final class LeadTable extends PowerGridComponent
@@ -50,7 +51,16 @@ final class LeadTable extends PowerGridComponent
     */
     public function datasource(): Builder
     {
-        return Lead::query();
+        if(auth()->user()->hasRole('super-admin')){
+            return Lead::query();
+        }else if(auth()->user()->hasAnyRole(Role::all())){
+            return Lead::query()
+            ->where('created_by',auth()->user()->id)
+            ->orWhere('user_id',auth()->user()->id)
+            ->orWhere('lead_manager_id',auth()->user()->id);
+            ;
+        }
+
     }
 
     /*
@@ -213,17 +223,23 @@ final class LeadTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('leads.edit', ['lead' => 'id']),
+        $action = [];
 
-           Button::make('destroy', 'Delete')
-               ->target('')
-               ->method('post')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('leads.delete', ['lead' => 'id'])
-        ];
+        if(auth()->user()->can('update.leads')){
+           array_push($action, Button::make('edit', 'Edit')
+           ->target('')
+           ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+           ->route('leads.edit', ['lead' => 'id']));
+        }
+
+        if(auth()->user()->can('delete.leads')){
+            array_push($action, Button::make('destroy', 'Delete')
+            ->target('')
+            ->method('post')
+            ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+            ->route('leads.delete', ['lead' => 'id']));
+        }
+       return $action;
     }
 
     /*

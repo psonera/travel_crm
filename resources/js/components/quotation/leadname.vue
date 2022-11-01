@@ -31,6 +31,10 @@
 import axios from 'axios'
     export default {
          props:{
+            edit:{
+                type:Boolean,
+                default:false
+            },
             lead:{
                 type:String,
                 default:''
@@ -70,8 +74,12 @@ import axios from 'axios'
         methods:{
             autocomp(){
                 this.data = [];
+                var url = '/quotations/leadnames?lead='+this.query;
+                if(this.edit){
+                    url = '/quotations/leadnames?lead='+this.query+'&edit=yes';
+                }
                 if(this.query.length>=2){
-                    axios.get('/quotations/leadnames',{params: {para: this.query}}).
+                    axios.get(url).
                         then(response => {
                             this.data = response.data;
                             if(this.data.length==0){

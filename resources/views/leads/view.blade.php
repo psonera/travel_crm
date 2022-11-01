@@ -6,7 +6,7 @@
         <a href="{{ route('leads.edit', $lead) }}"><button class="active:opacity-85 align-middle bg-black border-0 cursor-pointer ease-soft-in font-bold hover:bg-slate-700 hover:border-slate-700 hover:scale-102 hover:shadow-soft-xs hover:text-white leading-pro mb-2 px-8 py-4 rounded-lg shadow-soft-md text-center text-sm text-white tracking-tight-soft transition-all uppercase">Edit</button></a>
     </div>
   </div>
-  @endcan  
+  @endcan
   <div class="grid grid-cols-6 gap-4">
       <div class="col-start-1 col-end-3">
           <div class="relative flex flex-col min-w-0 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -156,7 +156,7 @@
                         <p class="text-2xl">No Products found!</p>
                       </div>
                     </div>
-                  @endforelse 
+                  @endforelse
                 </ul>
               </div>
           </div>
@@ -166,17 +166,17 @@
           @if(auth()->user()->hasAnyPermission(['mails', 'activities', 'quotations']))
             <div class="mt-10 w-full h-auto bg-white rounded-lg">
                 @include('leads.view.activity-action')
-            </div>  
+            </div>
             <div class="mt-10 w-full h-auto bg-white rounded-lg">
               @include('leads.view.activities-list')
             </div>
           @endif
       </div>
-  </div>    
+  </div>
   @section('page_scripts')
     <script src="{{ mix('js/app.js') }}"></script>
     <script>
         var editor = new FroalaEditor('#content');
-    </script>    
+    </script>
   @endsection
 </x-app-layout>

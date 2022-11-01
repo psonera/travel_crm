@@ -41,7 +41,10 @@ final class UserTable extends PowerGridComponent
             return User::query()
             ->where('users.id','!=',auth()->user()->id);
         }else{
-            return User::query()->where('authorize_person',auth()->user()->id);
+            return User::query()
+            ->where('created_by',auth()->user()->id)
+            ->orWhere('authorize_person',auth()->user()->id)
+            ;
         }
     }
 
@@ -140,17 +143,21 @@ final class UserTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-                ->target('')
-                ->class('bg-indigo-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
-                ->route('settings.users.edit', ['user' => 'id']),
+        $action = [];
+        if(auth()->user()->can('update.users')){
+            array_push($action, Button::make('edit', 'Edit')
+            ->target('')
+            ->class('bg-indigo-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
+            ->route('settings.users.edit', ['user' => 'id']));
+        }
 
-           Button::make('destroy', 'Delete')
-               ->target('')
-               ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
-               ->route('settings.users.destroy', ['user' => 'id'])
-               ->method('delete')
-        ];
+        if(auth()->user()->can('update.users')){
+            array_push($action,  Button::make('destroy', 'Delete')
+            ->target('')
+            ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
+            ->route('settings.users.destroy', ['user' => 'id'])
+            ->method('delete'));
+        }
+       return $action;
     }
 }

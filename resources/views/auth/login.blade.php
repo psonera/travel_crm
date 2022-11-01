@@ -17,15 +17,10 @@
                                     @csrf
                                     <div class="mb-4">
                                         <x-inputs.email name="email" label="Email" required autofocus />
-                                        @error('email')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                        @enderror
                                     </div>
                                     <div class="mb-4">
                                         <x-inputs.password name="password" label="Password" required autofocus />
-                                        @error('password')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                        @enderror
+
                                     </div>
                                     <div class="text-center">
                                         <button type="submit"
@@ -41,6 +36,7 @@
                                         class="relative z-10 font-semibold text-transparent bg-gradient-cyan bg-clip-text">Forgot
                                         Password?</a>
                                 </p>
+
                             </div>
                         </div>
                     </div>

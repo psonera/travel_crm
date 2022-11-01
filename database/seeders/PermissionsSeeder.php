@@ -308,6 +308,8 @@ class PermissionsSeeder extends Seeder
                 Permission::create(['name' => 'sent.mails']);
                 Permission::create(['name' => 'draft.mails']);
                 Permission::create(['name' => 'update.mails']);
+                Permission::create(['name' => 'restore.mails']);
+                Permission::create(['name' => 'forceDelete.mails']);
                 Permission::create(['name' => 'trash.mails']);
                 Permission::create(['name' => 'delete.mails']);
 

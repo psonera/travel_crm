@@ -40,10 +40,15 @@ class Quotationcontroller extends Controller
 
         $lead = null;
         if($request->has('lead_id')){
-            if(Lead::find($request->lead_id)->exists()){
-                $lead = Lead::find($request->lead_id);
+
+            if(Lead::find($request->lead_id)->quotations==null){
+                if(Lead::find($request->lead_id)->exists()){
+                    $lead = Lead::find($request->lead_id);
+                }else{
+                    $lead = null;
+                }
             }else{
-                $lead = null;
+                return redirect(route('leads.view',Lead::find($request->lead_id)))->with('error','Quotation is all Ready Exists');
             }
         }
         return view('quotation.create',['lead'=>$lead]);
@@ -60,6 +65,7 @@ class Quotationcontroller extends Controller
 
         $this->authorize('store.quotations',Quotation::class);
         $quotation = new Quotation;
+        $quotation->created_by = auth()->user()->id;
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;
         $b_address = $request->billing_address;
@@ -87,8 +93,16 @@ class Quotationcontroller extends Controller
         $quotation->tax_amount = $request->tax;
         $quotation->sub_total = $request->subtotal;
         $quotation->grand_total = $request->grandtotal;
-        $quotation->leadManager()->associate(LeadManager::find($request->r_lead_manager)) ;
-        $quotation->user_id = $request->owner;
+        if(auth()->user()->hasRole('lead-manager')){
+            $quotation->leadManager()->associate(auth()->user()->id);
+        }else{
+            $quotation->leadManager()->associate(LeadManager::find($request->r_lead_manager)) ;
+        }
+        if(auth()->user()->hasRole('manager')){
+            $quotation->user_id = auth()->user()->id;
+        }else{
+            $quotation->user_id = $request->owner;
+        }
         $quotation->lead_id = $request->r_lead;
          $quotation->save();
         //quotation items
@@ -171,6 +185,7 @@ class Quotationcontroller extends Controller
     public function update(RequestsQuotation $request, $id){
 
         $quotation = Quotation::find($id);
+
         $quotation->subject = $request->subject;
         $quotation->description = $request->description;
         $b_address = $request->billing_address;
@@ -199,8 +214,16 @@ class Quotationcontroller extends Controller
         $quotation->tax_amount = $request->tax;
         $quotation->sub_total = $request->subtotal;
         $quotation->grand_total = $request->grandtotal;
-        $quotation->lead_manager_id = $request->r_lead_manager;
-        $quotation->user_id = $request->owner;
+        if(auth()->user()->hasRole('lead-manager')){
+            $quotation->leadManager()->associate(auth()->user()->id);
+        }else{
+            $quotation->leadManager()->associate(LeadManager::find($request->r_lead_manager)) ;
+        }
+        if(auth()->user()->hasRole('manager')){
+            $quotation->user_id = auth()->user()->id;
+        }else{
+            $quotation->user_id = $request->owner;
+        }
         $quotation->lead_id = $request->r_lead;
         $quotation->save();
 
@@ -335,12 +358,32 @@ class Quotationcontroller extends Controller
         return response()->json($leadmanagers);
     }
     public function getLeadNames(Request $request){
-        $query = $request->get('para');
-        $leads =   Lead::select('id','title')->where('title','like',"%$query%")->limit(5)->get();
+        $query = $request->get('lead');
+
+        $leads = [];
+        $results =   Lead::select('id','title')
+        ->where('title','like',"%$query%")
+        ->where('created_by',auth()->user()->id)
+        ->orWhere('user_id',auth()->user()->id)
+        ->orWhere('lead_manager_id',auth()->user()->id)
+        ->limit(5)
+        ->get();
+        if($request->has('edit')){
+            $leads = $results;
+        }else{
+            foreach($results as $result){
+                if($result->quotations==null){
+                    array_push($leads,$result);
+                }
+            }
+        }
         return response()->json($leads);
     }
     public function getManagers(Request $request){
-        $managers = User::select('id','name')->role('Manager')->get();
+        $managers = User::select('id','name')->where('is_manager',1)->get();
+        if(auth()->user()->hasRole('lead-manager')){
+            $managers = User::select('id','name')->where('is_manager',1)->where('id',auth()->user()->authorize_person)->get();
+        }
         return response()->json($managers);
     }
 }

@@ -24,7 +24,7 @@
                                             <i class="fa fa-ellipsis-v text-slate-400"></i>
                                         </a>
                                         <p class="hidden transform-dropdown-show"></p>
-    
+
                                         <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                             <li class="relative">
                                                 <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.mark-done', ['id' => $activity->id]) }}">Mark as Done</a>
@@ -51,7 +51,7 @@
                                             <i class="fa fa-ellipsis-v text-slate-400"></i>
                                         </a>
                                         <p class="hidden transform-dropdown-show"></p>
-                                    
+
                                         <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                             <li class="relative">
                                                 <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.mark-done', ['id' => $activity->id]) }}">Mark as Done</a>
@@ -76,7 +76,7 @@
                     </div>
                 @endforelse
             </div>
-            
+
             <div class="mb-4">
                 <div class="inline-block mb-6 relative w-full text-lg">
                     <span class="pr-5 -top-[11px] absolute">Done</span>
@@ -94,7 +94,7 @@
                                                 <i class="fa fa-ellipsis-v text-slate-400"></i>
                                             </a>
                                             <p class="hidden transform-dropdown-show"></p>
-                                        
+
                                             <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                                 <li class="relative">
                                                     <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -114,7 +114,7 @@
                                                 <i class="fa fa-ellipsis-v text-slate-400"></i>
                                             </a>
                                             <p class="hidden transform-dropdown-show"></p>
-                                        
+
                                             <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                                 <li class="relative">
                                                     <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -145,7 +145,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -172,7 +172,7 @@
     @endif
     @if(auth()->user()->hasAnyPermission(['view.activities', 'delete.activities', 'update.activities']))
     <tab name="Notes">
-        <div class="p-8">            
+        <div class="p-8">
             <div class="mb-4">
                 @forelse ($lead->activities->where('type', 'note')->where('is_done', 1)  as $activity)
                     <div class="p-4">
@@ -184,7 +184,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -225,7 +225,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.mark-done', ['id' => $activity->id]) }}">Mark as Done</a>
@@ -249,7 +249,7 @@
                     </div>
                 @endforelse
             </div>
-            
+
             <div class="mb-4">
                 <div class="inline-block mb-6 relative w-full text-lg">
                     <span class="pr-5 -top-[11px] absolute">Done</span>
@@ -265,7 +265,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -306,7 +306,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.mark-done', ['id' => $activity->id]) }}">Mark as Done</a>
@@ -330,7 +330,7 @@
                     </div>
                 @endforelse
             </div>
-            
+
             <div class="mb-4">
                 <div class="inline-block mb-6 relative w-full text-lg">
                     <span class="pr-5 -top-[11px] absolute">Done</span>
@@ -346,7 +346,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -371,7 +371,7 @@
     </tab>
 
     <tab name="Files">
-        <div class="p-8">            
+        <div class="p-8">
             <div class="mb-4">
                 @forelse ($lead->activities->where('type', 'file')->where('is_done', 1)  as $activity)
                     <div class="p-4">
@@ -383,7 +383,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -416,7 +416,7 @@
 
     @can('update.mails')
     <tab name="Emails">
-        <div class="p-8">            
+        <div class="p-8">
             <div class="mb-4">
                 @forelse ($lead->emails->where('lead_id', $lead->id)  as $email)
                     <div class="p-4">
@@ -428,7 +428,7 @@
                                         <i class="fa fa-ellipsis-v text-slate-400"></i>
                                     </a>
                                     <p class="hidden transform-dropdown-show"></p>
-                                
+
                                     <ul dropdown-menu class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                         <li class="relative">
                                             <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300" href="{{ route('activities.edit', $activity->id) }}">Edit</a>
@@ -462,9 +462,7 @@
                         <th scope="col" class="py-3 px-6">
                             Subject
                         </th>
-                        <th scope="col" class="py-3 px-6">
-                            Expired At
-                        </th>
+
                         <th scope="col" class="py-3 px-6">
                             Sub Total
                         </th>
@@ -480,34 +478,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($lead->quotations as $quotation)
+
+                    @if ($lead->quotations)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $quotation->subject }}
+                            {{ $lead->quotations->subject }}
                         </th>
+
                         <td class="py-4 px-6">
-                            {{ date('Y-m-d', strtotime($quotation->expired_at)) }}
+                            {{ $lead->quotations->sub_total }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $quotation->sub_total }}
+                            {{ $lead->quotations->discount_amount }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $quotation->discount_amount }}
+                            {{ $lead->quotations->tax_amount }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $quotation->tax_amount }}
-                        </td>
-                        <td class="py-4 px-6">
-                            {{ $quotation->grand_total }}
+                            {{ $lead->quotations->grand_total }}
                         </td>
                     </tr>
-                    @empty
+                    @else
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
                             <td class="text-center p-4 text-lg text-gray-600">
                                 No quotations found.
                             </td>
                         </tr>
-                    @endforelse
+                    @endif
                 </tbody>
             </table>
         </div>

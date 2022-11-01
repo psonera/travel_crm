@@ -60,7 +60,10 @@ final class LeadManagerTable extends PowerGridComponent
         }else if(auth()->user()->hasAnyRole(Role::all())){
             return LeadManager::query()
             ->where('is_lead_manager',1)
-            ->where('authorize_person',auth()->user()->id);
+            ->where('created_by',auth()->user()->id)
+            ->where('authorize_person',auth()->user()->id)
+
+            ;
         }
     }
 
@@ -164,8 +167,6 @@ final class LeadManagerTable extends PowerGridComponent
                 ->searchable()
                 ->sortable()
                 ->makeInputDatePicker(),
-
-
         ]
 ;
     }
@@ -187,18 +188,23 @@ final class LeadManagerTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-                ->target(' ')
-               ->class('bg-indigo-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
-               ->route('lead_managers.edit', ['lead_manager' => 'id']),
+        $action = [];
+        if(auth()->user()->can('update.lead-managers')){
+            array_push($action,  Button::make('edit', 'Edit')
+            ->target(' ')
+           ->class('bg-indigo-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
+           ->route('lead_managers.edit', ['lead_manager' => 'id']));
+        }
 
-           Button::make('destroy', 'Delete')
-                ->target(' ')
-               ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
-               ->route('lead_managers.destroy', ['lead_manager' => 'id'])
-               ->method('delete')
-        ];
+        if(auth()->user()->can('delete.lead-managers')){
+            array_push($action,  Button::make('destroy', 'Delete')
+            ->target(' ')
+           ->class('bg-red-500 cursor-pointer text-white px-2 py-2 m-1 rounded text-sm')
+           ->route('lead_managers.destroy', ['lead_manager' => 'id'])
+           ->method('delete'));
+        }
+
+       return $action;
     }
 
 

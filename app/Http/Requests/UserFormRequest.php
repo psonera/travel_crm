@@ -22,29 +22,28 @@ class UserFormRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    {   
+    {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required','regex:/(91)[0-9]{10}/','max:12','min:12'],
-            'password' => ['required', 'string', 'confirmed'],
             'status'=> ['required'],
             'profile_image'=>['sometimes','mimes:jpg,png','max:5000'],
         ];
-        
+
+        if($this->has('password')){
+            $rules['password'] = 'required|string|confirmed';
+        }
+
         if($this->has('user_update')){
             $rules['email'] = 'required|string|email|max:255' ;
         }
-        if(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('manager')){
-            if($this->has('role')){
-                $rules['role'] = 'required';
-            }
+        if($this->has('role')){
+            $rules['role'] = 'required';
         }
-        if(auth()->user()->hasRole('super-admin')){
-            if($this->has('manager')){
-                $rules['manager']='required';
-                $rules['r_manager']='required';
-            }
+        if($this->has('manager')){
+            $rules['manager']='required';
+            $rules['r_manager']='required';
         }
         return $rules;
     }

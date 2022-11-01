@@ -8,6 +8,7 @@
         }
         </style>
     @endsection
+
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div
@@ -31,7 +32,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <x-inputs.email name="email" label="{{ __('Email Address') }}" class="bg-gray-200" value="{{ $user->email }}" autofocus required disabled/>
+                            <x-inputs.email name="email" label="{{ __('Email Address') }}" class="bg-gray-200" value="{{ $user->email }}" autofocus required readonly/>
                         </div>
 
                         <div class="mb-4">

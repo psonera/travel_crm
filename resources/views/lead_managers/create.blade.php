@@ -8,7 +8,7 @@
             }
         </style>
     @endsection
-    
+
     <div class="flex flex-wrap -mx-3">
 
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
@@ -43,8 +43,9 @@
                             <x-inputs.text name="phone" label="{{ __('Phone') }}" value="{{ old('phone') }}"
                                 required autofocus />
                         </div>
-                        
-                        @if (auth()->user()->hasRole('super-admin'))
+
+                        @if (auth()->user()->hasRole('manager'))
+                        @else
                             <usermanager></usermanager>
                             @error('manager')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -66,7 +67,7 @@
                         </div>
 
                         @error('leadsource')
-                            
+
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                         <div class="mb-4">

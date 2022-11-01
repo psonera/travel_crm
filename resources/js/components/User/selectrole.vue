@@ -7,7 +7,7 @@
         <input class="border border-black" type="text" name="rolename" v-model="role_name" hidden>
     </div>
     <div v-if="is_lead_manager">
-        <div v-if="is_admin">
+        <div v-if="!is_manager">
             <manager :manager="manager" ></manager>
             <span v-if="error!=''" class="text-red-500">Please search and select Manager</span>
             <span v-if="error2!=''" class="text-red-500">Please search and select Manager</span>
@@ -52,7 +52,7 @@ export default {
             roles:[],
             role:'',
             is_lead_manager:false,
-            is_admin:false,
+            is_manager:false,
             role_name:'',
         }
     },
@@ -89,21 +89,20 @@ export default {
             }).catch(function (error){
                 alert(error.message);
             });
-        },check_id_admin(){
+        },check_manager(){
             // alert('in');
             var self = this;
-            axios.get('/settings/users/is_super-admin').then(function(res){
-
-               self.is_admin = res.data;
+            axios.get('/settings/users/check_manager').then(function(res){
+               self.is_manager = res.data;
             }).catch(function(error){
-                self.is_admin =  false;
+                self.is_manager =  false;
             });
         }
 
     },mounted:function(){
 
         this.getroles();
-        this.check_id_admin();
+        this.check_manager();
 
         //old values and edit page values
         if(this.selected!=''){

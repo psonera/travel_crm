@@ -96,6 +96,8 @@ class LeadController extends Controller
             $data['closed_at'] = Carbon::now();
         }
 
+        $data['created_by'] = auth()->user()->id;
+
         $lead = Lead::create($data);
 
         if(isset($data['products'])){

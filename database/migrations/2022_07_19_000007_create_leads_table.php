@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('created_by')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('lead_value')->nullable();
@@ -21,15 +22,15 @@ return new class extends Migration {
             $table->integer('traveler_count');
             $table->date('selected_trip_date');
             $table->dateTime('closed_at')->nullable();
-            $table->foreignId('user_id');
-            $table->foreignId('lead_manager_id');
-            $table->foreignId('lead_source_id');
-            $table->foreignId('lead_type_id');
-            $table->foreignId('lead_pipeline_stage_id');
-            $table->foreignId('trip_id');
-            $table->foreignId('trip_type_id');
-            $table->foreignId('accomodation_id');
-            $table->foreignId('transport_id');
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('lead_manager_id')->nullable();
+            $table->foreignId('lead_source_id')->nullable();
+            $table->foreignId('lead_type_id')->nullable();
+            $table->foreignId('lead_pipeline_stage_id')->nullable();
+            $table->foreignId('trip_id')->nullable();
+            $table->foreignId('trip_type_id')->nullable();
+            $table->foreignId('accomodation_id')->nullable();
+            $table->foreignId('transport_id')->nullable();
             $table->date('expected_closed_date');
 
             $table->timestamps();

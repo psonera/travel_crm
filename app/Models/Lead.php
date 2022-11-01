@@ -14,6 +14,7 @@ class Lead extends Model
 
     protected $fillable = [
         'title',
+        'created_by',
         'description',
         'lead_value',
         'status',
@@ -97,7 +98,7 @@ class Lead extends Model
 
     public function quotations()
     {
-        return $this->belongsToMany(Quotation::class);
+        return $this->hasOne(Quotation::class);
     }
 
     public function activities()

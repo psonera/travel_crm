@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('activity_lead', function (Blueprint $table) {
-            $table->unsignedBigInteger('lead_id');
-            $table->unsignedBigInteger('activity_id');
+            $table->unsignedBigInteger('lead_id')->nullable();
+            $table->unsignedBigInteger('activity_id')->nullable();
         });
     }
 

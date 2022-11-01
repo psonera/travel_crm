@@ -150,21 +150,26 @@ final class TransportTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('settings.transports.edit', ['transport' => 'id']),
+        $action = [];
+        if(auth()->user()->can('update.transports')){
+             array_push($action, Button::make('edit', 'Edit')
+             ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+             ->route('settings.transports.edit', ['transport' => 'id']));
+        }
+        if(auth()->user()->can('delete.transports')){
+             array_push($action, Button::make('destroy', 'Delete')
+             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+             ->route('settings.transports.delete', ['transport' => 'id'])
+             ->method('delete'));
+         }
+        return $action;
 
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('settings.transports.delete', ['transport' => 'id'])
-               ->method('delete')
-        ];
+
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------

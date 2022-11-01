@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             $table->foreignId('lead_id')->constrained()->after('message');
-            $table->foreignId('messagetype_id')->after('message')->after('lead_id');
         });
     }
 
@@ -27,7 +26,6 @@ return new class extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->dropForeign(['messagetype_id']);
             $table->dropForeign(['lead_id']);
         });
     }

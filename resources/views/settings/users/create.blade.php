@@ -8,7 +8,7 @@
         }
         </style>
     @endsection
-    
+
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none max-w-full ml-auto mr-auto px-3 w-full">
             <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -24,7 +24,7 @@
                             <imageupload></imageupload>
                         </div>
                         @error('profile_image')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p> 
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                         <div class="mb-4">
                             <x-inputs.text name="name" label="{{ __('Name') }}" value="{{ old('name') }}" required autocomplete="name" autofocus />
@@ -37,7 +37,7 @@
                         <div class="mb-4">
                             <x-inputs.text name="phone" label="{{ __('Phone') }}" value="{{ old('phone') }}" required  autofocus />
                         </div>
-                        @if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('manager'))
+
                             <div class="mb-4">
                                 <label class="label label-required pb-2 font-medium text-gray-700">Roles<span class="text-red-500">*</span></label>
                                 <selectrole oldvalue="{{json_encode(old('role'))}}"  error="{{$errors->first('r_manager')}}" error2="{{$errors->first('manager')}}"></selectrole>
@@ -45,7 +45,6 @@
                             @error('role')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-                        @endif
 
                         <div class="mb-4">
                             <x-inputs.password name="password" class="js-password" label="{{ __('Password') }}" autofocus />

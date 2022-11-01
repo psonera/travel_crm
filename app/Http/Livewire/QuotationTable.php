@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Quotation;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
@@ -51,7 +52,14 @@ final class QuotationTable extends PowerGridComponent
     */
     public function datasource(): Builder
     {
-        return Quotation::query();
+        if(auth()->user()->hasRole('super-admin')){
+            return Quotation::query();
+        }else if(auth()->user()->hasAnyRole(Role::all())){
+            return Quotation::query()
+            ->where('created_by',auth()->user()->id)
+            ->orWhere('user_id',auth()->user()->id)
+            ->orWhere('lead_manager_id',auth()->user()->id);
+        }
     }
 
     /*
@@ -88,7 +96,6 @@ final class QuotationTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('subject')
-
             ->addColumn('description')
             ->addColumn('billing_address',function(Quotation $model){
                 $json_address = json_decode($model->billing_address);
@@ -175,7 +182,7 @@ final class QuotationTable extends PowerGridComponent
                 ->sortable()
                 ->makeInputDatePicker(),
 
-           
+
 
         ]
 ;
@@ -195,23 +202,27 @@ final class QuotationTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-                ->target('')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('quotations.edit', ['id' => 'id']),
 
-           Button::make('destroy', 'Delete')
-                ->target('')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('quotations.delete', ['id' => 'id'])
-               ->method('delete')
-        ];
+        $action = [];
+        if(auth()->user()->can('update.quotations')){
+            array_push($action, Button::make('edit', 'Edit')
+            ->target('')
+           ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+           ->route('quotations.edit', ['id' => 'id']));
+       }
+       if(auth()->user()->can('delete.quotations')){
+            array_push($action, Button::make('destroy', 'Delete')
+            ->target('')
+           ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+           ->route('quotations.delete', ['id' => 'id'])
+           ->method('delete'));
+       }
+       return $action;
     }
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -227,16 +238,24 @@ final class QuotationTable extends PowerGridComponent
      * @return array<int, RuleActions>
      */
 
-    /*
-    public function actionRules(): array
-    {
-       return [
 
-           //Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($quotation) => $quotation->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+    // public function actionRules(): array
+    // {
+    //     dump( auth()->user()->can('update.quotations'));
+    //     dump( auth()->user()->can('delete.quotations'));
+
+    //    return [
+
+    //        //Hide button edit for ID 1
+    //         Rule::button('edit')
+    //             // ->when(!in_array('edit.quotations',auth()->user()->roles[0]->permission))
+    //             ->when(fn()=>auth()->user()->can('edit.quotations')==false)
+    //             ->hide(),
+    //         Rule::button('destroy')
+    //         // ->when(!in_array('edit.quotations',auth()->user()->roles[0]->permission))
+    //         ->when(fn()=>auth()->user()->can('delete.quotations')==false)
+    //         ->hide(),
+    //     ];
+    // }
+
 }
